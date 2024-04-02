@@ -34,11 +34,10 @@ export async function  database():  Promise<DataSource>  {
         password: envs.db.password,
         database: envs.db.database,
         logging: envs.isProd === false,
-        synchronize: true,
-        entities: [`${join(__dirname, '..')}/domain/example/domain/entity/**/*.{js,ts}`],
+        synchronize: false,
+        entities: [`${join(__dirname, '../../')}/domain/**/*/*.{js,ts}`],
         namingStrategy: new SnakeNamingStrategy(),
       });
- 
       return ds.initialize();
     
   };

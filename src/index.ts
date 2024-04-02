@@ -35,14 +35,14 @@ app.use(express.urlencoded({ extended: true }));
 // );
 
 
-let isKeepAlive = true;
-app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
-    if (!isKeepAlive) {
-        res.set('Connection', 'close');
+// let isKeepAlive = true;
+// app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
+//     if (!isKeepAlive) {
+//         res.set('Connection', 'close');
     
-    }
-    next();
-});
+//     }
+//     next();
+// });
 
 useContainer(Container);
 
@@ -60,7 +60,7 @@ database()
 
         process.on('SIGINT', function () {
 
-            isKeepAlive = false;
+    //        isKeepAlive = false;
             httpServer.close(function (): void {
     
                 process.exit(0);
