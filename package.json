@@ -18,6 +18,7 @@
     "@types/nodemon": "^1.19.6",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
+    "typeorm-model-generator": "^0.4.6",
     "typescript": "^5.4.3"
   },
   "dependencies": {

@@ -2,9 +2,6 @@
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { DataSource } from 'typeorm';
 import {
-    createConnection,
-    ConnectionOptions,
-    useContainer,
     BaseEntity,
     BeforeInsert,
     BeforeUpdate,

@@ -10,6 +10,7 @@ import { join } from 'path';
 import url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+
 export const app: express.Application = createExpressServer({
     controllers: [`${join(__dirname, '..')}/controllers/*{.js,.ts}`],
     middlewares: [`${join(__dirname, '..')}/middlewares/**/*{.js,.ts}`],

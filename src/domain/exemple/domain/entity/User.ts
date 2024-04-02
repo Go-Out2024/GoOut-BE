@@ -1,9 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
-
-@Entity()
-export class User {
+import { BaseEntity } from "../../../../global/entitiy/BaseEntity.js"
 
 
+@Entity("User")
+export class User extends BaseEntity{
+
+
+    
     @PrimaryGeneratedColumn()
     id: number
 
@@ -15,4 +18,9 @@ export class User {
 
     @Column()
     isActive: boolean
+
+    // @Column()
+    // profile:Profile
+
+
 }
