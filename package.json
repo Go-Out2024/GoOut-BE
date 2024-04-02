@@ -31,6 +31,7 @@
     "routing-controllers": "^0.10.4",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.20",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm-naming-strategies": "^4.1.0",
+    "typeorm-typedi-extensions": "^0.4.1"
   }
 }

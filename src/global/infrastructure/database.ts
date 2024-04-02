@@ -6,10 +6,11 @@ import {
     BeforeInsert,
     BeforeUpdate,
 } from 'typeorm';
-import { envs } from '../config/environment.js';
+
 import { validateOrReject } from 'class-validator';
 import { join } from 'path';
 import url from 'url';
+import { envs } from '../config/environment';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 /**
  * Before insert/update validation data
@@ -34,9 +35,10 @@ export async function  database():  Promise<DataSource>  {
         database: envs.db.database,
         logging: envs.isProd === false,
         synchronize: true,
-        entities: [`${join(__dirname, '..')}/domain/**/*.{js,ts}`],
+        entities: [`${join(__dirname, '..')}/domain/example/domain/entity/**/*.{js,ts}`],
         namingStrategy: new SnakeNamingStrategy(),
       });
+ 
       return ds.initialize();
     
   };

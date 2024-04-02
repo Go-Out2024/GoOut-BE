@@ -2,7 +2,7 @@
 
 {
     "compilerOptions": {
-  
+   
       "target": "ESNext", //? 어떤 버전으로 컴파일
       "allowSyntheticDefaultImports": true, //? default export가 없는 모듈에서 default imports를 허용
       "experimentalDecorators": true, //? decorator 실험적 허용
