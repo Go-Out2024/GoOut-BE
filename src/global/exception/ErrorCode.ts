@@ -2,14 +2,14 @@
 
 export enum ErrorCode  {
     
-    ERROR = 1000,
+    ERROR = 501,
     UNAUTHORIZED = 1001,
     
 }
 
 // 각 에러 코드에 대한 메시지 정의
 const ErrorMessages: { [key: number]: string } = {
-    1000: "강제 에러 발생",
+    501: "강제 에러 발생",
 
 };
 

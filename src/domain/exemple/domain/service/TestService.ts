@@ -13,8 +13,8 @@ export class TestService {
  
     public async test() {
 
+
         const value = true;
-     //   return  ErrorResponseDto.of(ErrorCode.ERROR);
         this.verify(value)
         return SuccessResponseDto.of({"to":"Lee"});
 
@@ -22,11 +22,9 @@ export class TestService {
 
 
     private verify(value: boolean){
-        if(value === true){
+        if(value === false){
             throw  ErrorResponseDto.of(ErrorCode.ERROR);
-        }
-      
+     } 
     }
-
-   
+ 
 }
