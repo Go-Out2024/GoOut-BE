@@ -5,6 +5,7 @@ import { ErrorCode, errorMessage } from '../exception/ErrorCode'; // ErrorCodeì™
 import { ErrorResponseDto } from '../response/ErrorResponseDto';
 
 @Middleware({ type: 'after' })
+@Service()
 export class ErrorHandler implements ExpressErrorMiddlewareInterface {
 
     private code: number;

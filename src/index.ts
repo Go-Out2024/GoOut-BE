@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import * as express from 'express';
-import Container from 'typedi';
+import {Container} from 'typedi';
 import { createServer, Server } from 'http';
 import { useContainer, createExpressServer, useExpressServer } from 'routing-controllers';
 import { database } from './global/infrastructure/database.js';
@@ -20,7 +20,7 @@ export const app: express.Application = createExpressServer({
     defaultErrorHandler: false,
 });
 
-//useContainer(Container);
+useContainer(Container);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

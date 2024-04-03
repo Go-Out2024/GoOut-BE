@@ -22,7 +22,7 @@ import { TestService } from '../domain/service/TestService.js';
 
 
 @JsonController('/test')
-//@Service()
+@Service()
 export class TestController {
     constructor(private testService: TestService) {
         this.testService = Container.get(TestService);
