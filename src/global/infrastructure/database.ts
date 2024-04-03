@@ -7,6 +7,7 @@ import {
     BeforeUpdate,
 } from 'typeorm';
 
+
 import { validateOrReject } from 'class-validator';
 import { join } from 'path';
 import url from 'url';
@@ -35,9 +36,10 @@ export async function  database():  Promise<DataSource>  {
         database: envs.db.database,
         logging: envs.isProd === false,
         synchronize: false,
-        entities: [`${join(__dirname, '../../')}/domain/**/*/*.{js,ts}`],
+        entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
         namingStrategy: new SnakeNamingStrategy(),
       });
       return ds.initialize();
     
+
   };

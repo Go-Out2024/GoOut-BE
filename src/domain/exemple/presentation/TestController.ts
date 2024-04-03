@@ -14,24 +14,27 @@ import {
     BadRequestError,
     InternalServerError,
     Req,
+
+    
 } from 'routing-controllers';
-import { Service } from 'typedi';
+import { Service, Container } from 'typedi';
 import { TestService } from '../domain/service/TestService.js';
 
 
 @JsonController('/test')
-@Service()
+//@Service()
 export class TestController {
-    constructor(private testService: TestService) {}
+    constructor(private testService: TestService) {
+        this.testService = Container.get(TestService);
+    }
 
     @HttpCode(200)
-    @Get('')
-    public async getUsers(){
-
-        console.log("sd")
+    @Get()
+    public async test(
+       
+    ){
 
         return await this.testService.test();
-  
     }
 
  

@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node src",
+    "start": "tsc  ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "lee",
@@ -22,13 +22,15 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "class-validator": "^0.14.1",
+    "class-transformer": "^0.3.1",
+    "class-validator": "^0.12.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "inversify": "^6.0.2",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.0",
-    "routing-controllers": "^0.10.4",
+    "routing-controllers": "^0.9.0",
+    "routing-controllers-openapi": "^3.0.0",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.20",
     "typeorm-naming-strategies": "^4.1.0",

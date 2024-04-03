@@ -2,19 +2,16 @@ import 'reflect-metadata';
 import * as express from 'express';
 import Container from 'typedi';
 import { createServer, Server } from 'http';
-import { useContainer, createExpressServer } from 'routing-controllers';
-import { join } from 'path';
-import url from 'url';
+import { useContainer, createExpressServer, useExpressServer } from 'routing-controllers';
 import { database } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
+import { TestController } from './domain/exemple/presentation/TestController.js';
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
-
+import {ErrorHandler} from './global/exception/ErrorHandler.js'
 
 export const app: express.Application = createExpressServer({
-    controllers: [`${__dirname}/domain/example/presentation/*{.js,.ts}`],
- //   middlewares: [`${join(__dirname, '..')}/src/global/exception/*{.js,.ts}`],
+    controllers: [TestController],
+    middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
     cors: {
@@ -22,6 +19,9 @@ export const app: express.Application = createExpressServer({
     },
     defaultErrorHandler: false,
 });
+
+//useContainer(Container);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // gzip HTTP Content
@@ -35,16 +35,16 @@ app.use(express.urlencoded({ extended: true }));
 // );
 
 
-// let isKeepAlive = true;
-// app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
-//     if (!isKeepAlive) {
-//         res.set('Connection', 'close');
+let isKeepAlive = true;
+app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
+    if (!isKeepAlive) {
+        res.set('Connection', 'close');
     
-//     }
-//     next();
-// });
+    }
+    next();
+});
 
-useContainer(Container);
+
 
 database()
     .then(() => {
