@@ -38,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 let isKeepAlive = true;
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!isKeepAlive) {
+        
         res.set('Connection', 'close');
     
     }

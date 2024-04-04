@@ -9,16 +9,13 @@ import {
     Body,
     Res,
     UseBefore,
-    Req,
-    BadRequestError,
-
-    
+    Req 
 } from 'routing-controllers';
 import { Service } from 'typedi';
 import { TestService } from '../domain/service/TestService.js';
 import { TestRequestDto } from '../dto/request/TestRequestDto.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { TestResponseDto } from '../dto/TestResponseDto.js';
+import { TestResponseDto } from '../dto/response/TestResponseDto.js';
 
 
 @JsonController('/test')

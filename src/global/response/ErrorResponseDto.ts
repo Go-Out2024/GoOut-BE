@@ -1,4 +1,4 @@
-import { ErrorCode, errorMessage } from "../exception/ErrorCode";
+import { ErrorCode, errorMessage } from "../../domain/exemple/exception/TestErrorCode";
 
 
 export class ErrorResponseDto<T> {

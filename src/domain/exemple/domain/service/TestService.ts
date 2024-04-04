@@ -3,9 +3,10 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SuccessResponseDto } from '../../../../global/response/SuccessResponseDto';
 import { ErrorResponseDto } from '../../../../global/response/ErrorResponseDto';
-import { ErrorCode } from '../../../../global/exception/ErrorCode';
+import { TestErrorCode } from '../../exception/TestErrorCode';
 import { TestRequestDto } from '../../dto/request/TestRequestDto';
-import { TestResponseDto } from '../../dto/TestResponseDto';
+import { TestResponseDto } from '../../dto/response/TestResponseDto';
+import { logger } from '../../../../global/util/logger';
 
 
 @Service()
@@ -18,23 +19,24 @@ export class TestService {
         ): Promise<SuccessResponseDto<TestResponseDto>> {
 
 
-        const value =false;
+        const value =true;
         this.verify(value)
 
-        const data = TestResponseDto.builder(
+        logger.info("HI")
+        logger.error("sdf")
+
+        return SuccessResponseDto.of(TestResponseDto.of(
             testReqeustDto.getNickname(),
             testReqeustDto.getProfileImage(),
             testReqeustDto.getPhone()
-            )
-
-        return SuccessResponseDto.of(data);
+            ));
 
     }
 
 
     private verify(value: boolean){
         if(value === false){
-            throw  ErrorResponseDto.of(ErrorCode.ERROR);
+            throw  ErrorResponseDto.of(TestErrorCode.ERROR);
      } 
     }
  

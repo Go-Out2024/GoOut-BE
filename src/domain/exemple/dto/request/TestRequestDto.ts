@@ -6,15 +6,15 @@ import { IsNotEmpty, Length, Max } from 'class-validator';
 
 export class TestRequestDto {
 
-    @IsNotEmpty({ message: 'EMPTY' })
-    @Length(5, 50, { message: 'SO_LONG' })
+    @IsNotEmpty()
+    @Length(2, 8)
     public nickname: string;
 
 
-    @IsNotEmpty({ message: 'EMPTY' })
-    public profileImage: string;
+    @IsNotEmpty()
+    public gender: string;
 
-    @IsNotEmpty({ message: 'EMPTY' })
+    @IsNotEmpty()
     public phone:string;
 
     public getNickname(){
@@ -22,7 +22,7 @@ export class TestRequestDto {
     }
 
     public getProfileImage(){
-        return this.profileImage;
+        return this.gender;
     }
 
     public getPhone(){

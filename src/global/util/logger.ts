@@ -1,0 +1,62 @@
+
+import { createRequire } from 'module'
+import   TransportStream  from 'winston-transport';
+import winston, { createLogger, transports, format } from 'winston';
+
+
+const require = createRequire(import.meta.url)
+require('dotenv').config();
+
+
+
+
+class DatabaseTransport extends TransportStream {
+
+ 
+    async log(info: { level : string, timestamp : Date, message : string}, callback: () => void) {
+        setImmediate(() => {
+        this.emit('logged', info);
+        });
+        try {
+        const { level,  message, timestamp } = info;
+
+        // 에러로그 저장 로직 추가
+        console.log('로그가 데이터베이스에 저장되었습니다.');
+        } catch (error) {
+        console.error('데이터베이스에 로그 저장 중 오류 발생');
+        }
+        callback();
+    }
+}
+
+
+
+// export const logger = createLogger({
+//     level: 'error', 
+//     format: format.combine(
+//         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+//         format.printf(({ timestamp, level, message }) => {
+//             return `${timestamp} [${level}]: ${message}`;
+//         })
+//     ),
+//     transports: [
+//         new DatabaseTransport(), // 커스텀 MySQL 트랜스포트 추가
+//     ],
+// });
+const logFormat = winston.format.printf(info => {
+    return `${info.timestamp} ${info.level}: ${info.message}`;
+});
+
+
+export const logger = winston.createLogger({
+    format: winston.format.combine(
+        winston.format.timestamp({
+            format: 'YYYY-MM-DD HH:mm:ss.SSS',
+        }),
+        logFormat,
+    ),
+    transports: [
+       new DatabaseTransport(),
+    ],
+});
+
