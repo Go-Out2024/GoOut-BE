@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Service } from 'typedi';
-import { Middleware, ExpressErrorMiddlewareInterface } from 'routing-controllers';
+import { Middleware, ExpressErrorMiddlewareInterface, BadRequestError } from 'routing-controllers';
 import { ErrorCode, errorMessage } from '../exception/ErrorCode'; // ErrorCode와 errorMessage를 가져옵니다.
 import { ErrorResponseDto } from '../response/ErrorResponseDto';
 
@@ -34,14 +34,18 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
         return this.message;
     }
 
-    private divideError (error: any) {
+    private divideError(error: any) {
         if (error instanceof ErrorResponseDto) {
             this.code = error.getCode();
             this.message = error.getMessage();
-        } else {
+        } 
+        else if (error instanceof BadRequestError) {
+            this.code =  400;
+            this.message ='메롱';
+        } 
+        else {
             this.code = error.httpCode || 500;
             this.message = error.message || '서버 에러';
         }
-
     }
 }

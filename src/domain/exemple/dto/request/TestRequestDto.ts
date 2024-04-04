@@ -8,14 +8,14 @@ export class TestRequestDto {
 
     @IsNotEmpty({ message: 'EMPTY' })
     @Length(5, 50, { message: 'SO_LONG' })
-    private nickname: string;
+    public nickname: string;
 
 
     @IsNotEmpty({ message: 'EMPTY' })
-    private profileImage: string;
+    public profileImage: string;
 
     @IsNotEmpty({ message: 'EMPTY' })
-    private phone:string;
+    public phone:string;
 
     public getNickname(){
         return this.nickname;

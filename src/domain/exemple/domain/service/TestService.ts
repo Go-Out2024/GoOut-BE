@@ -14,27 +14,23 @@ export class TestService {
 
  
     public async test(
-     //   testReqeustDto :TestRequestDto
+        testReqeustDto :TestRequestDto
         ): Promise<SuccessResponseDto<TestResponseDto>> {
 
 
-        const value = false;
+        const value =false;
         this.verify(value)
 
-        const data = TestResponseDto.builder("이승렬","profile","010-7134-8924")
+        const data = TestResponseDto.builder(
+            testReqeustDto.getNickname(),
+            testReqeustDto.getProfileImage(),
+            testReqeustDto.getPhone()
+            )
 
 
 
 
-        return SuccessResponseDto.of(
-            data
-        //     {
-        //     "nickname":testReqeustDto.getNickname(),
-        //     "profileImage":testReqeustDto.getProfileImage(),
-        //     "phone":testReqeustDto.getPhone(),
- 
-        // }
-        );
+        return SuccessResponseDto.of(data);
 
     }
 

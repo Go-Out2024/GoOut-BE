@@ -15,7 +15,7 @@ export const app: express.Application = createExpressServer({
 
     routePrefix: envs.prefix,
     cors: {
-        origin: `http://localhost`,
+        origin: `http://localhost`
     },
     defaultErrorHandler: false,
 });
