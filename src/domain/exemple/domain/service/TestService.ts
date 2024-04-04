@@ -27,9 +27,6 @@ export class TestService {
             testReqeustDto.getPhone()
             )
 
-
-
-
         return SuccessResponseDto.of(data);
 
     }

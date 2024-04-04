@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Service } from 'typedi';
 import { Middleware, ExpressErrorMiddlewareInterface, BadRequestError } from 'routing-controllers';
-import { ErrorCode, errorMessage } from '../exception/ErrorCode'; // ErrorCode와 errorMessage를 가져옵니다.
 import { ErrorResponseDto } from '../response/ErrorResponseDto';
 
 @Middleware({ type: 'after' })
@@ -23,7 +22,7 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
             message: this.getMessage()
         };
         res.status(this.getCode()).send(response);
-        next(error);
+        next();
     }
 
     private getCode() {
@@ -38,12 +37,10 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
         if (error instanceof ErrorResponseDto) {
             this.code = error.getCode();
             this.message = error.getMessage();
-        } 
-        else if (error instanceof BadRequestError) {
+        } else if (error instanceof BadRequestError) {
             this.code =  400;
-            this.message ='메롱';
-        } 
-        else {
+            this.message ='옳바른 요청이 아닙니다.';
+        } else {
             this.code = error.httpCode || 500;
             this.message = error.message || '서버 에러';
         }

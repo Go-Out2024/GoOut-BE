@@ -53,14 +53,13 @@ database()
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, () => {
       
-            // Mocha running before
             app.emit('started');
           
         });
 
         process.on('SIGINT', function () {
 
-    //        isKeepAlive = false;
+            isKeepAlive = false;
             httpServer.close(function (): void {
     
                 process.exit(0);
