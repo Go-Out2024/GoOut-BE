@@ -6,31 +6,33 @@ import { ErrorResponseDto } from '../../../../global/response/ErrorResponseDto';
 import { TestErrorCode } from '../../exception/TestErrorCode';
 import { TestRequestDto } from '../../dto/request/TestRequestDto';
 import { TestResponseDto } from '../../dto/response/TestResponseDto';
-import { logger } from '../../../../global/util/logger';
+import { UserRepository } from '../repository/UserRepository';
+import { User } from '../entity/User';
+
 
 
 @Service()
 export class TestService {
-    constructor() {}
+    constructor(
+        @InjectRepository(User) private userRepository: UserRepository
+        ) {}
 
  
     public async test(
         testReqeustDto :TestRequestDto
-        ): Promise<SuccessResponseDto<TestResponseDto>> {
-
+        ): Promise<SuccessResponseDto<null>> {
 
         const value =true;
         this.verify(value)
 
-        logger.info("HI")
-        logger.error("sdf")
-
-        return SuccessResponseDto.of(TestResponseDto.of(
+        const user = User.createUser(
             testReqeustDto.getNickname(),
-            testReqeustDto.getProfileImage(),
+            testReqeustDto.getGender(),
             testReqeustDto.getPhone()
-            ));
+        )
 
+  //      await this.userRepository.save(user);
+        return SuccessResponseDto.of(null);
     }
 
 

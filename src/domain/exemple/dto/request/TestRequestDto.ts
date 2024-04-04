@@ -21,7 +21,7 @@ export class TestRequestDto {
         return this.nickname;
     }
 
-    public getProfileImage(){
+    public getGender(){
         return this.gender;
     }
 

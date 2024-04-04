@@ -10,19 +10,19 @@ export class TestResponseDto {
 
     private nickname: string;
 
-    private profileImage: string;
+    private gender: string;
 
     private phone:string;
 
-    constructor(nickname:string, profileImage: string, phone:string){
+    constructor(nickname:string, gender: string, phone:string){
         this.setNickname(nickname)
-        this.setProfileImage(profileImage)
+        this.setGender(gender)
         this.setPhone(phone)
     }
 
-    public static of(nickname:string, profileImage: string, phone:string): TestResponseDto {
+    public static of(nickname:string, gender: string, phone:string): TestResponseDto {
 
-        return new TestResponseDto(nickname, profileImage, phone);
+        return new TestResponseDto(nickname, gender, phone);
  
     }
 
@@ -31,9 +31,9 @@ export class TestResponseDto {
         this.nickname=nickname
     }
 
-    private setProfileImage(profileImage:string): void{
-        if(profileImage === null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
-        this.profileImage=profileImage
+    private setGender(gender:string): void{
+        if(gender === null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
+        this.gender=gender
     }
 
     private setPhone(phone:string): void {

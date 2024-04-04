@@ -17,7 +17,7 @@ export const app: express.Application = createExpressServer({
     cors: {
         origin: `http://localhost`
     },
-    defaultErrorHandler: false,
+    defaultErrorHandler: true,
 });
 
 useContainer(Container);

@@ -29,7 +29,7 @@ export class TestController {
     @Get()
     public async test( 
         @Body({validate:true}) testReqeustDto :TestRequestDto
-    ): Promise<SuccessResponseDto<TestResponseDto>> {
+    ): Promise<SuccessResponseDto<null>> {
 
         return await this.testService.test(testReqeustDto);
     }
