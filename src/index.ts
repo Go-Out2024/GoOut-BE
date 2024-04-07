@@ -7,6 +7,7 @@ import { initializeDatabase } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
 import { TestController } from './domain/exemple/presentation/TestController.js';
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
+import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
 
 export const app: express.Application = createExpressServer({
     controllers: [TestController],
@@ -32,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 //     }),
 // );
 
-
+console.log(generateAuthToken(1,"USER"))
 let isKeepAlive = true;
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!isKeepAlive) {

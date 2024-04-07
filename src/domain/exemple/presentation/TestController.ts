@@ -17,13 +17,20 @@ export class TestController {
         private testService: TestService
     ) {}
 
+
     @HttpCode(200)
     @Get()
+    @UseBefore(compareAuthToken)
     public async test( 
-        @Body({validate:true}) testReqeustDto :TestRequestDto
+     //   @Body({validate:true}) testReqeustDto :TestRequestDto,
+        @Req() req:Request
     ): Promise<SuccessResponseDto<null>> {
 
-        return await this.testService.test(testReqeustDto);
+      //  console.log(res)
+
+        return await this.testService.test(
+           // testReqeustDto
+            );
     }
 
 }
