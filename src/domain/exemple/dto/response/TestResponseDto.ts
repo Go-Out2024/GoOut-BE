@@ -1,6 +1,9 @@
 import { InternalServerError } from "routing-controllers";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { Service } from "typedi";
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

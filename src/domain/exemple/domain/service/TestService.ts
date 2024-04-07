@@ -1,20 +1,20 @@
 
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { SuccessResponseDto } from '../../../../global/response/SuccessResponseDto';
-import { ErrorResponseDto } from '../../../../global/response/ErrorResponseDto';
-import { TestErrorCode } from '../../exception/TestErrorCode';
-import { TestRequestDto } from '../../dto/request/TestRequestDto';
-import { TestResponseDto } from '../../dto/response/TestResponseDto';
-import { UserRepository } from '../repository/UserRepository';
-import { User } from '../entity/User';
+import { SuccessResponseDto } from '../../../../global/response/SuccessResponseDto.js';
+import { ErrorResponseDto } from '../../../../global/response/ErrorResponseDto.js';
+import { TestErrorCode } from '../../exception/TestErrorCode.js';
+import { TestRequestDto } from '../../dto/request/TestRequestDto.js';
+import { TestResponseDto } from '../../dto/response/TestResponseDto.js';
+import { UserRepository } from '../repository/UserRepository.js';
+import { User } from '../entity/User.js';
 
 
 
 @Service()
 export class TestService {
     constructor(
-        @InjectRepository(User) private userRepository: UserRepository
+        @InjectRepository() private userRepository: UserRepository
         ) {}
 
  
@@ -31,7 +31,7 @@ export class TestService {
             testReqeustDto.getPhone()
         )
 
-  //      await this.userRepository.save(user);
+       await this.userRepository.save(user);
         return SuccessResponseDto.of(null);
     }
 

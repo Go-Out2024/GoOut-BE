@@ -6,6 +6,7 @@ import { Service } from 'typedi';
 /**
  * User DAO Class
  */
-@Service()
+
 @EntityRepository(User)
+@Service()
 export class UserRepository extends Repository<User> {}

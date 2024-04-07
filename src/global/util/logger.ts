@@ -2,6 +2,7 @@
 import { createRequire } from 'module'
 import   TransportStream  from 'winston-transport';
 import winston, { createLogger, transports, format } from 'winston';
+import { Service } from 'typedi';
 
 
 const require = createRequire(import.meta.url)

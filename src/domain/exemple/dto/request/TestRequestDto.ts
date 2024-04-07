@@ -1,5 +1,6 @@
 
 import { IsNotEmpty, Length, Max } from 'class-validator';
+import { Service } from 'typedi';
 
 
 

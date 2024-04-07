@@ -3,8 +3,8 @@ import { Service } from 'typedi';
 import { Middleware, ExpressErrorMiddlewareInterface, BadRequestError, InternalServerError } from 'routing-controllers';
 import { ErrorResponseDto } from '../response/ErrorResponseDto';
 
-@Middleware({ type: 'after' })
 @Service()
+@Middleware({ type: 'after' })
 export class ErrorHandler implements ExpressErrorMiddlewareInterface {
 
     private code: number;

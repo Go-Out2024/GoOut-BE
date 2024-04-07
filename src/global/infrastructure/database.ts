@@ -1,14 +1,12 @@
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { ConnectionOptions, DataSource, createConnection } from 'typeorm';
+import {  createConnection, useContainer} from 'typeorm';
 import {
     BaseEntity,
     BeforeInsert,
     BeforeUpdate,
 } from 'typeorm';
-
-
-import { useContainer, validateOrReject } from 'class-validator';
+import {  validateOrReject } from 'class-validator';
 import { join } from 'path';
 import url from 'url';
 import { envs } from '../config/environment';
@@ -25,27 +23,28 @@ export abstract class ValidationEntity extends BaseEntity {
     }
 }
 
-export async function  database():  Promise<DataSource>  {
+// export async function  database():  Promise<DataSource>  {
  
-      const ds = new DataSource({
-        name: 'default',
-        type: 'mysql',
-        host: envs.db.host,
-        port: envs.db.port,
-        username: envs.db.username,
-        password: envs.db.password,
-        database: envs.db.database,
-        logging: envs.isProd === false,
-        synchronize: false,
-        entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
-        namingStrategy: new SnakeNamingStrategy(),
-      });
-  
-      return ds.initialize();
+//       const ds = new DataSource({
+//         name: 'default',
+//         type: 'mysql',
+//         host: envs.db.host,
+//         port: envs.db.port,
+//         username: envs.db.username,
+//         password: envs.db.password,
+//         database: envs.db.database,
+//         logging: envs.isProd === false,
+//         synchronize: false,
+//         entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
+//         namingStrategy: new SnakeNamingStrategy(),
+//       });
+ 
+//       return ds.initialize();
 
-  };
+//   };
 
-// export async function  database(): Promise<void> {
+
+// export async function  database(): Promise<Connection> {
  
 //     const opts: ConnectionOptions = {
 //       name: 'default',
@@ -61,6 +60,35 @@ export async function  database():  Promise<DataSource>  {
 //       namingStrategy: new SnakeNamingStrategy(),
 //     };
 //     useContainer(Container);
-//     await createConnection(opts);
+//     const connection = await createConnection(opts);
+
+//     return connection;
 
 // };
+
+
+
+export async function initializeDatabase() {
+    try {
+        useContainer(Container);
+    
+        const connection = await createConnection({
+            name: 'default',
+            type: 'mysql',
+            host: envs.db.host,
+            port: envs.db.port,
+            username: envs.db.username,
+            password: envs.db.password,
+            database: envs.db.database,
+            logging: envs.isProd === false,
+            synchronize: false,
+            entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
+            namingStrategy: new SnakeNamingStrategy(),
+        });
+
+        return connection;
+    } catch (err) {
+        console.error("데이터베이스 초기화 중 오류 발생", err);
+        throw err;
+    }
+}

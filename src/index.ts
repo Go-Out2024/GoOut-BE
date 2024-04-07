@@ -2,11 +2,10 @@ import 'reflect-metadata';
 import * as express from 'express';
 import {Container} from 'typedi';
 import { createServer, Server } from 'http';
-import { useContainer, createExpressServer, useExpressServer } from 'routing-controllers';
-import { database } from './global/infrastructure/database.js';
+import { useContainer, createExpressServer } from 'routing-controllers';
+import { initializeDatabase } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
 import { TestController } from './domain/exemple/presentation/TestController.js';
-
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
 
 export const app: express.Application = createExpressServer({
@@ -20,7 +19,6 @@ export const app: express.Application = createExpressServer({
     defaultErrorHandler: true,
 });
 
-useContainer(Container);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,8 +44,8 @@ app.use(function (req: express.Request, res: express.Response, next: express.Nex
 });
 
 
-
-database()
+useContainer(Container);
+initializeDatabase()
     .then(() => {
         console.log('Database connected.');
 
@@ -57,7 +55,6 @@ database()
             app.emit('started');
           
         });
-
         process.on('SIGINT', function () {
 
             isKeepAlive = false;

@@ -1,11 +1,12 @@
-import { ErrorCode, errorMessage } from "../../domain/exemple/exception/TestErrorCode";
+import { Service } from "typedi";
+import { TestErrorCode, errorMessage } from "../../domain/exemple/exception/TestErrorCode";
 
 
 export class ErrorResponseDto<T> {
     private readonly code: number;
     private readonly message: string;
 
-    public static of<T>(code: ErrorCode): ErrorResponseDto<T> {
+    public static of<T>(code: TestErrorCode): ErrorResponseDto<T> {
         return new ErrorResponseDto<T>(code, errorMessage(code));
     }
 

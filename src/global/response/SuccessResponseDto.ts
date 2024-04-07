@@ -1,4 +1,4 @@
-
+import { Service } from "typedi";
 
 export class SuccessResponseDto<T> {
   
