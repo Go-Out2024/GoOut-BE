@@ -19,17 +19,17 @@ export class TestService {
 
  
     public async test(
-        testReqeustDto :TestRequestDto
+      //  testReqeustDto :TestRequestDto
         ): Promise<SuccessResponseDto<null>> {
 
         const value =true;
         this.verify(value)
 
-        const user = User.createUser(
-            testReqeustDto.getNickname(),
-            testReqeustDto.getGender(),
-            testReqeustDto.getPhone()
-        )
+        // const user = User.createUser(
+        //     testReqeustDto.getNickname(),
+        //     testReqeustDto.getGender(),
+        //     testReqeustDto.getPhone()
+        // )
 
   //      await this.userRepository.save(user);
         return SuccessResponseDto.of(null);
