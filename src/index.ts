@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import * as express from 'express';
+import express from 'express';
 import {Container} from 'typedi';
 import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';

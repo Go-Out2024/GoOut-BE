@@ -9,7 +9,7 @@ import {
 import {  validateOrReject } from 'class-validator';
 import { join } from 'path';
 import url from 'url';
-import { envs } from '../config/environment';
+import { envs } from '../config/environment.js';
 import {Container} from 'typedi';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 /**
@@ -22,49 +22,6 @@ export abstract class ValidationEntity extends BaseEntity {
         await validateOrReject(this);
     }
 }
-
-// export async function  database():  Promise<DataSource>  {
- 
-//       const ds = new DataSource({
-//         name: 'default',
-//         type: 'mysql',
-//         host: envs.db.host,
-//         port: envs.db.port,
-//         username: envs.db.username,
-//         password: envs.db.password,
-//         database: envs.db.database,
-//         logging: envs.isProd === false,
-//         synchronize: false,
-//         entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
-//         namingStrategy: new SnakeNamingStrategy(),
-//       });
- 
-//       return ds.initialize();
-
-//   };
-
-
-// export async function  database(): Promise<Connection> {
- 
-//     const opts: ConnectionOptions = {
-//       name: 'default',
-//       type: 'mysql',
-//       host: envs.db.host,
-//       port: envs.db.port,
-//       username: envs.db.username,
-//       password: envs.db.password,
-//       database: envs.db.database,
-//       logging: envs.isProd === false,
-//       synchronize: false,
-//       entities: [`${join(__dirname, '../../')}/domain/**/*.{js,ts}`],
-//       namingStrategy: new SnakeNamingStrategy(),
-//     };
-//     useContainer(Container);
-//     const connection = await createConnection(opts);
-
-//     return connection;
-
-// };
 
 
 

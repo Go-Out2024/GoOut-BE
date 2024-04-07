@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { HttpError } from 'routing-controllers';
+export interface ITokenBody {
+  id: number;
+  role: string;
 
-
-
+}
 export const generateAuthToken = (userId: number, userRole: string) => {
-    const payload = {
+    const payload : ITokenBody= {
       id: userId,
       role: userRole,
     };
@@ -23,31 +25,26 @@ const extractAuthToken = (req: Request) => {
 };
 
 export const getAuthTokenBody = (req: Request, throwing = false) => {
-    console.log(2)
+
     const token: string = extractAuthToken(req);
-    console.log(3)
     try {
-        console.log(4)
-        const payload = jwt.verify(token,"secret");
-        console.log(5)
+        const payload = jwt.verify(token,"secret") ;
         return typeof payload === 'string' ? JSON.parse(payload as string) : payload;
+
     } catch (e) {
         if (throwing) throw e;
     }
     return null;
 };
 
-export const compareAuthToken = (req: Request, res: Response, next: NextFunction = null): void => {
+export const compareAuthToken = (req:Request, res: Response, next: NextFunction): void => {
     try {
-        console.log(1)
-        const tokenBody = getAuthTokenBody(req, true);
-        console.log(tokenBody)
+        const tokenBody : ITokenBody= getAuthTokenBody(req, true);
         req.decoded = tokenBody;
-     //   req.decoded.id= extractAuthToken(req);
-        console.log(req.decoded.id)
+   
     } catch (e) {
         throw new HttpError(401, 'INVALID_TOKEN');
-    }
+    }      
     if (next) next();
 };
 
