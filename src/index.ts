@@ -8,6 +8,7 @@ import { envs } from './global/config/environment.js';
 import { TestController } from './domain/exemple/presentation/TestController.js';
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
 import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
+import  compression from 'compression';
 
 export const app: express.Application = createExpressServer({
     controllers: [TestController],
@@ -24,14 +25,14 @@ export const app: express.Application = createExpressServer({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // gzip HTTP Content
-// app.use(
-//     compression({
-//         filter: (req: express.Request, res: express.Response): boolean => {
-//             if (req.headers['x-no-compression']) return false;
-//             return compression.filter(req, res);
-//         },
-//     }),
-// );
+app.use(
+    compression({
+        filter: (req: express.Request, res: express.Response): boolean => {
+            if (req.headers['x-no-compression']) return false;
+            return compression.filter(req, res);
+        },
+    }),
+);
 
 console.log(generateAuthToken(1,"USER"))
 let isKeepAlive = true;
