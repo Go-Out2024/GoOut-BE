@@ -5,13 +5,14 @@ import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
 import { initializeDatabase } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
-import { TestController } from './domain/exemple/presentation/TestController.js';
+import { TestController } from './domain/user/presentation/TestController.js';
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
 import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
 import  compression from 'compression';
+import { UserController } from './domain/user/presentation/UserController.js';
 
 export const app: express.Application = createExpressServer({
-    controllers: [TestController],
+    controllers: [TestController, UserController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
