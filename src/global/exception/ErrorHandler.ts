@@ -14,7 +14,7 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
         console.error(
             `Middelware Handler - ${req.method} ${req.url}\n${error}\n${JSON.stringify(req.body)}`,
         );
-
+        
  
         this.divideError(error);
         const response = {

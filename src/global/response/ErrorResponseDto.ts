@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { TestErrorCode, errorMessage } from "../../domain/exemple/exception/TestErrorCode.js";
+import { TestErrorCode, errorMessage } from "../../domain/user/exception/TestErrorCode.js";
 
 
 export class ErrorResponseDto<T> {
