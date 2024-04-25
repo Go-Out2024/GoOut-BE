@@ -30,10 +30,6 @@ export class User extends BaseEntity{
     @Column()
     email: string;
 
-
-
-
-   
     public static createUser(nickname:string, gender:string, phone: string){
         return new User(nickname, gender, phone)
 
