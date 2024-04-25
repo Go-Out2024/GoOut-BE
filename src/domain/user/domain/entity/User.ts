@@ -49,6 +49,14 @@ export class User extends BaseEntity{
         this.email=email
     }
 
+    public getNumber(){
+        return this.number;
+    }
+
+    public getEmail(){
+        return this.email;
+    }
+
 
 }
 
