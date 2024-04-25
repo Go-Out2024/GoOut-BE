@@ -15,9 +15,9 @@ export class User extends BaseEntity{
 
     constructor(nickname:string, gender:string, phone: string){
         super();
-        this.setNickname(nickname)
-        this.setGender(gender)
-        this.setPhone(phone)
+        this.setNumber(nickname)
+        this.setEmail(gender)
+     
     }
 
 
@@ -25,13 +25,11 @@ export class User extends BaseEntity{
     id: number
 
     @Column()
-    gender:string;
+    number:string;
 
     @Column()
-    nickname: string;
+    email: string;
 
-    @Column()
-    phone:string;
 
 
 
@@ -41,20 +39,16 @@ export class User extends BaseEntity{
 
     }
 
-    private setNickname(nickname:string): void{
-        if(nickname === null) throw new InternalServerError(`${__dirname} : nickname 값이 존재하지 않습니다.`);
-        this.nickname=nickname
+    private setNumber(number:string): void{
+        if(number === null) throw new InternalServerError(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+        this.number=number
     }
 
-    private setGender(gender:string): void{
-        if(gender === null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
-        this.gender=gender
+    private setEmail(email:string): void{
+        if(email=== null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
+        this.email=email
     }
 
-    private setPhone(phone:string): void {
-        if(phone === null) throw new InternalServerError(`${__dirname} : phone 값이 존재하지 않습니다.`);
-        this.phone=phone
-    }
 
 }
 
