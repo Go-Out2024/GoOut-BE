@@ -8,38 +8,29 @@ import { TestRequestDto } from '../../dto/TestRequestDto.js';
 
 import { UserRepository } from '../repository/UserRepository.js';
 import { User } from '../entity/User.js';
+import { UserNumber } from '../../dto/UserNumber.js';
 
 
 
 @Service()
-export class TestService {
+export class UserService {
     constructor(
         @InjectRepository() private userRepository: UserRepository
         ) {}
 
+
+    public async selectUserNumber(
+        userId: number
+    ): Promise<UserNumber>  {
+
+        const userData : User = await this.userRepository.selectUserById(userId);
+        return UserNumber.of(userData);
+
+    }
+
  
-    public async test(
-        testReqeustDto :TestRequestDto
-        ): Promise<SuccessResponseDto<null>> {
-
-        const value =true;
-        this.verify(value)
-
-        const user = User.createUser(
-            testReqeustDto.getNickname(),
-            testReqeustDto.getGender(),
-            testReqeustDto.getPhone()
-        )
-
-       await this.userRepository.save(user);
-        return SuccessResponseDto.of(null);
-    }
 
 
-    private verify(value: boolean){
-        if(value === false){
-            throw  ErrorResponseDto.of(TestErrorCode.ERROR);
-     } 
-    }
+
  
 }

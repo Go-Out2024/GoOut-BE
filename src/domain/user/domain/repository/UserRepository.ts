@@ -9,4 +9,13 @@ import { Service } from 'typedi';
 
 @EntityRepository(User)
 @Service()
-export class UserRepository extends Repository<User> {}
+export class UserRepository extends Repository<User> {
+
+    public async selectUserById(userId: number) {
+        return await this.findOne({
+            where: {
+                id: userId
+            }
+        })
+    }
+}

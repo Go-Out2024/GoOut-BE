@@ -12,7 +12,7 @@ import {
 import { Service } from 'typedi';
 
 import { TestService } from '../domain/service/TestService.js';
-import { TestRequestDto } from '../dto/request/TestRequestDto.js';
+import { TestRequestDto } from '../dto/TestRequestDto.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { compareAuthToken } from '../../../global/middleware/jwtMiddleware.js';
 import { Request } from 'express';
