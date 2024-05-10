@@ -1,7 +1,7 @@
 ---
 name: "\U0001F387Feature request"
 about: 메인 기능 개발 Todo 리스트
-title: "[FEATURE}"
+title: "[FEATURE]"
 labels: dev
 assignees: ''
 
