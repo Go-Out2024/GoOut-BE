@@ -27,4 +27,9 @@ export class UserRepository extends Repository<User> {
         const user = this.create(userData);
         return this.save(user);
     }
+
+    // id(번호)로 사용자 찾기
+    public async findUserById(id: number): Promise<User | undefined> {
+        return await this.findOne({ where: {id}})
+    }
  }
