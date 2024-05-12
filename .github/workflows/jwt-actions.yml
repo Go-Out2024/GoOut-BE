@@ -44,8 +44,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
         
-          docker stop hangs
-          docker rm hangs
+          docker stop goodmorning
+          docker rm goodmorning
           docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:1.0
           docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:1.0
           docker run -d -p 3000:3000 --name goodmorning ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:1.0
