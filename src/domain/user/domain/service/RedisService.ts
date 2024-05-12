@@ -27,9 +27,17 @@ export class RedisService {
         await this.client.set(`refreshToken_${userId}`, token, {
             EX: 60 * 60 * 24 * 30
         });
+        console.log('리프레시 토큰 저장 완료: ', token);
     }
 
     async removeRefreshToken(userId: number) {
         await this.client.del(`refreshToken_${userId}`);
+        console.log(`ID가 ${userId}인 사용자의 리프레시 토큰 삭제 완료`);
+    }
+
+    async getRefreshToken(userId: number) {
+        const token = await this.client.get(`refreshToken_${userId}`);
+        console.log(`ID가 ${userId}인 사용자의 리프레시 토큰:`, token);
+        return token;
     }
 }

@@ -34,6 +34,7 @@ export class AuthService {
 
         const tokens = this.generateJwtTokens(user.id);
         await this.redisService.storeRefreshToken(tokens.refreshToken, user.id);
+        await this.redisService.getRefreshToken(user.id);
         return tokens;
     }
 
@@ -44,7 +45,18 @@ export class AuthService {
     }
 
     async logout(refreshToken: string) {
-        const userId = jwt.decode(refreshToken).indexOf;
+        const decodedToken: any = jwt.decode(refreshToken);
+        if (!decodedToken || typeof decodedToken !== 'object') {
+            throw new Error('Invalid token');
+        }
+
+        console.log(decodedToken);
+    
+        const userId = decodedToken.id;
+        if (!userId) {
+            throw new Error('User ID not found in token');
+        }
+    
         await this.redisService.removeRefreshToken(userId);
     }
 
