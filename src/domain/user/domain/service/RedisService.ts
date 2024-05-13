@@ -11,22 +11,17 @@ export class RedisService {
     });
 
     constructor() {
-        this.initialize();
-    }
-
-    private async initialize() {
-        try {
-            await this.client.connect();
+        // 연결 시도를 생성자에서 진행
+        this.client.on('connect', () => {
             console.log('레디스 연결');
-        } catch (error) {
+        });
+        this.client.on('error', (error) => {
             console.log('레디스 연결 실패', error);
-        }
+        });
     }
 
     async storeRefreshToken(token: string, userId: number) {
-        await this.client.set(`refreshToken_${userId}`, token, {
-            EX: 60 * 60 * 24 * 30
-        });
+        await this.client.set(String(userId), token)
         console.log('리프레시 토큰 저장 완료: ', token);
     }
 
