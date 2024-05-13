@@ -1,7 +1,7 @@
 import { JsonController, Post, Body, Res, Req, HttpCode } from "routing-controllers";
 import { Response, Request } from "express";
 import { Service } from "typedi";
-import { TokenService } from "../domain/service/TokenService";
+import { TokenService } from "../domain/service/TokenService.js";
 import { Http } from "winston/lib/winston/transports";
 
 @Service()

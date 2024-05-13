@@ -1,9 +1,9 @@
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { UserRepository } from '../repository/UserRepository';
+import { UserRepository } from '../repository/UserRepository.js';
 import jwt from 'jsonwebtoken'
-import {RedisService} from './RedisService'
-import { KakaoApiService } from './KakaoApiService';
+import {RedisService} from './RedisService.js'
+import { KakaoApiService } from './KakaoApiService.js';
 
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
