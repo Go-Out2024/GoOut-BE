@@ -5,6 +5,7 @@ export interface ITokenBody {
   id: number;
   role: string;
 
+  
 }
 export const generateAuthToken = (userId: number, userRole: string) => {
     const payload : ITokenBody= {
