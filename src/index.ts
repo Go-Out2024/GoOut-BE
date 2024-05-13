@@ -10,9 +10,14 @@ import {ErrorHandler} from './global/exception/ErrorHandler.js'
 import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
 import  compression from 'compression';
 import { UserController } from './domain/user/presentation/UserController.js';
+import { AuthController } from './domain/user/presentation/AuthController.js';
+
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [TestController, UserController],
+    controllers: [TestController, UserController, AuthController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
