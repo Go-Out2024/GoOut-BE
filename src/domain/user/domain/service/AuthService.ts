@@ -22,18 +22,21 @@ export class AuthService {
         const userInfo = await this.kakaoApiservice.getUserInfo(accessToken);
         let user = await this.userRepository.findByKakaoId(userInfo.kakaoId);
         console.log(userInfo);
-        console.log(user);
+      //  console.log(user);
 
         if(!user) {
             user = await this.userRepository.createUser({
-                kakaoId: userInfo.kakaoId,
-                email: userInfo.email,
-                phoneNumber: userInfo.phoneNumber
-            });
+                numbers: userInfo.kakaoId,
+                email:userInfo.email
+           //     phoneNumber: userInfo.phoneNumber
+        });
         }
+        console.log(user.id)
 
         const tokens = this.generateJwtTokens(user.id);
+        console.log(2)
         await this.redisService.storeRefreshToken(tokens.refreshToken, user.id);
+        console.log(3)
         await this.redisService.getRefreshToken(user.id);
         return tokens;
     }

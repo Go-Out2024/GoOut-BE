@@ -13,32 +13,33 @@ import { InternalServerError } from "routing-controllers";
 export class User extends BaseEntity{
   
 
-    constructor(nickname:string, email:string, phone: string){
+    constructor(numbers:string, email:string){
         super();
-        this.setNumber(nickname)
+        this.setNumber(numbers)
         this.setEmail(email)
      
     }
 
 
+
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ nullable: true})
-    number:string;
+    @Column()
+    numbers:string;
 
     @Column()
     email: string;
 
    
-    public static createUser(nickname:string, gender:string, phone: string){
-        return new User(nickname, gender, phone)
+    public static createUser(numbers:string, email:string){
+        return new User(numbers, email)
     }
     // 외부에서 쉽게 'User' 인스턴스 생성 가능
 
-    private setNumber(number:string): void{
-        if(number === null) throw new InternalServerError(`${__dirname} : nickname 값이 존재하지 않습니다.`);
-        this.number=number
+    private setNumber(numbers:string): void{
+        if(numbers === null) throw new InternalServerError(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+        this.numbers=numbers
     }
     // 유효성 검증
 
@@ -49,7 +50,7 @@ export class User extends BaseEntity{
     // 유효성 검증
 
     public getNumber() {
-        return this.number;
+        return this.numbers;
     }
     
     public getEmail() {

@@ -5,7 +5,7 @@ import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
 import { initializeDatabase } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
-import { TestController } from './domain/user/presentation/TestController.js';
+//import { TestController } from './domain/user/presentation/TestController.js';
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
 import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
 import  compression from 'compression';
@@ -17,7 +17,7 @@ const require = createRequire(import.meta.url)
 require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [TestController, UserController, AuthController],
+    controllers: [ UserController, AuthController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,

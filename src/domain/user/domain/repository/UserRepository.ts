@@ -19,11 +19,11 @@ export class UserRepository extends Repository<User> {
     }
     // 카카오Id로 사용자 찾기
     public async findByKakaoId(kakaoId: string): Promise<User | undefined> {
-        return this.findOne({ where: {number:kakaoId} });
+        return this.findOne({ where: {numbers:kakaoId} });
     }
 
     // 사용자 정보 생성 및 업데이트
-    public async createUser(userData: {kakaoId: string, email: string, phoneNumber: string}): Promise<User> {
+    public async createUser(userData: {numbers: string, email: string}): Promise<User> {
         const user = this.create(userData);
         return this.save(user);
     }
