@@ -13,11 +13,12 @@ import { UserController } from './domain/user/presentation/UserController.js';
 import { AuthController } from './domain/user/presentation/AuthController.js';
 
 import { createRequire } from 'module'
+import { TokenController } from './domain/user/presentation/TokenController.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController],
+    controllers: [ UserController, AuthController, TokenController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
