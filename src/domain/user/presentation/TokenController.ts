@@ -3,11 +3,13 @@ import { Response, Request } from "express";
 import { Service } from "typedi";
 import { TokenService } from "../domain/service/TokenService.js";
 import { Http } from "winston/lib/winston/transports";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
+import { ErrorHandler } from "../../../global/exception/ErrorHandler.js";
 
 @Service()
 @JsonController('/auth')
 export class TokenController {
-    constructor(private tokenService: TokenService) {}
+    constructor(private tokenService: TokenService, private errorHandler: ErrorHandler) {}
 
 @HttpCode(200)
 @Post('/refresh-token')
@@ -19,9 +21,9 @@ async refreshToken(@Req() req: Request, @Res() response: Response) {
 
     try {
         const newTokens = await this.tokenService.refreshToken(refreshToken);
-        return response.send(newTokens);
+        return response.send(SuccessResponseDto.of(newTokens));
     } catch (error) {
-        return response.status(400).send({ message: "새로운 토큰 발급 실패" });
+        return this.errorHandler.error(error, req, response, () => {});
     }
 }
 
