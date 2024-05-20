@@ -22,7 +22,7 @@ export class TokenService {
             }
 
             // 새로은 accessToken 생성
-            const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '5m'});
+            const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1m'});
 
             console.log(newAccessToken);
 
