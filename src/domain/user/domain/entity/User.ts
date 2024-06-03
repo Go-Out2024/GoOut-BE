@@ -13,10 +13,11 @@ import { InternalServerError } from "routing-controllers";
 export class User extends BaseEntity{
   
 
-    constructor(numbers:string, email:string){
+    constructor(numbers:string, email:string, firebaseToken?:string){
         super();
         this.setNumber(numbers)
         this.setEmail(email)
+        if (firebaseToken) this.setFirebaseToken(firebaseToken);
      
     }
 
@@ -31,9 +32,11 @@ export class User extends BaseEntity{
     @Column()
     email: string;
 
+    @Column({ nullable: true })
+    firebaseToken: string | null
    
-    public static createUser(numbers:string, email:string){
-        return new User(numbers, email)
+    public static createUser(numbers:string, email:string, firebaseToken?:string){
+        return new User(numbers, email, firebaseToken)
     }
     // 외부에서 쉽게 'User' 인스턴스 생성 가능
 
@@ -47,7 +50,11 @@ export class User extends BaseEntity{
         if(email=== null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
         this.email=email
     }
-    // 유효성 검증
+
+    private setFirebaseToken(firebaseToken: string): void{
+        this.firebaseToken = firebaseToken
+    }
+        // 유효성 검증
 
     public getNumber() {
         return this.numbers;
@@ -55,5 +62,9 @@ export class User extends BaseEntity{
     
     public getEmail() {
         return this.email;
+    }
+
+    public getFirebaseToken() {
+        return this.firebaseToken
     }
 }

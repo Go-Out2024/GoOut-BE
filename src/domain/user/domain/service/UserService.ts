@@ -35,10 +35,9 @@ export class UserService {
         const userData : User = await this.userRepository.selectUserById(userId);
         return UserEmail.of(userData);
     }
+    
+    public async saveFirebaseToken(userId: number, token: string): Promise<void> {
+        await this.userRepository.saveFirebaseToken(userId, token);
+    }
 
- 
-
-
-
- 
 }
