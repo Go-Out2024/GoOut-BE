@@ -30,21 +30,7 @@ export class UserRepository extends Repository<User> {
 
     // id(번호)로 사용자 찾기
     public async findUserById(id: number): Promise<User | undefined> {
-        return await this.findOne({ where: {id}})
-    }
-
-    public async saveFirebaseToken(userId: number, token: string): Promise<void> {
-        const user = await this.findOne({ 
-            where: {
-                id: userId
-            }
-        });
-        if (user) {
-            user.firebaseToken = token;
-            await this.save(user);
-        } else {
-            throw new Error('User not found')
-        }
+        return await this.findOne({ where: {id} })
     }
 
  }

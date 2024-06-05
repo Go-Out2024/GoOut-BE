@@ -16,7 +16,6 @@ import { Request } from 'express';
 import { UserService } from '../domain/service/UserService.js';
 import { UserNumber } from '../dto/UserNumber.js';
 import { UserEmail } from '../dto/UserEmail.js';
-import { SaveTokenDTO } from '../dto/SaveTokenDto.js';
 
 
 
@@ -54,13 +53,14 @@ export class UserController {
     }
     
     @HttpCode(200)
-    @Post("/:id/token")
+    @Post("/firebase-token")
+    @UseBefore(compareAuthToken)
     public async saveFirebaseToken(
-        @Param('id') id: number,
-        @Body() body: SaveTokenDTO
-    ): Promise<SuccessResponseDto<void>> {
-        await this.userService.saveFirebaseToken(id, body.token);
-        return SuccessResponseDto.of();
+        @Req() req: Request,
+        @Body() body: { token: string }
+    ): Promise<SuccessResponseDto<null>> {
+        await this.userService.saveFirebaseToken(req.decoded.id, body.token);
+        return SuccessResponseDto.of(null);
 
     }
 

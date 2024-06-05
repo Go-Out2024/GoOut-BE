@@ -4,21 +4,19 @@ import {
     PrimaryGeneratedColumn,
     Column,
     OneToOne,
+    OneToMany,
     JoinColumn,
 } from "typeorm"
 import { InternalServerError } from "routing-controllers";
-
+import { FirebaseToken } from "./FirebaseToken.js"
 
 @Entity("User")
 export class User extends BaseEntity{
   
-
-    constructor(numbers:string, email:string, firebaseToken?:string){
+    constructor(numbers:string, email:string){
         super();
         this.setNumber(numbers)
         this.setEmail(email)
-        if (firebaseToken) this.setFirebaseToken(firebaseToken);
-     
     }
 
 
@@ -32,11 +30,11 @@ export class User extends BaseEntity{
     @Column()
     email: string;
 
-    @Column({ nullable: true })
-    firebaseToken: string | null
+    @OneToMany(() => FirebaseToken, token => token.user)
+    firebaseTokens: FirebaseToken[]
    
-    public static createUser(numbers:string, email:string, firebaseToken?:string){
-        return new User(numbers, email, firebaseToken)
+    public static createUser(numbers:string, email:string){
+        return new User(numbers, email)
     }
     // 외부에서 쉽게 'User' 인스턴스 생성 가능
 
@@ -50,10 +48,6 @@ export class User extends BaseEntity{
         if(email=== null) throw new InternalServerError(`${__dirname} : profileImage 값이 존재하지 않습니다.`);
         this.email=email
     }
-
-    private setFirebaseToken(firebaseToken: string): void{
-        this.firebaseToken = firebaseToken
-    }
         // 유효성 검증
 
     public getNumber() {
@@ -64,7 +58,4 @@ export class User extends BaseEntity{
         return this.email;
     }
 
-    public getFirebaseToken() {
-        return this.firebaseToken
-    }
 }

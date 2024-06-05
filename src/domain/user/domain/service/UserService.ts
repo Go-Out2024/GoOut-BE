@@ -7,16 +7,18 @@ import { TestErrorCode } from '../../exception/TestErrorCode.js';
 import { TestRequestDto } from '../../dto/TestRequestDto.js';
 
 import { UserRepository } from '../repository/UserRepository.js';
+import { FirebaseToken } from '../entity/FirebaseToken.js';
 import { User } from '../entity/User.js';
 import { UserNumber } from '../../dto/UserNumber.js';
 import { UserEmail } from '../../dto/UserEmail.js';
-
+import { FirebaseTokenRepository } from '../repository/FirebaseTokenRepository.js';
 
 
 @Service()
 export class UserService {
     constructor(
-        @InjectRepository() private userRepository: UserRepository
+        @InjectRepository() private userRepository: UserRepository,
+        @InjectRepository() private firebaseTokenRepository: FirebaseTokenRepository
         ) {}
 
 
@@ -35,9 +37,14 @@ export class UserService {
         const userData : User = await this.userRepository.selectUserById(userId);
         return UserEmail.of(userData);
     }
-    
+
     public async saveFirebaseToken(userId: number, token: string): Promise<void> {
-        await this.userRepository.saveFirebaseToken(userId, token);
+        const user = await this.userRepository.findOne({id: userId});
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        await this.firebaseTokenRepository.saveToken(user, token);
     }
 
 }
