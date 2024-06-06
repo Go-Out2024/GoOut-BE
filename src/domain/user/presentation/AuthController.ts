@@ -22,8 +22,7 @@ async login(@Body() body: { accessToken: string},@Req() req:Request, @Res() resp
         return response.send(SuccessResponseDto.of(tokens));
     } catch (error) {
         return this.errorHandler.error(error, req, response, () => {});
-    }
-    
+    }  
 }
 
 @HttpCode(200)
