@@ -5,7 +5,6 @@ import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
 import { initializeDatabase } from './global/infrastructure/database.js';
 import { envs } from './global/config/environment.js';
-//import { TestController } from './domain/user/presentation/TestController.js';
 import {ErrorHandler} from './global/exception/ErrorHandler.js'
 import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
 import  compression from 'compression';
@@ -14,11 +13,12 @@ import { AuthController } from './domain/user/presentation/AuthController.js';
 
 import { createRequire } from 'module'
 import { TokenController } from './domain/user/presentation/TokenController.js';
+import { FirebaseController } from './domain/user/presentation/FirebaseController.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
@@ -77,6 +77,14 @@ initializeDatabase()
         console.error(`Express running failure : ${e}`);
         console.log(e);
     });
+
+
+
+
+
+
+
+
 
 
 

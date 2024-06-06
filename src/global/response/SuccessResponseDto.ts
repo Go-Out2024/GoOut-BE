@@ -8,8 +8,10 @@ export class SuccessResponseDto<T> {
         return new SuccessResponseDto<T>(data);
     }
 
+
     constructor(data?: T) {
      
+
         this.data = data;
     }
 }

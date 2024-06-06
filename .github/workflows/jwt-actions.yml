@@ -28,7 +28,13 @@ jobs:
         touch .env
         echo "${{ secrets.ENV }}" >> .env
       shell: bash
-    # Spring 어플리케이션 Docker Image 빌드
+    # FIREBASE SDK 세팅
+    - name: Setting firebase file
+      run: |
+        touch firebase-admin.json
+        echo "${{ secrets.FIREBASE }}" > firebase-admin.json
+      shell: bash
+    # Node.js 어플리케이션 Docker Image 빌드
     - name: Build Docker Image For Node.js
       run: |
 
