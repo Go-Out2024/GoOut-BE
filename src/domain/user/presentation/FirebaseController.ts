@@ -13,7 +13,7 @@ export class FirebaseController{
     @HttpCode(200)
     @Post('/send')
     async executePushNotice(@Body() pushNoticeRequest: PushNoticeRequest) {
-        pushNotice(pushNoticeRequest.getEngineValue(),"알림 테스트", "test")
+      //  pushNotice(pushNoticeRequest.getEngineValue(),"알림 테스트", "test")
         return SuccessResponseDto.of(null);
     }
 }
