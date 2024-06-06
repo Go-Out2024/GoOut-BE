@@ -29,11 +29,12 @@ jobs:
         echo "${{ secrets.ENV }}" >> .env
       shell: bash
     # FIREBASE SDK 세팅
-    - name: Setting firebase file
-      run: |
-        touch firebase-admin.json
-        echo "${{ secrets.FIREBASE }}" > firebase-admin.json
-      shell: bash
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "secrets.json"
+        json: ${{ secrets.FIREBASE }}
     # Node.js 어플리케이션 Docker Image 빌드
     - name: Build Docker Image For Node.js
       run: |
