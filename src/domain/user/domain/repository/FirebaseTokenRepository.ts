@@ -8,4 +8,6 @@ export class FirebaseTokenRepository extends Repository<FirebaseToken> {
         const firebaseToken = this.create({ user, token });
         return this.save(firebaseToken);
     }
+
+    
 }

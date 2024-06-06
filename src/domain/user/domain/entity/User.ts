@@ -9,6 +9,7 @@ import {
 } from "typeorm"
 import { InternalServerError } from "routing-controllers";
 import { FirebaseToken } from "./FirebaseToken.js"
+import { Relation } from "typeorm";
 
 @Entity("User")
 export class User extends BaseEntity{
@@ -31,7 +32,7 @@ export class User extends BaseEntity{
     email: string;
 
     @OneToMany(() => FirebaseToken, token => token.user)
-    firebaseTokens: FirebaseToken[]
+    firebaseTokens: Relation<FirebaseToken>[]
    
     public static createUser(numbers:string, email:string){
         return new User(numbers, email)

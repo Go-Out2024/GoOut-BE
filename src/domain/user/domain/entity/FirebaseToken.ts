@@ -6,6 +6,9 @@ import {
     ManyToOne,
 } from "typeorm"
 import { User } from "./User.js"
+import { Relation } from "typeorm"
+import { JoinColumn } from "typeorm"
+
 
 @Entity("FirebaseToken")
 export class FirebaseToken extends BaseEntity {
@@ -16,6 +19,12 @@ export class FirebaseToken extends BaseEntity {
     @Column()
     token: string
 
-    @ManyToOne(() => User, user => user.firebaseTokens)
-    user: User
+    @ManyToOne(() => User, user => user.firebaseTokens, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+    @JoinColumn({ name: "user_id", referencedColumnName: "id" })
+    user: Relation<User>;
 }
+
+
