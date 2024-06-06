@@ -33,7 +33,7 @@ jobs:
       id: create-json
       uses: jsdaniell/create-json@1.1.2
       with:
-        name: "secrets.json"
+        name: "firebase-admin.json"
         json: ${{ secrets.FIREBASE }}
     # Node.js 어플리케이션 Docker Image 빌드
     - name: Build Docker Image For Node.js

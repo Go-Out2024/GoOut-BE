@@ -4,7 +4,6 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const googleService = require('../../../firebase-admin.json');
 
-
 export const firebase = firebaseAdmin.initializeApp({
 	credential : firebaseAdmin.credential.cert(googleService)
     });
