@@ -1,17 +1,17 @@
 
-// import { firebase } from '../infrastructure/firebase.js';
+import { firebase } from '../infrastructure/firebase.js';
 
 
 
-// export const pushNotice = async (engineValue:string, title:string, body:string) => {
-//   const message = {
-//     token: engineValue,
-//     notification: {
-//       title: title,
-//       body: body,
-//     },
-//   };
-//   const response = await firebase.messaging().send(message);
-//   console.log('Successfully sent message:', response);
-// };
+export const pushNotice = async (engineValue:string, title:string, body:string) => {
+  const message = {
+    token: engineValue,
+    notification: {
+      title: title,
+      body: body,
+    },
+  };
+  const response = await firebase.messaging().send(message);
+  console.log('Successfully sent message:', response);
+};
 
