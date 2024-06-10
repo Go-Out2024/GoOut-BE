@@ -6,6 +6,7 @@ import {RedisService} from './RedisService.js'
 import { KakaoApiService } from './KakaoApiService.js';
 
 import { createRequire } from 'module'
+import { FirebaseTokenRepository } from '../repository/FirebaseTokenRepository.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
@@ -14,6 +15,7 @@ require('dotenv').config();
 export class AuthService {
     constructor(
         @InjectRepository(UserRepository) private userRepository: UserRepository,
+        @InjectRepository(FirebaseTokenRepository) private firebaseTokenRepository: FirebaseTokenRepository,
         private kakaoApiservice: KakaoApiService,
         private redisService: RedisService
     ) {}
@@ -54,6 +56,7 @@ export class AuthService {
         }
     
         await this.redisService.removeRefreshToken(userId);
+        await this.firebaseTokenRepository.deleteTokensByUserId(userId);
     }
 
 }
