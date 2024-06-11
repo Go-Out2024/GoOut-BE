@@ -5,7 +5,8 @@ import { AuthService } from "../domain/service/AuthService.js";
 import { ErrorResponseDto } from "../../../global/response/ErrorResponseDto.js";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { ErrorHandler } from "../../../global/exception/ErrorHandler.js";
-
+import { refreshToken } from "firebase-admin/app";
+import { LogoutDto } from "../dto/request/LogoutDto.js";
 @Service()
 @JsonController('/auth')
 export class AuthController {
@@ -27,11 +28,12 @@ async login(@Body() body: { accessToken: string},@Req() req:Request, @Res() resp
 
 @HttpCode(200)
 @Delete('/logout')
-async logout(@Body() body: {refreshToken: string}, @Req() req: Request, @Res() response: Response) {
+async logout(
+    @Body() body: LogoutDto,
+    @Req() req: Request, 
+    @Res() response: Response) {
     try {
-        const rs = req.headers.authorization;
-        console.log(rs);
-        await this.authService.logout(rs);
+        await this.authService.logout(body.refreshToken, body.firebaseToken);
         return response.send(({message: '로그아웃이 완료되었습니다.'}));
     } catch (error) {
         return this.errorHandler.error(error, req, response, () => {});
