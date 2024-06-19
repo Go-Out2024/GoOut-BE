@@ -10,9 +10,6 @@ const redisClient = redis.createClient({            // aws  및 로컬
 
 const connectToRedis = async () => {
     try {
-        console.log(envs.redis.host)
-        console.log(envs.redis.port)
-        console.log(process.env.AWS_REDIS_ENDPOINT)
         redisClient.on('connect', () => {
             console.log('Connected to Redis');
         });
