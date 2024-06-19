@@ -3,17 +3,16 @@ import express from 'express';
 import {Container} from 'typedi';
 import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
-import { initializeDatabase } from './global/infrastructure/database.js';
-import { envs } from './global/config/environment.js';
-import {ErrorHandler} from './global/exception/ErrorHandler.js'
-import { generateAuthToken } from './global/middleware/jwtMiddleware.js';
+import { initializeDatabase } from './infrastructure/database.js';
+import { envs } from './config/environment.js';
+import {ErrorHandler} from './exception/ErrorHandler.js'
+import { generateAuthToken } from './middleware/jwtMiddleware.js';
 import  compression from 'compression';
-import { UserController } from './domain/user/presentation/UserController.js';
-import { AuthController } from './domain/user/presentation/AuthController.js';
-
+import { UserController } from './controller/User.Controller.js';
+import { AuthController } from './controller/Auth.Controller.js';
 import { createRequire } from 'module'
-import { TokenController } from './domain/user/presentation/TokenController.js';
-import { FirebaseController } from './domain/user/presentation/FirebaseController.js';
+import { TokenController } from './controller/Token.Controller.js';
+import { FirebaseController } from './controller/Firebase.Controller.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
@@ -44,10 +43,8 @@ app.use(
 console.log(generateAuthToken(1,"USER"))
 let isKeepAlive = true;
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
-    if (!isKeepAlive) {
-        
-        res.set('Connection', 'close');
-    
+    if (!isKeepAlive) {      
+        res.set('Connection', 'close'); 
     }
     next();
 });
