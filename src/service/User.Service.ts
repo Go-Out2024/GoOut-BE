@@ -6,7 +6,7 @@ import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { TestErrorCode } from '../exception/TestErrorCode.js';
 import { TestRequestDto } from '../dto/TestRequestDto.js';
 
-import { UserRepository } from '../repository/User.Repository.js';
+import { UserRepository } from '../repository/UserRepository.js';
 import { FirebaseToken } from '../entity/FirebaseToken.js';
 import { User } from '../entity/User.js';
 import { UserNumber } from '../dto/UserNumber.js';

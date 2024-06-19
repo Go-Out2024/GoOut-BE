@@ -4,13 +4,14 @@ import { envs } from '../config/environment.js';
 
 
 const redisClient = redis.createClient({            // aws  및 로컬 
-    url: `redis://${process.env.AWS_REDIS_ENDPOINT}:${process.env.AWS_REDIS_PORT}`,
+    url: `redis://${envs.redis.host}:${envs.redis.port}`,
     legacyMode: true
 });
 
 const connectToRedis = async () => {
     try {
-
+        console.log(envs.redis.host)
+        console.log(envs.redis.port)
         redisClient.on('connect', () => {
             console.log('Connected to Redis');
         });

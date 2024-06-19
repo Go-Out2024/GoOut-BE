@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import jwt from 'jsonwebtoken'
-import { UserRepository } from "../repository/User.Repository.js";
+import { UserRepository } from "../repository/UserRepository.js";
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { RedisService } from "./Redis.Service.js";
 import { FirebaseTokenRepository } from "../repository/FirebaseToken.Repository.js";
