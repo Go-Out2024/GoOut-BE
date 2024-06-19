@@ -56,7 +56,7 @@ export class AuthService {
         }
     
         await this.redisService.removeRefreshToken(userId);
-        await this.firebaseTokenRepository.deleteTokensByUserId(firebaseToken);
+        await this.firebaseTokenRepository.deleteTokensByUserId(userId, firebaseToken);
     }
 
 }
