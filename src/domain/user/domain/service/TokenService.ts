@@ -38,12 +38,20 @@ export class TokenService {
                 const decodedToken: any = jwt.decode(refreshToken);
                 const userId = decodedToken.id;
                 if(userId) {
-                    await this.firebaseTokenRepository.deleteTokensByUserId(userId)
+                    const firebaseToken = await this.getFirebaseToken(userId);
+                    await this.firebaseTokenRepository.deleteTokensByUserId(userId, firebaseToken);
                 }
                 throw new Error('세션이 만료되었습니다. 재로그인 부탁드립니다.');
             } else {
                 throw new Error('유효하지 않은 토큰입니다. 재로그인 부탁드립니다.');
             }
         }
+    }
+    private async getFirebaseToken(userId: number): Promise<string> {
+        const token = await this.firebaseTokenRepository.findOne( { where: { user: { id: userId } } });
+        if(!token) {
+            throw new Error('Firebase token not found for user')
+        }
+        return token.token;
     }
 }

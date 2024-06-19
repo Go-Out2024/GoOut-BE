@@ -13,7 +13,7 @@ export class FirebaseTokenRepository extends Repository<FirebaseToken> {
         await this.createQueryBuilder()
         .delete()
         .from(FirebaseToken)
-        .where("user.id = :userId AND token = token", {userId, token: firebaseToken})
+        .where("user.id = :userId AND token = :token", {userId, token: firebaseToken})
         .execute()
     }
 }
