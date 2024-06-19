@@ -51,6 +51,7 @@ app.use(function (req: express.Request, res: express.Response, next: express.Nex
 
 
 useContainer(Container);
+
 initializeDatabase()
     .then(() => {
         console.log('Database connected.');
