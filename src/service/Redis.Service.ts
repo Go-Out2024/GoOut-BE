@@ -3,35 +3,24 @@ const require = createRequire(import.meta.url)
 require('dotenv').config();
 import { createClient } from 'redis'
 import { Service } from 'typedi';
+import { redisClient } from "../infrastructure/redis.js";
+
 
 @Service()
 export class RedisService {
-    private client = createClient ({
-        url: `redis://${process.env.AWS_REDIS_ENDPOINT}:${process.env.AWS_REDIS_PORT}`
-    });
-
-    constructor() {
-        // 연결 시도를 생성자에서 진행
-        this.client.on('connect', () => {
-            console.log('레디스 연결');
-        });
-        this.client.on('error', (error) => {
-            console.log('레디스 연결 실패', error);
-        });
-    }
 
     async storeRefreshToken(token: string, userId: number) {
-        await this.client.set(String(userId), token)
+        await redisClient.set(String(userId), token)
         console.log('리프레시 토큰 저장 완료: ', token);
     }
 
     async removeRefreshToken(userId: number) {
-        await this.client.del(`refreshToken_${userId}`);
+        await redisClient.del(`refreshToken_${userId}`);
         console.log(`ID가 ${userId}인 사용자의 리프레시 토큰 삭제 완료`);
     }
 
     async getRefreshToken(userId: number) {
-        const token = await this.client.get(`refreshToken_${userId}`);
+        const token = await redisClient.get(`refreshToken_${userId}`);
         console.log(`ID가 ${userId}인 사용자의 리프레시 토큰:`, token);
         return token;
     }

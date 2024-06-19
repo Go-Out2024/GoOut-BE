@@ -13,5 +13,9 @@ export const envs = {
     password: process.env.DB_PASSWORD as string,
     database: process.env.DB_DATABASE as string,
   },
+  redis:{
+    host:process.env.AWS_REDIS_ENDPOINT,
+    port:process.env.AWS_REDIS_PORT
+  },
   prefix: process.env.PREFIX || '',
 };

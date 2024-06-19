@@ -44,7 +44,6 @@ export async function initializeDatabase() {
             entities: [User,FirebaseToken],
             namingStrategy: new SnakeNamingStrategy(),
         });
-
         return connection;
     } catch (err) {
         console.error("데이터베이스 초기화 중 오류 발생", err);
