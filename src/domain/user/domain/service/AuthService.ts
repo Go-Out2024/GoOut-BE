@@ -42,7 +42,7 @@ export class AuthService {
         return { accessToken, refreshToken};
     }
 
-    async logout(refreshToken: string) {
+    async logout(refreshToken: string, firebaseToken: string) {
         const decodedToken: any = jwt.decode(refreshToken);
         if (!decodedToken || typeof decodedToken !== 'object') {
             throw new Error('Invalid token');
@@ -56,7 +56,7 @@ export class AuthService {
         }
     
         await this.redisService.removeRefreshToken(userId);
-        await this.firebaseTokenRepository.deleteTokensByUserId(userId);
+        await this.firebaseTokenRepository.deleteTokensByUserId(userId, firebaseToken);
     }
 
 }
