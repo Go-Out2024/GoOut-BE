@@ -16,6 +16,7 @@ import { Request } from 'express';
 import { UserService } from '../service/User.Service.js';
 import { UserNumber } from '../dto/UserNumber.js';
 import { UserEmail } from '../dto/UserEmail.js';
+import { FirebaseTokenDto } from '../dto/request/FirebaseTokenDto.js';
 
 
 
@@ -57,7 +58,7 @@ export class UserController {
     @UseBefore(compareAuthToken)
     public async saveFirebaseToken(
         @Req() req: Request,
-        @Body() body: { token: string }
+        @Body() body: FirebaseTokenDto 
     ): Promise<SuccessResponseDto<null>> {
         await this.userService.saveFirebaseToken(req.decoded.id, body.token);
         return SuccessResponseDto.of(null);

@@ -17,7 +17,9 @@ export class AuthController {
 
 @HttpCode(200)
 @Post('/login')
-async login(@Body() body: { accessToken: string},@Req() req:Request, @Res() response: Response) {
+async login(
+    @Req() req:Request, 
+    @Res() response: Response) {
     try {
         const as = req.headers.authorization;
         console.log(as);
