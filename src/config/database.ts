@@ -9,7 +9,7 @@ import {
 import {  validateOrReject } from 'class-validator';
 import { join } from 'path';
 import url from 'url';
-import { envs } from '../config/environment.js';
+import { envs } from './environment.js';
 import {Container} from 'typedi';
 import { User } from '../entity/User.js';
 import { FirebaseToken } from '../entity/FirebaseToken.js';

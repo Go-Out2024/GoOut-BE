@@ -1,5 +1,5 @@
 
-import { firebase } from '../infrastructure/firebase.js';
+import { firebase } from '../config/firebase.js';
 
 
 

@@ -2,7 +2,7 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 import { Service } from 'typedi';
-import { redisClient } from "../infrastructure/redis.js";
+import { redisClient } from "../config/redis.js";
 
 
 @Service()

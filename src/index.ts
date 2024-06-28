@@ -3,7 +3,7 @@ import express from 'express';
 import {Container} from 'typedi';
 import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
-import { initializeDatabase } from './infrastructure/database.js';
+import { initializeDatabase } from './config/database.js';
 import { envs } from './config/environment.js';
 import {ErrorHandler} from './exception/ErrorHandler.js'
 import { generateAuthToken } from './middleware/jwtMiddleware.js';

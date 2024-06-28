@@ -1,5 +1,5 @@
 import * as redis from 'redis';
-import { envs } from '../config/environment.js';
+import { envs } from './environment.js';
 
 
 
