@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { UserRepository } from '../repository/UserRepository.js';
+import { UserRepository } from '../repository/User.Repository.js';
 import jwt from 'jsonwebtoken'
 import {RedisService} from './Redis.Service.js'
 import { KakaoApiService } from './KakaoApi.Service.js';
