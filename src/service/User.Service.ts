@@ -25,6 +25,7 @@ export class UserService {
 
     }
 
+    
     public async selectUserEmail(
         userId: number
     ): Promise<UserEmail>{
