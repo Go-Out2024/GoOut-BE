@@ -21,9 +21,8 @@ async login(
     @Req() req:Request, 
     @Res() response: Response) {
     try {
-        const as = req.headers.authorization;
-        console.log(as);
-        const tokens = await this.authService.loginWithKakao(as);
+        const accessToken = req.headers.authorization;
+        const tokens = await this.authService.loginWithKakao(accessToken);
         return response.send(SuccessResponseDto.of(tokens));
     } catch (error) {
         return this.errorHandler.error(error, req, response, () => {});

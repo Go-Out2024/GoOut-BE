@@ -31,11 +31,11 @@ export class UserController {
     @HttpCode(200)
     @Get("/number")
     @UseBefore(compareAuthToken)
-    public async selectUserNumber( 
+    public async bringUserNumber( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserNumber>> {
    
-        const result = await this.userService.selectUserNumber(req.decoded.id);
+        const result = await this.userService.bringUserNumber(req.decoded.id);
         return SuccessResponseDto.of(result);
    
     }
@@ -44,11 +44,11 @@ export class UserController {
     @HttpCode(200)
     @Get("/email")
     @UseBefore(compareAuthToken)
-    public async selectUserEmail( 
+    public async bringUserEmail( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserEmail>> {
    
-        const result = await this.userService.selectUserEmail(req.decoded.id);
+        const result = await this.userService.bringUserEmail(req.decoded.id);
         return SuccessResponseDto.of(result);
    
     }
@@ -56,11 +56,11 @@ export class UserController {
     @HttpCode(200)
     @Post("/firebase-token")
     @UseBefore(compareAuthToken)
-    public async saveFirebaseToken(
+    public async penetrateFirebaseToken(
         @Req() req: Request,
         @Body() body: FirebaseTokenDto 
     ): Promise<SuccessResponseDto<null>> {
-        await this.userService.saveFirebaseToken(req.decoded.id, body.token);
+        await this.userService.penetrateFirebaseToken(req.decoded.id, body.token);
         return SuccessResponseDto.of(null);
 
     }

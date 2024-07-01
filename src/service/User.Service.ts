@@ -16,7 +16,7 @@ export class UserService {
         ) {}
 
 
-    public async selectUserNumber(
+    public async bringUserNumber(
         userId: number
     ): Promise<UserNumber>  {
 
@@ -25,20 +25,20 @@ export class UserService {
 
     }
 
-    public async selectUserEmail(
+    public async bringUserEmail(
         userId: number
     ): Promise<UserEmail>{
         const userData : User = await this.userRepository.selectUserById(userId);
         return UserEmail.of(userData);
     }
 
-    public async saveFirebaseToken(userId: number, token: string): Promise<void> {
+    public async penetrateFirebaseToken(userId: number, token: string): Promise<void> {
         const user = await this.userRepository.findOne({id: userId});
         if (!user) {
             throw new Error("User not found");
         }
 
-        await this.firebaseTokenRepository.saveToken(user, token);
+        await this.firebaseTokenRepository.insertToken(user, token);
     }
 
 }
