@@ -40,7 +40,7 @@ export async function initializeDatabase() {
             password: envs.db.password,
             database: envs.db.database,
             logging: envs.isProd === false,
-            synchronize: false,
+            synchronize: true,
             entities: [User,FirebaseToken],
             namingStrategy: new SnakeNamingStrategy(),
         });
