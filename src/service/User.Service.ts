@@ -15,21 +15,27 @@ export class UserService {
         @InjectRepository() private firebaseTokenRepository: FirebaseTokenRepository
         ) {}
 
-
-    public async selectUserNumber(
+    /**
+     * 유저 번호 조회 응용 서비스 함수
+     * @param userId 유저 고유 번호
+     * @returns 
+     */
+    public async bringUserNumber(
         userId: number
     ): Promise<UserNumber>  {
-
-        const userData : User = await this.userRepository.selectUserById(userId);
+        const userData : User = await this.userRepository.findUserById(userId);
         return UserNumber.of(userData);
-
     }
 
-    
-    public async selectUserEmail(
+    /**
+     * 유저 이메일 조회 응용 서비스 함수
+     * @param userId 유저 고유 번호
+     * @returns 
+     */
+    public async bringUserEmail(
         userId: number
     ): Promise<UserEmail>{
-        const userData : User = await this.userRepository.selectUserById(userId);
+        const userData : User = await this.userRepository.findUserById(userId);
         return UserEmail.of(userData);
     }
 
