@@ -55,10 +55,8 @@ export class UserController {
     public async bringUserEmail( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserEmail>> {
-   
         const result = await this.userService.bringUserEmail(req.decoded.id);
         return SuccessResponseDto.of(result);
-   
     }
     
     @HttpCode(200)
