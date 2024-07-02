@@ -39,7 +39,7 @@ export const getAuthTokenBody = (req: Request, throwing = false) => {
     return null;
 };
 
-export const compareAuthToken = (req:Request, next: NextFunction): void => {
+export const compareAuthToken = (req:Request, res: Response, next: NextFunction): void => {
     try {
         const tokenBody : ITokenBody= getAuthTokenBody(req, true);
         req.decoded = tokenBody;
