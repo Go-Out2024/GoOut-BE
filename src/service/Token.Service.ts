@@ -21,14 +21,14 @@ export class TokenService {
                 throw new Error('사용자를 찾지 못했습니다. ');
             }
 
-            // 새로운 accessToken 생성
+            /** 새로운 accessToken 생성 */ 
             const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1m'});
             return {
                 accessToken: newAccessToken,
                 refreshToken: refreshToken // 기존 refreshToken 재사용
             };
         } catch (error) {
-            // refreshToken이 만료되거나 유효하지 않을 경우
+            /** refreshToken이 만료되거나 유효하지 않을 경우 */
             if (error instanceof jwt.TokenExpiredError) {
                 const decodedToken: any = jwt.decode(refreshToken);
                 const userId = decodedToken.id;

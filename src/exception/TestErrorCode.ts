@@ -8,7 +8,9 @@ export enum TestErrorCode  {
     
 }
 
-// 각 에러 코드에 대한 메시지 정의
+/**
+ * 각 에러 코드에 대한 메시지 정의
+ */
 const errorMessages: { [key: number]: string } = {
     501: "강제 에러 발생",
     502: "해당 값이 존재하지 않습니다."

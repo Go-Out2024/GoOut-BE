@@ -58,9 +58,9 @@ export class UserController {
     @UseBefore(compareAuthToken)
     public async penetrateFirebaseToken(
         @Req() req: Request,
-        @Body() body: FirebaseTokenDto 
+        @Body() penetrateFirebaseTokenRequest: FirebaseTokenDto 
     ): Promise<SuccessResponseDto<null>> {
-        await this.userService.penetrateFirebaseToken(req.decoded.id, body.token);
+        await this.userService.penetrateFirebaseToken(req.decoded.id, penetrateFirebaseTokenRequest.getToken());
         return SuccessResponseDto.of(null);
 
     }
