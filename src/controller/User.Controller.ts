@@ -27,30 +27,36 @@ export class UserController {
         private userService: UserService
     ) {}
 
-
+    /**
+     * 유저 번호를 조회 함수
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @Get("/number")
     @UseBefore(compareAuthToken)
-    public async selectUserNumber( 
+    public async bringUserNumber( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserNumber>> {
    
-        const result = await this.userService.selectUserNumber(req.decoded.id);
+        const result = await this.userService.bringUserNumber(req.decoded.id);
         return SuccessResponseDto.of(result);
    
     }
 
-
+    /**
+     * 유저 이메일 조회 함수
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @Get("/email")
     @UseBefore(compareAuthToken)
-    public async selectUserEmail( 
+    public async bringUserEmail( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserEmail>> {
-   
-        const result = await this.userService.selectUserEmail(req.decoded.id);
+        const result = await this.userService.bringUserEmail(req.decoded.id);
         return SuccessResponseDto.of(result);
-   
     }
     
     @HttpCode(200)
