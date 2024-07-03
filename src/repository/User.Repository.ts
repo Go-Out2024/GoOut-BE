@@ -10,15 +10,7 @@ import { User } from '../entity/User.js';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-    public async selectUserById(userId: number) {
-        return await this.findOne({
-            where: {
-                id: userId
-            }
-        })
-    }
-    /** 카카오Id로 사용자 찾기 */ 
-    
+
     public async findByKakaoId(kakaoId: string): Promise<User | undefined> {
         return this.findOne({ where: {numbers:kakaoId} });
     }

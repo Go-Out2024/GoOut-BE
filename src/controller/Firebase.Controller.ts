@@ -9,7 +9,11 @@ import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
 @JsonController('/notice')
 export class FirebaseController{
 
-
+    /**
+     * 기기 토큰 값을 보내 푸쉬 알림 요청 함수
+     * @param pushNoticeRequest 기기 토큰 값 요청
+     * @returns 
+     */
     @HttpCode(200)
     @Post('/send')
     async executePushNotice(@Body() pushNoticeRequest: PushNoticeRequest) {
