@@ -13,14 +13,16 @@ export class TokenController {
 
 @HttpCode(200)
 @Post('/refresh-token')
-async refreshToken(@Req() req: Request, @Res() response: Response) {
+async verifyRefreshToken(
+    @Req() req: Request, 
+    @Res() response: Response) {
     const refreshToken = req.headers.authorization?.split(' ')[1]; //Bearer token
     if(!refreshToken) {
         return response.status(401).send({message: "refreshToken이 필요합니다. "});
     }
 
     try {
-        const newTokens = await this.tokenService.refreshToken(refreshToken);
+        const newTokens = await this.tokenService.verifyRefreshToken(refreshToken);
         return response.send(SuccessResponseDto.of(newTokens));
     } catch (error) {
         return this.errorHandler.error(error, req, response, () => {});

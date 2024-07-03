@@ -15,6 +15,7 @@ export class UserService {
         @InjectRepository() private firebaseTokenRepository: FirebaseTokenRepository
         ) {}
 
+
     /**
      * 유저 번호 조회 응용 서비스 함수
      * @param userId 유저 고유 번호
@@ -26,6 +27,7 @@ export class UserService {
         const userData : User = await this.userRepository.findUserById(userId);
         return UserNumber.of(userData);
     }
+
 
     /**
      * 유저 이메일 조회 응용 서비스 함수
@@ -39,13 +41,13 @@ export class UserService {
         return UserEmail.of(userData);
     }
 
-    public async saveFirebaseToken(userId: number, token: string): Promise<void> {
+    public async penetrateFirebaseToken(userId: number, token: string): Promise<void> {
         const user = await this.userRepository.findOne({id: userId});
         if (!user) {
             throw new Error("User not found");
         }
 
-        await this.firebaseTokenRepository.saveToken(user, token);
+        await this.firebaseTokenRepository.insertToken(user, token);
     }
 
 }

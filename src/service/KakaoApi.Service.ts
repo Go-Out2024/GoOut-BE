@@ -7,18 +7,16 @@ import { Service } from 'typedi';
 export class KakaoApiService { 
     private readonly KAKAO_API_URL = 'https://kapi.kakao.com/v2/user/me';
 
-    async getUserInfo(accessToken: string) {
+    async bringUserInfo(accessToken: string) {
         try {
             const response = await axios.get(this.KAKAO_API_URL, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             });
-            console.log(response.data.id)
             return {
                 kakaoId: response.data.id,
                 email: response.data.kakao_account.email,
-             //   phoneNumber: response.data.kakao_account.phone_number
             };
         } catch (error) {
             console.error('카카오에서 사용자 정보를 가져오지 실패:', error);

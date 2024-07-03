@@ -10,8 +10,6 @@ export class SuccessResponseDto<T> {
 
 
     constructor(data?: T) {
-     
-
         this.data = data;
     }
 }

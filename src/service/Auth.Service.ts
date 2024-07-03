@@ -21,7 +21,7 @@ export class AuthService {
     ) {}
 
     async loginWithKakao(accessToken: string) {
-        const userInfo = await this.kakaoApiservice.getUserInfo(accessToken);
+        const userInfo = await this.kakaoApiservice.bringUserInfo(accessToken);
         let user = await this.userRepository.findByKakaoId(userInfo.kakaoId);
         if(!user) {
             user = await this.userRepository.createUser({
@@ -31,8 +31,8 @@ export class AuthService {
         }
   
         const tokens = this.generateJwtTokens(user.id);
-        await this.redisService.storeRefreshToken(tokens.refreshToken, user.id);
-        await this.redisService.getRefreshToken(user.id);
+        await this.redisService.penetrateRefreshToken(tokens.refreshToken, user.id);
+        await this.redisService.bringRefreshToken(user.id);
         return tokens;
     }
 
@@ -55,7 +55,7 @@ export class AuthService {
             throw new Error('User ID not found in token');
         }
     
-        await this.redisService.removeRefreshToken(userId);
+        await this.redisService.eraseRefreshToken(userId);
         await this.firebaseTokenRepository.deleteTokensByUserId(userId, firebaseToken);
     }
 
