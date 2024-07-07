@@ -24,7 +24,7 @@ export class TrafficCollectionDetail extends BaseEntity{
     @JoinColumn({ name: "traffic_collection_id", referencedColumnName: "id" })
     trafficCollection: Relation<TrafficCollection>;
 
-    @OneToMany(() => Transportation, transportations => transportations.trafficCollectionDetails)
+    @OneToMany(() => Transportation, transportations => transportations.trafficCollectionDetail)
     transportations: Relation<Transportation>[];
 
     

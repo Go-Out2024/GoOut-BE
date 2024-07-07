@@ -23,5 +23,5 @@ export class Transportation extends BaseEntity{
         onUpdate: "CASCADE",
     })
     @JoinColumn({ name: "traffic_collection_detail_id", referencedColumnName: "id" })
-    trafficCollectionDetails: Relation<TrafficCollectionDetail>;
+    trafficCollectionDetail: Relation<TrafficCollectionDetail>;
 }
