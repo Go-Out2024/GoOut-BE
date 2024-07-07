@@ -19,7 +19,7 @@ export class FirebaseToken extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({type:'varchar', name:"token"})
+    @Column({type:'varchar', name:"token", nullable: false})
     token: string
 
     @ManyToOne(() => User, user => user.firebaseTokens, {

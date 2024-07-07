@@ -11,13 +11,13 @@ export class Calendar extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', name: 'calendar_content' })
+    @Column({ type: 'varchar', name: 'calendar_content', nullable: false })
     content: string;
 
-    @Column({ type: 'varchar', name: 'kind' })
+    @Column({ type: 'varchar', name: 'kind', nullable: false })
     kind: string;
 
-    @Column({ type: 'int', name: 'period' })
+    @Column({ type: 'int', name: 'period', nullable: false })
     period: number;
 
 

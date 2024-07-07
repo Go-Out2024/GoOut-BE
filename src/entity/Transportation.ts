@@ -9,13 +9,13 @@ export class Transportation extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', name: 'route' })
+    @Column({ type: 'varchar', name: 'route', nullable: false })
     route: string;
 
-    @Column({ type: 'varchar', name: 'transportation_name' })
+    @Column({ type: 'varchar', name: 'transportation_name', nullable: false })
     transportationName: string;
 
-    @Column({ type: 'varchar', name: 'station_name' })
+    @Column({ type: 'varchar', name: 'station_name', nullable: false })
     stationName: string;
 
     @ManyToOne(() => TrafficCollectionDetail, trafficCollectionDetail => trafficCollectionDetail.transportations, {

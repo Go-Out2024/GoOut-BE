@@ -26,13 +26,13 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', name: 'numbers' })
+    @Column({ type: 'varchar', name: 'numbers', nullable: false })
     numbers: string;
 
-    @Column({ type: 'varchar', name: 'email' })
+    @Column({ type: 'varchar', name: 'email', nullable: false })
     email: string;
 
-    @Column({ type: 'boolean', name: 'alarm' })
+    @Column({ type: 'boolean', name: 'alarm', nullable: false, default:true })
     alarm: boolean;
 
     @Column({ type: 'timestamp', name: 'alarm_start' })

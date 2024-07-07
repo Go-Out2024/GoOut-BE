@@ -11,7 +11,7 @@ export class Bus extends BaseEntity{
     @PrimaryColumn({ type:'int', name : 'bus_id'})
     id: number;
 
-    @Column({ type: 'varchar', name: 'bus_name' })
+    @Column({ type: 'varchar', name: 'bus_name', nullable: false })
     busName: string;
 
 

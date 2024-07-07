@@ -12,10 +12,10 @@ export class TrafficCollection extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', name: 'name' })
+    @Column({ type: 'varchar', name: 'name', nullable: false })
     name: string;
 
-    @Column({ type: 'boolean', name: 'choice' })
+    @Column({ type: 'boolean', name: 'choice', nullable: false, default: true })
     choice: boolean;
 
     @ManyToOne(() => User, user => user.trafficCollections, {

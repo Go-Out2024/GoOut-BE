@@ -13,7 +13,7 @@ export class TrafficCollectionDetail extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', name: 'status' })
+    @Column({ type: 'varchar', name: 'status', nullable: false })
     status: string;
 
  
