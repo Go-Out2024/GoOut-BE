@@ -13,6 +13,13 @@ import { envs } from './environment.js';
 import {Container} from 'typedi';
 import { User } from '../entity/User.js';
 import { FirebaseToken } from '../entity/FirebaseToken.js';
+import { Calendar } from '../entity/Calendar.js';
+import { TrafficCollection } from '../entity/TrafficCollection.js';
+import { TrafficCollectionDetail } from '../entity/TrafficCollectionDetail.js';
+import { Transportation } from '../entity/Transportation.js';
+import { BusStation } from '../entity/BusStation.js';
+import { Bus } from '../entity/Bus.js';
+import { SubwayStation } from '../entity/SubwayStation.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 /**
  * Before insert/update validation data
@@ -41,7 +48,7 @@ export async function initializeDatabase() {
             database: envs.db.database,
             logging: envs.isProd === false,
             synchronize: false,
-            entities: [User,FirebaseToken],
+            entities: [User,FirebaseToken,Calendar, TrafficCollection, TrafficCollectionDetail, Transportation, BusStation, Bus, SubwayStation],
             namingStrategy: new SnakeNamingStrategy(),
         });
         return connection;
