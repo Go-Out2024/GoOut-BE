@@ -12,6 +12,7 @@ import { InternalServerError } from "routing-controllers";
 import { FirebaseToken } from "./FirebaseToken.js"
 import { Relation } from "typeorm";
 import { Calendar } from "./Calendar.js";
+import { TrafficCollection } from "./TrafficCollection.js";
 
 @Entity("user")
 export class User extends BaseEntity {
@@ -45,6 +46,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Calendar, calendar => calendar.user)
     calendars: Relation<Calendar>[];
+
+    @OneToMany(() => TrafficCollection, trafficCollections => trafficCollections.user)
+    trafficCollections: Relation<TrafficCollection>[];
 
     public static createUser(numbers:string, email:string) {
         return new User(numbers, email);
