@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
 import { BaseEntity } from "./BaseEntity.js";
+import { Bus } from "./Bus.js";
 
 
 
@@ -21,4 +22,7 @@ export class BusStation extends BaseEntity{
 
     @Column({ type: 'double', name: 'y_value' })
     yValue: number;
+
+    @OneToMany(() => Bus, buss => buss.busStation)
+    buss: Relation<Bus>[];
 }
