@@ -6,7 +6,7 @@ import { TrafficCollection } from "./TrafficCollection.js";
 
 
 @Entity('traffic_collection_detail')
-@Index("idx_traffic_collection_detail_user", ["user"])
+@Index("idx_traffic_collection_detail_trafficCollection", ["trafficCollection"])
 export class TrafficCollectionDetail extends BaseEntity{
 
     @PrimaryGeneratedColumn()
