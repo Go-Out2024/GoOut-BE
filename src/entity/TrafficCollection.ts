@@ -1,6 +1,7 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { BaseEntity } from "./BaseEntity.js";
 import { User } from "./User.js";
+import { TrafficCollectionDetail } from "./TrafficCollectionDetail.js";
 
 
 
@@ -25,6 +26,7 @@ export class TrafficCollection extends BaseEntity{
     user: Relation<User>;
 
 
-
-    
+    @OneToMany(() => TrafficCollectionDetail, trafficCollectionDetails => trafficCollectionDetails.trafficCollection)
+    trafficCollectionDetails: Relation<TrafficCollectionDetail>[];
+ 
 }
