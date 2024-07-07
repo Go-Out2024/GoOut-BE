@@ -12,7 +12,7 @@ import { JoinColumn } from "typeorm"
 
 
 @Entity("firebase_token")
-@Index("idx_user", ["user"])
+@Index("idx_firebasetoken_user", ["user"])
 export class FirebaseToken extends BaseEntity {
   
 
