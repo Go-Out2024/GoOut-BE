@@ -1,22 +1,25 @@
-import { BaseEntity } from "./BaseEntity.js"
+import { BaseEntity } from "./base/BaseEntity.js"
 import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
     ManyToOne,
+    Index,
 } from "typeorm"
 import { User } from "./User.js"
 import { Relation } from "typeorm"
 import { JoinColumn } from "typeorm"
 
 
-@Entity("FirebaseToken")
+@Entity("firebase_token")
+@Index("idx_firebasetoken_user", ["user"])
 export class FirebaseToken extends BaseEntity {
   
+
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type:'varchar', name:"token", nullable: false})
     token: string
 
     @ManyToOne(() => User, user => user.firebaseTokens, {
