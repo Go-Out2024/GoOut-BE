@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
-import { BaseEntity } from "./BaseEntity.js";
+import { BaseEntity } from "./base/BaseEntity.js";
 import { Bus } from "./Bus.js";
 
 
