@@ -8,7 +8,8 @@ import {
     Req,
     UseBefore,
     Post,
-    Patch
+    Patch,
+    Delete
 } from 'routing-controllers';
 import { Service, Token } from 'typedi';
 import { SuccessResponseDto } from '../response/SuccessResponseDto.js';
@@ -113,6 +114,17 @@ export class UserController {
     ): Promise<SuccessResponseDto<void>> {
         await this.userService.modifyAlarmTime(req.decoded.id, alarmTime.getAlarmStart(), alarmTime.getAlarmEnd());
         console.log("유저 알림 시간 업데이트 완료")
+        return SuccessResponseDto.of();
+    }
+
+    @HttpCode(200)
+    @Delete()
+    @UseBefore(compareAuthToken)
+    public async eraseUser(
+        @Req() req: Request,
+    ): Promise<SuccessResponseDto<void>> {
+        await this.userService.eraseUser(req.decoded.id);
+        console.log("유저 계정 삭제 완료")
         return SuccessResponseDto.of();
     }
 

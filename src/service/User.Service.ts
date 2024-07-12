@@ -69,4 +69,8 @@ export class UserService {
         await this.userRepository.updateAlarmTime(userId, alarmStart, alarmEnd);
     }
 
+    public async eraseUser(userId:number){
+       await this.userRepository.deleteUser(userId);
+    }
+
 }
