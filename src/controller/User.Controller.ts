@@ -19,6 +19,7 @@ import { UserNumber } from '../dto/UserNumber.js';
 import { UserEmail } from '../dto/UserEmail.js';
 import { FirebaseTokenDto } from '../dto/request/FirebaseTokenDto.js';
 import { AlarmStatus } from '../dto/request/AlarmStatus.js';
+import { AlarmTime } from '../dto/request/AlarmTime.js';
 
 
 
@@ -94,6 +95,24 @@ export class UserController {
     ): Promise<SuccessResponseDto<void>> {
         await this.userService.modifyAlarmOnOff(req.decoded.id, alarmStatus.getStatus());
         console.log("유저 알림 상태 업데이트 완료")
+        return SuccessResponseDto.of();
+    }
+
+    /**
+     * 알림 시간 설정 함수
+     * @param req 
+     * @param alarmTime 알림 시간 -> 시작, 종료 
+     * @returns 
+     */
+    @HttpCode(200)
+    @Patch("/alarm/time")
+    @UseBefore(compareAuthToken)
+    public async modifyAlarmTime(
+        @Req() req: Request,
+        @Body() alarmTime: AlarmTime
+    ): Promise<SuccessResponseDto<void>> {
+        await this.userService.modifyAlarmTime(req.decoded.id, alarmTime.getAlarmStart(), alarmTime.getAlarmEnd());
+        console.log("유저 알림 시간 업데이트 완료")
         return SuccessResponseDto.of();
     }
 
