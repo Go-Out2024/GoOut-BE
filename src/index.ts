@@ -13,11 +13,12 @@ import { AuthController } from './controller/Auth.Controller.js';
 import { createRequire } from 'module'
 import { TokenController } from './controller/Token.Controller.js';
 import { FirebaseController } from './controller/Firebase.Controller.js';
+import { KakaoController } from './controller/Kakao.Controller.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController, FirebaseController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
