@@ -50,4 +50,13 @@ export class UserService {
         await this.firebaseTokenRepository.insertToken(user, token);
     }
 
+    /**
+     * 알림 상태 변경 함수
+     * @param userId 유저 id
+     * @param status 알림 상태 true -> 켜기, false -> 끄기
+     */
+    public async modifyAlarmOnOff(userId:number, status:boolean){
+        await this.userRepository.updateAlarm(userId, status);
+    }
+
 }

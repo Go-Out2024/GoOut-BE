@@ -7,7 +7,8 @@ import {
     Res,
     Req,
     UseBefore,
-    Post
+    Post,
+    Patch
 } from 'routing-controllers';
 import { Service, Token } from 'typedi';
 import { SuccessResponseDto } from '../response/SuccessResponseDto.js';
@@ -17,6 +18,7 @@ import { UserService } from '../service/User.Service.js';
 import { UserNumber } from '../dto/UserNumber.js';
 import { UserEmail } from '../dto/UserEmail.js';
 import { FirebaseTokenDto } from '../dto/request/FirebaseTokenDto.js';
+import { AlarmStatus } from '../dto/request/AlarmStatus.js';
 
 
 
@@ -75,6 +77,24 @@ export class UserController {
         await this.userService.penetrateFirebaseToken(req.decoded.id, penetrateFirebaseTokenRequest.getToken());
         return SuccessResponseDto.of();
 
+    }
+
+    /**
+     * 알림 상태 설정 함수
+     * @param req 
+     * @param alarmStatus 알림 상태 true -> 켜기, false -> 끄기
+     * @returns 
+     */
+    @HttpCode(200)
+    @Patch("/alarm")
+    @UseBefore(compareAuthToken)
+    public async modifyAlarmOnOff(
+        @Req() req: Request,
+        @Body() alarmStatus: AlarmStatus
+    ): Promise<SuccessResponseDto<void>> {
+        await this.userService.modifyAlarmOnOff(req.decoded.id, alarmStatus.getStatus());
+        console.log("유저 알림 상태 업데이트 완료")
+        return SuccessResponseDto.of();
     }
 
 
