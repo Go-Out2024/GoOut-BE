@@ -38,7 +38,7 @@ export class UserController {
     public async bringUserNumber( 
         @Req() req:Request
     ): Promise<SuccessResponseDto<UserNumber>> {
-   
+
         const result = await this.userService.bringUserNumber(req.decoded.id);
         return SuccessResponseDto.of(result);
    
@@ -59,15 +59,21 @@ export class UserController {
         return SuccessResponseDto.of(result);
     }
     
+    /**
+     * 유저 파이어베이스를 저장하는 함수
+     * @param req 
+     * @param penetrateFirebaseTokenRequest 파이어베이스 저장 dto
+     * @returns 
+     */
     @HttpCode(200)
     @Post("/firebase-token")
     @UseBefore(compareAuthToken)
     public async penetrateFirebaseToken(
         @Req() req: Request,
         @Body() penetrateFirebaseTokenRequest: FirebaseTokenDto 
-    ): Promise<SuccessResponseDto<null>> {
+    ): Promise<SuccessResponseDto<void>> {
         await this.userService.penetrateFirebaseToken(req.decoded.id, penetrateFirebaseTokenRequest.getToken());
-        return SuccessResponseDto.of(null);
+        return SuccessResponseDto.of();
 
     }
 
