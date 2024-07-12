@@ -55,4 +55,12 @@ export class UserRepository extends Repository<User> {
             .execute();
     }
 
+    public async deleteUser(userId:number){
+        return this.createQueryBuilder()
+            .delete()
+            .from(User)
+            .where('id = :userId',{userId})
+            .execute();
+    }
+
  }
