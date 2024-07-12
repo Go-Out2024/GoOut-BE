@@ -18,8 +18,7 @@ export class KakaoService {
     async bringKakaoEatery(x:string, y:string, category:string, radius:string) {
         this.verifyEateryCategory(getProductCategoryByCondition(category));
         const eateryData = await this.kakaoApiService.bringEateryData(x,y,getProductCategoryByCondition(category), radius);
-        const mappedEateryDatas = this.mappingEateryData(eateryData);
-        return mappedEateryDatas;
+        return this.mappingEateryData(eateryData);
   
     }
 
