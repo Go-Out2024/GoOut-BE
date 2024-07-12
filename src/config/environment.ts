@@ -17,5 +17,8 @@ export const envs = {
     host:process.env.AWS_REDIS_ENDPOINT as string,
     port:process.env.AWS_REDIS_PORT as string
   },
+  kakao:{
+    key:process.env.KAKAO_KEY
+  },
   prefix: process.env.PREFIX || '',
 };
