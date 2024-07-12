@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { BaseEntity } from "./base/BaseEntity.js";
 import { TrafficCollectionDetail } from "./TrafficCollectionDetail.js";
+import { TransportationNumber } from "./TransportationNumber.js";
 
 
 @Entity('transportation')
@@ -24,4 +25,8 @@ export class Transportation extends BaseEntity{
     })
     @JoinColumn({ name: "traffic_collection_detail_id", referencedColumnName: "id" })
     trafficCollectionDetail: Relation<TrafficCollectionDetail>;
+
+
+    @OneToMany(() => TransportationNumber, transportationNumbers => transportationNumbers.transportation)
+    transportationNumbers: Relation<TransportationNumber>[];
 }
