@@ -50,4 +50,27 @@ export class UserService {
         await this.firebaseTokenRepository.insertToken(user, token);
     }
 
+    /**
+     * 알림 상태 변경 함수
+     * @param userId 유저 id
+     * @param status 알림 상태 true -> 켜기, false -> 끄기
+     */
+    public async modifyAlarmOnOff(userId:number, status:boolean){
+        await this.userRepository.updateAlarmStatus(userId, status);
+    }
+
+    /**
+     * 알림 시간 설정 함수
+     * @param userId 유저 id
+     * @param alarmStart 알림 시작 시간
+     * @param alarmEnd 알림 종료 시간
+     */
+    public async modifyAlarmTime(userId:number, alarmStart:string, alarmEnd:string){
+        await this.userRepository.updateAlarmTime(userId, alarmStart, alarmEnd);
+    }
+
+    public async eraseUser(userId:number){
+       await this.userRepository.deleteUser(userId);
+    }
+
 }

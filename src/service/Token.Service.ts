@@ -22,7 +22,7 @@ export class TokenService {
             }
 
             /** 새로운 accessToken 생성 */ 
-            const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1m'});
+            const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1d'});
             return {
                 accessToken: newAccessToken,
                 refreshToken: refreshToken // 기존 refreshToken 재사용

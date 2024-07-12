@@ -12,17 +12,19 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
 
     error(error: any, req: Request, res: Response, next: NextFunction): void {
         console.error(
-            `Middelware Handler - ${req.method} ${req.url}\n${error}\n${JSON.stringify(req.body)}`,
+            `Middleware Handler - ${req.method} ${req.url}`,
         );
         
- 
         this.divideError(error);
         const response = {
             code: this.getCode(),
             message: this.getMessage()
         };
-        res.status(this.getCode()).send(response);
-        next();
+
+        // If headers have already been sent, skip sending a new response
+        if (!res.headersSent) {
+            res.status(this.getCode()).send(response);
+        }
     }
 
     private getCode() {
@@ -34,17 +36,15 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
     }
 
     private divideError(error: any) {
- 
         if (error instanceof ErrorResponseDto) {
             this.code = error.getCode();
             this.message = error.getMessage();
         } else if (error instanceof BadRequestError) {
-            this.code =  400;
-            this.message ='옳바른 요청이 아닙니다.';
-        } else if(error instanceof InternalServerError){
-            this.code=502;
-            this.message="서버 내부에 문제가 있습니다."
-
+            this.code = 400;
+            this.message = '옳바른 요청이 아닙니다.';
+        } else if (error instanceof InternalServerError) {
+            this.code = 502;
+            this.message = '서버 내부에 문제가 있습니다.';
         } else {
             this.code = error.httpCode || 500;
             this.message = error.message || '서버 에러';
