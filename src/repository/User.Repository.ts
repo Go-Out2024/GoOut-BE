@@ -26,4 +26,18 @@ export class UserRepository extends Repository<User> {
         return await this.findOne({ where: {id} })
     }
 
+    /**
+     * 알람 상태를 업데이트 시켜주는 함수
+     * @param userId 유저 id
+     * @param status 알람 상태 true -> 켜기, false -> 끄기
+     * @returns 
+     */
+    public async updateAlarm(userId: number, status: boolean) {
+        return this.createQueryBuilder()
+            .update(User)
+            .set({ alarm: status }) 
+            .where('id = :userId', { userId })
+            .execute();
+    }
+
  }
