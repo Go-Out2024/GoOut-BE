@@ -35,10 +35,10 @@ export class User extends BaseEntity {
     @Column({ type: 'boolean', name: 'alarm', nullable: false, default:true })
     alarm: boolean;
 
-    @Column({ type: 'timestamp', name: 'alarm_start' })
+    @Column({ type: 'timestamp', name: 'alarm_start', nullable: true  })
     alarmStart: Date;
 
-    @Column({ type: 'timestamp', name: 'alarm_end' })
+    @Column({ type: 'timestamp', name: 'alarm_end', nullable: true})
     alarmEnd: Date;
 
     @OneToMany(() => FirebaseToken, token => token.user)
