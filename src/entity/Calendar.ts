@@ -9,17 +9,18 @@ import { User } from "./User.js";
 export class Calendar extends BaseEntity{
 
 
-    constructor(content:string, period:number, kind:string, date:Date){
+    constructor(content:string, period:number, kind:string, date:Date, userId:number){
         super()
         this.setContent(content);
         this.setPeriod(period);
         this.setKind(kind);
         this.setDate(date);
+        this.setUserId(userId);
     }
 
 
-    public static createCalendar(content:string, period:number, kind:string, date:Date){
-        return new Calendar(content, period, kind, date);
+    public static createCalendar(content:string, period:number, kind:string, date:Date, userId:number){
+        return new Calendar(content, period, kind, date, userId);
     }
 
     @PrimaryGeneratedColumn()
@@ -36,6 +37,9 @@ export class Calendar extends BaseEntity{
 
     @Column({ type: 'date', name: 'date', nullable: false })
     date: Date;
+
+    @Column({ type: 'int', name: 'user_id', nullable: false})
+    userId: number;
 
 
     @ManyToOne(() => User, user => user.calendars, {
@@ -60,6 +64,10 @@ export class Calendar extends BaseEntity{
 
     private setDate(date:Date){
         this.date=date;
+    }
+
+    private setUserId(userId:number){
+        this.userId=userId;
     }
 
 
