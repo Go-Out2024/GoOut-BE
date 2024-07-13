@@ -32,6 +32,7 @@ export class KakaoController{
         @QueryParam('radius') radius:string
     ):Promise<SuccessResponseDto<KakaoEatery[]>> {
         const result = await this.kakaoService.bringKakaoEatery(x,y,category,radius);
+        console.log("카카오 음식점 or 카페 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }
 }
