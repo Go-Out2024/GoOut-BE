@@ -10,16 +10,18 @@ export class KakaoEatery{
     private distance: number;
     private placeName: string;
     private placeUrl: string;
+    private phone:string;
 
 
-    constructor(distance:number, placeName: string, placeUrl: string){
+    constructor(distance:number, placeName: string, placeUrl: string, phone:string){
         this.setDistance(distance);
         this.setPlaceName(placeName);
         this.setPlaceUrl(placeUrl);
+        this.setPhone(phone);
     }
 
-    public static of(distance:number, placeName: string, placeUrl: string){
-        return new KakaoEatery(distance, placeName, placeUrl);
+    public static of(distance:number, placeName: string, placeUrl: string, phone:string){
+        return new KakaoEatery(distance, placeName, placeUrl, phone);
     }
 
 
@@ -36,5 +38,10 @@ export class KakaoEatery{
     private setPlaceUrl(placeUrl: string){
         if(placeUrl === null) throw new Error (`${__dirname} : placeUrl 값이 존재하지 않습니다.`);
         this.placeUrl=placeUrl;
+    }
+
+    private setPhone(phone:string){
+        if(phone === null) throw new Error (`${__dirname} : phone 값이 존재하지 않습니다.`);
+        this.phone=phone;
     }
 }
