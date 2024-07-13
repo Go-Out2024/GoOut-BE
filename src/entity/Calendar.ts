@@ -20,6 +20,9 @@ export class Calendar extends BaseEntity{
     @Column({ type: 'int', name: 'period', nullable: false })
     period: number;
 
+    @Column({ type: 'date', name: 'date', nullable: false })
+    date: Date;
+
 
     @ManyToOne(() => User, user => user.calendars, {
         onDelete: "CASCADE",
