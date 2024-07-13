@@ -8,6 +8,20 @@ import { User } from "./User.js";
 @Index("idx_calendar_user", ["user"])
 export class Calendar extends BaseEntity{
 
+
+    constructor(content:string, period:number, kind:string, date:Date){
+        super()
+        this.setContent(content);
+        this.setPeriod(period);
+        this.setKind(kind);
+        this.setDate(date);
+    }
+
+
+    public static createCalendar(content:string, period:number, kind:string, date:Date){
+        return new Calendar(content, period, kind, date);
+    }
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -30,6 +44,25 @@ export class Calendar extends BaseEntity{
     })
     @JoinColumn({ name: "user_id", referencedColumnName: "id" })
     user: Relation<User>;
+
+
+    private setContent(content:string){
+        this.content=content;
+    }
+
+    private setPeriod(period:number){
+        this.period=period;
+    }
+
+    private setKind(kind:string){
+        this.kind=kind;
+    }
+
+    private setDate(date:Date){
+        this.date=date;
+    }
+
+
 
 
 
