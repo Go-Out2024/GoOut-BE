@@ -1,6 +1,5 @@
 
 import { Service } from 'typedi';
-
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { CalendarRepository } from '../repository/Calendar.Repository.js';
 import { CalendarInsert } from '../dto/request/CalendarInsert.js';
@@ -8,6 +7,7 @@ import { Calendar } from '../entity/Calendar.js';
 import { checkData } from '../util/checker.js';
 import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { ErrorCode } from '../exception/ErrorCode.js';
+import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
 
 
 @Service()
@@ -35,8 +35,17 @@ export class CalendarService {
         await this.calendarRepository.deleteCalendar(calendarId, userId);
     }
 
+    async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
+        const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarUpdate.getCalendarId(), userId);
+        this.verifyCalendar(calendarData);
+        await this.calendarRepository.updateCalendar(calendarUpdate, userId);
+    }
 
 
+    /**
+     * 캘린더 데이터 검증 함수
+     * @param calendar 검증할 캘린더 엔티티 데이터
+     */
     public verifyCalendar(calendar:Calendar){
         if(!checkData(calendar))
             throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);

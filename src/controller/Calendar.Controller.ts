@@ -1,4 +1,4 @@
-import { Body, Delete, HttpCode, JsonController, Post, Req, UseBefore } from "routing-controllers";
+import { Body, Delete, HttpCode, JsonController, Patch, Post, Req, UseBefore } from "routing-controllers";
 import { Service } from "typedi";
 import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
 import { compareAuthToken } from "../middleware/jwtMiddleware.js";
@@ -6,6 +6,7 @@ import {  CalendarInsert } from "../dto/request/CalendarInsert.js";
 import { CalendarService } from "../service/Calendar.Service.js";
 import { Request } from 'express'
 import { CalendarErase } from "../dto/request/CalendarErase.js";
+import { CalendarUpdate } from "../dto/request/CalendarUpdate.js";
 
 @Service()
 @JsonController('/calendar')
@@ -43,6 +44,17 @@ export class CalendarController{
     async eraseScheduleOrProduct(@Body() calendarErase: CalendarErase, @Req() req: Request) {
         await this.calendarService.eraseScheduleOrProduct(req.decoded.id, calendarErase.getCalendarId());
         console.log("캘린더 일정 or 준비물 삭제 완료");
+        return SuccessResponseDto.of();
+    }
+
+
+
+    @HttpCode(200)
+    @UseBefore(compareAuthToken)
+    @Patch('/content')
+    async modifyScheduleOrProduct(@Body() calendarUpdate: CalendarUpdate, @Req() req: Request) {
+        await this.calendarService.modifyScheduleOrProduct(calendarUpdate, req.decoded.id);
+        console.log("캘린더 일정 or 준비물 수정 완료");
         return SuccessResponseDto.of();
     }
 }
