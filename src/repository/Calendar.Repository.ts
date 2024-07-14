@@ -16,5 +16,36 @@ export class CalendarRepository extends Repository<Calendar> {
         await this.save(newCalendars);
     }
 
+
+    /**
+     * 캘린더id와 유저 id를 활용한 특정 Calendar 엔티티 조회 함수 
+     * @param calendarId 캘린더 id
+     * @param userId 유저 id
+     * @returns Calendar 엔티티
+     */
+    public async findCalendarByIdAndUserId(calendarId:number, userId:number){
+        return this.createQueryBuilder()
+            .select('c')
+            .from(Calendar, 'c')
+            .where('c.id = :calendarId',{calendarId})
+            .andWhere('c.user_id = :userId',{userId})
+            .getOne();
+    }
+
+    /**
+     * 캘린더id와 유저 id를 활용한 특정 Calendar 엔티티 삭제 함수
+     * @param calendarId 캘린더 id
+     * @param userId 유저 id
+     * @returns 
+     */
+    public async deleteCalendar(calendarId:number, userId:number){
+        return this.createQueryBuilder()
+            .delete()
+            .from(Calendar)
+            .where('id = :calendarId',{calendarId})
+            .andWhere('user_id = :userId',{userId})
+            .execute();
+    }
+
  
 }
