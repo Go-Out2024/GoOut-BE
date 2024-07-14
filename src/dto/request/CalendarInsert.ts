@@ -4,9 +4,9 @@ import { IsNotEmpty } from "class-validator";
 
 export class CalendarInsert {
 
-    @Type(() => CalendarContent)
+    @Type(() => CalendarInsertContent)
     @IsNotEmpty()
-   private calendarContent:CalendarContent[];
+   private calendarContent:CalendarInsertContent[];
 
    public getCalendarContent(){
         return this.calendarContent;
@@ -14,7 +14,7 @@ export class CalendarInsert {
 
 }
 
-class CalendarContent{
+class CalendarInsertContent{
     @IsNotEmpty()
     private content:string;
 
