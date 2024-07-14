@@ -1,10 +1,11 @@
-import { Body, HttpCode, JsonController, Post, Req, UseBefore } from "routing-controllers";
+import { Body, Delete, HttpCode, JsonController, Post, Req, UseBefore } from "routing-controllers";
 import { Service } from "typedi";
 import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
 import { compareAuthToken } from "../middleware/jwtMiddleware.js";
 import {  CalendarContents } from "../dto/request/CalendarContent.js";
 import { CalendarService } from "../service/Calendar.Service.js";
 import { Request } from 'express'
+import { CalendarErase } from "../dto/request/CalendarErase.js";
 
 @Service()
 @JsonController('/calendar')
@@ -26,6 +27,22 @@ export class CalendarController{
     async penetrateScheduleOrProduct(@Body() calendarContents: CalendarContents, @Req() req: Request) {
         await this.calendarService.penetrateScheduleOrProduct(calendarContents, req.decoded.id);
         console.log("캘린더 일정 or 준비물 삽입 완료");
+        return SuccessResponseDto.of();
+    }
+
+
+    /**
+     * 캘린더 삭제 함수
+     * @param calendarErase 캘린더 삭제 dto
+     * @param req 
+     * @returns 
+     */
+    @HttpCode(200)
+    @UseBefore(compareAuthToken)
+    @Delete('/content')
+    async eraseScheduleOrProduct(@Body() calendarErase: CalendarErase, @Req() req: Request) {
+        await this.calendarService.eraseScheduleOrProduct(req.decoded.id, calendarErase.getCalendarId());
+        console.log("캘린더 일정 or 준비물 삭제 완료");
         return SuccessResponseDto.of();
     }
 }
