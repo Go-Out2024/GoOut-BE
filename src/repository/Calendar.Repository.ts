@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Calendar } from '../entity/Calendar.js';
 import { CalendarInsert } from '../dto/request/CalendarInsert.js';
+import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
 
 @EntityRepository(Calendar)
 export class CalendarRepository extends Repository<Calendar> {
@@ -43,6 +44,16 @@ export class CalendarRepository extends Repository<Calendar> {
             .delete()
             .from(Calendar)
             .where('id = :calendarId',{calendarId})
+            .andWhere('user_id = :userId',{userId})
+            .execute();
+    }
+
+
+    public async updateCalendar(calendarUpdate: CalendarUpdate, userId:number){
+        return this.createQueryBuilder()
+            .update(Calendar)
+            .set({content:calendarUpdate.getContent(), period:calendarUpdate.getPeriod()})
+            .where('id = :calendarId',{calendarId :calendarUpdate.getCalendarId()})
             .andWhere('user_id = :userId',{userId})
             .execute();
     }
