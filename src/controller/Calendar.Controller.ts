@@ -2,7 +2,7 @@ import { Body, Delete, HttpCode, JsonController, Post, Req, UseBefore } from "ro
 import { Service } from "typedi";
 import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
 import { compareAuthToken } from "../middleware/jwtMiddleware.js";
-import {  CalendarContents } from "../dto/request/CalendarContent.js";
+import {  CalendarInsert } from "../dto/request/CalendarInsert.js";
 import { CalendarService } from "../service/Calendar.Service.js";
 import { Request } from 'express'
 import { CalendarErase } from "../dto/request/CalendarErase.js";
@@ -24,7 +24,7 @@ export class CalendarController{
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Post('/content')
-    async penetrateScheduleOrProduct(@Body() calendarContents: CalendarContents, @Req() req: Request) {
+    async penetrateScheduleOrProduct(@Body() calendarContents: CalendarInsert, @Req() req: Request) {
         await this.calendarService.penetrateScheduleOrProduct(calendarContents, req.decoded.id);
         console.log("캘린더 일정 or 준비물 삽입 완료");
         return SuccessResponseDto.of();

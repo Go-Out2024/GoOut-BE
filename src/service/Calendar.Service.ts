@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { CalendarRepository } from '../repository/Calendar.Repository.js';
-import { CalendarContents } from '../dto/request/CalendarContent.js';
+import { CalendarInsert } from '../dto/request/CalendarInsert.js';
 import { Calendar } from '../entity/Calendar.js';
 import { checkData } from '../util/checker.js';
 import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
@@ -19,7 +19,7 @@ export class CalendarService {
      * 캘린저 준비물 or 일정 삽입 함수
      * @param calendarContents 캘린더 내용 정보
      */
-    async penetrateScheduleOrProduct(calendarContents: CalendarContents, userId:number) {
+    async penetrateScheduleOrProduct(calendarContents: CalendarInsert, userId:number) {
         await this.calendarRepository.insertCalendarContents(calendarContents, userId);
     }
 
