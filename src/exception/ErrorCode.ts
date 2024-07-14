@@ -4,7 +4,8 @@ export enum ErrorCode  {
     
     ERROR = 501,
     NO_VALUE=502,
-    NOT_FOUND_EATERY_CATEGORY=400
+    NOT_FOUND_EATERY_CATEGORY=400,
+    NOT_FOUNT_CALENDAR=401
     
 }
 
@@ -12,7 +13,8 @@ export enum ErrorCode  {
 const errorMessages: { [key: number]: string } = {
     501: "강제 에러 발생",
     502: "해당 값이 존재하지 않습니다.",
-    400: "해당 카테고리는 존재하지 않습니다."
+    400: "해당 카테고리는 존재하지 않습니다.",
+    401: "해당 캘린더 정보가 존재하지 않습니다."
 
 };
 
