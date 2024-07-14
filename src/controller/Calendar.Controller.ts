@@ -48,7 +48,12 @@ export class CalendarController{
     }
 
 
-
+    /**
+     * 캘린더 내용 수정 함수
+     * @param calendarUpdate 캘린더 수정 dto
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Patch('/content')

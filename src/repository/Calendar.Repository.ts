@@ -48,7 +48,12 @@ export class CalendarRepository extends Repository<Calendar> {
             .execute();
     }
 
-
+    /**
+     * 캘린저 id, 유저 id에 따라 내용, 주기 수정 함수
+     * @param calendarUpdate 캘린더 수정 dto
+     * @param userId 유저 id
+     * @returns 
+     */
     public async updateCalendar(calendarUpdate: CalendarUpdate, userId:number){
         return this.createQueryBuilder()
             .update(Calendar)

@@ -35,6 +35,12 @@ export class CalendarService {
         await this.calendarRepository.deleteCalendar(calendarId, userId);
     }
 
+
+    /**
+     * 캘린더 수정 함수
+     * @param calendarUpdate 캘린더 수정 dto
+     * @param userId 유저 id
+     */
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
         const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarUpdate.getCalendarId(), userId);
         this.verifyCalendar(calendarData);
