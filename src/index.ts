@@ -14,8 +14,17 @@ import { createRequire } from 'module'
 import { TokenController } from './controller/Token.Controller.js';
 import { FirebaseController } from './controller/Firebase.Controller.js';
 import { KakaoController } from './controller/Kakao.Controller.js';
+import * as path from 'path';
+import {fileURLToPath} from 'url';
+import BusStationImportService from './service/BusStationImport.Service.js';
+import SubwayStationImportService from './service/SubwayStationImport.Service.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 export const app: express.Application = createExpressServer({
     controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController],
@@ -54,8 +63,18 @@ app.use(function (req: express.Request, res: express.Response, next: express.Nex
 useContainer(Container);
 
 initializeDatabase()
-    .then(() => {
+    .then(async () => {
         console.log('Database connected.');
+
+        const busFilePath = path.resolve(__dirname, "bus_station_data.csv");
+        await BusStationImportService.importBusstation(busFilePath);
+
+        const subwayFilePath1to8 = path.resolve(__dirname, "subway_1-8_data.csv");
+        const subwayFilePath9 = path.resolve(__dirname, "subway_9_data.csv");
+
+        await SubwayStationImportService.importSubwayStations(subwayFilePath1to8);
+        await SubwayStationImportService.importSubwayStations(subwayFilePath9);
+
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, () => {
