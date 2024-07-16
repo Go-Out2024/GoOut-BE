@@ -19,6 +19,7 @@ import {fileURLToPath} from 'url';
 import BusStationImportService from './service/BusStationImport.Service.js';
 import SubwayStationImportService from './service/SubwayStationImport.Service.js';
 import GridCoordinatesImportService from './service/GridCoordinatesImort.Service.js';
+import { WeatherController } from './controller/Weather.Controller.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
@@ -28,7 +29,7 @@ const __dirname = path.dirname(__filename);
 
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, WeatherController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
@@ -66,7 +67,7 @@ useContainer(Container);
 initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
-
+/*
         const busFilePath = path.resolve(__dirname, "bus_station_data.csv");
         await BusStationImportService.importBusstation(busFilePath);
 
@@ -78,7 +79,7 @@ initializeDatabase()
 
         const gridCoordinatesFilePath = path.resolve(__dirname, "grid_coordinates_data.csv");
         await GridCoordinatesImportService.importGridCoordinates(gridCoordinatesFilePath);
-
+*/
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, () => {
