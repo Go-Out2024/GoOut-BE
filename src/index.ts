@@ -18,6 +18,7 @@ import * as path from 'path';
 import {fileURLToPath} from 'url';
 import BusStationImportService from './service/BusStationImport.Service.js';
 import SubwayStationImportService from './service/SubwayStationImport.Service.js';
+import GridCoordinatesImportService from './service/GridCoordinatesImort.Service.js';
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
@@ -74,6 +75,9 @@ initializeDatabase()
 
         await SubwayStationImportService.importSubwayStations(subwayFilePath1to8);
         await SubwayStationImportService.importSubwayStations(subwayFilePath9);
+
+        const gridCoordinatesFilePath = path.resolve(__dirname, "grid_coordinates_data.csv");
+        await GridCoordinatesImportService.importGridCoordinates(gridCoordinatesFilePath);
 
 
         const httpServer: Server = createServer(app);
