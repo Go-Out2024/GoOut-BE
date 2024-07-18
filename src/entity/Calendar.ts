@@ -70,6 +70,14 @@ export class Calendar extends BaseEntity{
         this.userId=userId;
     }
 
+    public getDate(){
+        return this.date;
+    }
+
+    public getPeriod(){
+        return this.period;
+    }
+
 
 
 
