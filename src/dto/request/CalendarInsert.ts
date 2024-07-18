@@ -22,7 +22,7 @@ class CalendarInsertContent{
     private kind:string;
 
     @IsNotEmpty()
-    private period:number;
+    private period:string;
 
     @IsNotEmpty()
     private date:Date;

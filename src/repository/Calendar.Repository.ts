@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Calendar } from '../entity/Calendar.js';
 import { CalendarInsert } from '../dto/request/CalendarInsert.js';
 import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
+import { getPeriodValue } from '../util/enum/Period.js';
 
 @EntityRepository(Calendar)
 export class CalendarRepository extends Repository<Calendar> {
@@ -13,7 +14,7 @@ export class CalendarRepository extends Repository<Calendar> {
      */
     public async insertCalendarContents(calendarContents: CalendarInsert, userId:number){
         const newCalendars = calendarContents.getCalendarContent().map((data)=> 
-            Calendar.createCalendar(data.getContent(), data.getPeriod(), data.getKind(), data.getDate(), userId));
+            Calendar.createCalendar(data.getContent(), getPeriodValue(data.getPeriod()), data.getKind(), data.getDate(), userId));
         await this.save(newCalendars);
     }
 
