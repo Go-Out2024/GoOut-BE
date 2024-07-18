@@ -65,6 +65,12 @@ export class CalendarController{
     }
 
 
+    /**
+     * 해당 달에 있는 일정 or 준비물 날짜 조회 함수
+     * @param month 조회할 달
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Get()
