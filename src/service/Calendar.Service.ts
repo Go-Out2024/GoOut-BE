@@ -10,6 +10,7 @@ import { ErrorCode } from '../exception/ErrorCode.js';
 import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
 import { CalendarDataCheck } from '../dto/response/CalendarDataCheck.js';
 import { CalendarData, CalendarDatas } from '../dto/response/CalendarData.js';
+import { getPeriodKey } from '../util/enum/Period.js';
 
 
 @Service()
@@ -54,7 +55,7 @@ export class CalendarService {
 
     public mappingCalendarData(calendars: Calendar[]){
         return calendars.map((calendar)=>{
-            return CalendarData.of(calendar.getId(), calendar.getContent(), calendar.getKind(), calendar.getPeriod());
+            return CalendarData.of(calendar.getId(), calendar.getContent(), calendar.getKind(), getPeriodKey(calendar.getPeriod()));
         })
     }
 

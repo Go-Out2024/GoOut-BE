@@ -28,16 +28,16 @@ export class CalendarData{
     private id:number;
     private content:string;
     private kind:string;
-    private period:number;
+    private period:string;
 
-    constructor(id:number, content:string, kind:string, period:number){
+    constructor(id:number, content:string, kind:string, period:string){
         this.setId(id);
         this.setContent(content);
         this.setKind(kind);
         this.setPeriod(period);
     }
 
-    public static of(id:number, content:string, kind:string, period:number){
+    public static of(id:number, content:string, kind:string, period:string){
         return new CalendarData(id, content, kind, period);
     }
 
@@ -55,7 +55,7 @@ export class CalendarData{
         this.kind=kind;
     }
 
-    private setPeriod(period:number){
+    private setPeriod(period:string){
         this.period=period;
     }
 
