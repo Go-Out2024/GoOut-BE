@@ -9,6 +9,7 @@ import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { ErrorCode } from '../exception/ErrorCode.js';
 import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
 import { CalendarDataCheck } from '../dto/response/CalendarDataCheck.js';
+import { CalendarData, CalendarDatas } from '../dto/response/CalendarData.js';
 
 
 @Service()
@@ -35,6 +36,44 @@ export class CalendarService {
         this.verifyCalendar(calendarData);
         await this.calendarRepository.deleteCalendar(calendarId, userId);
     }
+
+
+  
+    /**
+     * 유저, 날짜에 따른 일정 or 준비물 조회 함수
+     * @param userId 유저 id
+     * @param date 조회할 날짜
+     * @returns 
+     */
+    async bringScheduleOrProduct(userId:number, date:string):Promise<CalendarDatas>{
+        const calendars = await this.calendarRepository.findCalendarsByUserId(userId);
+        const filteredCalendars = this.filterCalendarsByPeriodMultiple(calendars, date);
+        return CalendarDatas.of(this.mappingCalendarData(filteredCalendars));
+  
+    }
+
+    public mappingCalendarData(calendars: Calendar[]){
+        return calendars.map((calendar)=>{
+            return CalendarData.of(calendar.getId(), calendar.getContent(), calendar.getKind(), calendar.getPeriod());
+        })
+    }
+
+
+    public filterCalendarsByPeriodMultiple(calendars: Calendar[], date:string){
+        const result = calendars.filter(calendar => {
+            const startDate = new Date(calendar.getDate());
+            const targetDate = new Date(date);
+            // 주기를 밀리초 단위로 변환 (일 단위)
+            const frequencyInMs = calendar.getPeriod() * 24 * 60 * 60 * 1000;
+            // 시작 날짜와 조회 날짜의 시간 차이를 계산
+            const timeDiff = targetDate.getTime() - startDate.getTime();
+            // 시간 차이가 주기의 배수인지 확인하여 해당 날짜에 물품이 있는지 판단
+            return timeDiff >= 0 && timeDiff % frequencyInMs === 0;
+        });
+        // 필터링된 물품 리스트 반환
+        return result;
+    }
+
 
 
     /**
