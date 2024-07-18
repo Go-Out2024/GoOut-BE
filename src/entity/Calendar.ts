@@ -78,6 +78,18 @@ export class Calendar extends BaseEntity{
         return this.period;
     }
 
+    public getContent(){
+        return this.content;
+    }
+
+    public getKind(){
+        return this.kind;
+    }
+
+    public getId(){
+        return this.id;
+    }
+
 
 
 
