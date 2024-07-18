@@ -63,5 +63,19 @@ export class CalendarRepository extends Repository<Calendar> {
             .execute();
     }
 
+
+    /**
+     * 유저의 준비물 or 일정 조회 함수
+     * @param userId 유저 id
+     * @returns 
+     */
+    public async findCalendarsByUserId(userId:number){
+        return this.createQueryBuilder()
+            .select('c')
+            .from(Calendar, 'c')
+            .where('c.user_id = :userId',{userId})
+            .getMany();
+    }
+
  
 }
