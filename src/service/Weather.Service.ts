@@ -4,6 +4,8 @@ import { getRepository } from 'typeorm';
 import { BusStation } from '../entity/BusStation.js';
 import { SubwayStation } from '../entity/SubwayStation.js';
 import { GridCoordinates } from '../entity/GridCoordinates.js';
+import { ErrorResponseDto } from '../response/ErrorResponseDto.js'; 
+import { ErrorCode } from '../exception/ErrorCode.js';
 
 @Service()
 export class WeatherService { 
@@ -19,7 +21,7 @@ export class WeatherService {
         }
 
         if (!coordinates) {
-            throw new Error('Station not found');
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);;
         }
 
         return coordinates;
@@ -37,7 +39,8 @@ export class WeatherService {
     
         console.log(`Grid Data: ${gridData}`);
         return gridData;
-      }
+    }
+
     async bringWeatherData(stationaName: string, stationType: 'bus' | 'subway', baseDate: string, baseTime: string) {
         const coordinates = await this.bringCoordinates(stationaName, stationType);
         const gridCoordinate = await this.bringGridCoordinates(coordinates.xValue, coordinates.yValue);
@@ -63,8 +66,8 @@ export class WeatherService {
 
         const weatherData = response.data.response.body.items.item;
 
-        // 필요한 데이터 추출
-        const formattedWeatherData = this.formatWeatherData(weatherData)
+        // 필요한 데이터 추출 및 정렬
+        const formattedWeatherData = this.formatWeatherData(weatherData);
 
         return {
             weatherData: formattedWeatherData,
@@ -74,26 +77,18 @@ export class WeatherService {
 
     formatWeatherData(weatherData: any) {
         const informations = {};
-        let minTemp = Number.POSITIVE_INFINITY;
-        let maxTemp = Number.NEGATIVE_INFINITY;
 
         for (const item of weatherData) {
             const category = item.category;
             const forecastTime = item.fcstTime;
             const forecastValue = item.fcstValue;
+            const forecastDate = item.fcstDate;
 
             if (!informations[forecastTime]) {
-                informations[forecastTime] = {};
+                informations[forecastTime] = { forecastDate };
             }
 
             informations[forecastTime][category] = forecastValue;
-
-            if (category === 'TMN') {
-                minTemp = Math.min(minTemp, parseFloat(forecastValue));
-            }
-            if (category === 'TMX') {
-                maxTemp = Math.max(maxTemp, parseFloat(forecastValue));
-            }
         }
 
         const result = [];
@@ -107,6 +102,7 @@ export class WeatherService {
 
             result.push({
                 time,
+                date: values['forecastDate'],
                 skyStatus,
                 precipitationType,
                 temperature,
@@ -116,15 +112,23 @@ export class WeatherService {
             });
         }
 
+        // 날짜와 시간순으로 정렬
+        result.sort((a, b) => {
+            if (a.date === b.date) {
+                return a.time.localeCompare(b.time);
+            }
+            return a.date.localeCompare(b.date);
+        });
+
         return {
-            dailyMinTemp: minTemp === Number.POSITIVE_INFINITY ? '정보 없음' : `${minTemp}℃`,
-            dailyMaxTemp: maxTemp === Number.NEGATIVE_INFINITY ? '정보 없음' : `${maxTemp}℃`,
+            dailyMinTemp: weatherData.find(item => item.category === 'TMN')?.fcstValue + '℃' || '정보 없음',
+            dailyMaxTemp: weatherData.find(item => item.category === 'TMX')?.fcstValue + '℃' || '정보 없음',
             hourlyData: result
         };
     }
 
     async bringWeatherForLocations(startName: string, startType: 'bus' | 'subway', endName: string, endType: 'bus' | 'subway', baseDate: string, baseTime: string) {
-        const startWeather = await this.bringWeatherData(startName, startType, baseDate, baseTime)
+        const startWeather = await this.bringWeatherData(startName, startType, baseDate, baseTime);
         const endWeather = await this.bringWeatherData(endName, endType, baseDate, baseTime);
 
         return { startWeather, endWeather };
