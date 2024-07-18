@@ -1,4 +1,4 @@
-import { Body, Delete, HttpCode, JsonController, Patch, Post, Req, UseBefore } from "routing-controllers";
+import { Body, Delete, Get, HttpCode, JsonController, Patch, Post, QueryParam, QueryParams, Req, UseBefore } from "routing-controllers";
 import { Service } from "typedi";
 import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
 import { compareAuthToken } from "../middleware/jwtMiddleware.js";
@@ -7,6 +7,7 @@ import { CalendarService } from "../service/Calendar.Service.js";
 import { Request } from 'express'
 import { CalendarErase } from "../dto/request/CalendarErase.js";
 import { CalendarUpdate } from "../dto/request/CalendarUpdate.js";
+import { CalendarDataCheck } from "../dto/response/CalendarDataCheck.js";
 
 @Service()
 @JsonController('/calendar')
@@ -61,5 +62,15 @@ export class CalendarController{
         await this.calendarService.modifyScheduleOrProduct(calendarUpdate, req.decoded.id);
         console.log("캘린더 일정 or 준비물 수정 완료");
         return SuccessResponseDto.of();
+    }
+
+
+    @HttpCode(200)
+    @UseBefore(compareAuthToken)
+    @Get()
+    async bringScheduleOrProductChecking(@QueryParam('month') month:string, @Req() req: Request):Promise<SuccessResponseDto<CalendarDataCheck>> {
+        const result = await this.calendarService.bringScheduleOrProductChecking(req.decoded.id, month);
+        console.log("달 별 캘린더 일정 or 준비물 존재 여부 조회 완료");
+        return SuccessResponseDto.of(result);
     }
 }
