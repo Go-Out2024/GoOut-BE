@@ -6,9 +6,14 @@ import { SubwayStation } from '../entity/SubwayStation.js';
 import { GridCoordinates } from '../entity/GridCoordinates.js';
 import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { ErrorCode } from '../exception/ErrorCode.js';
+import { GridCoordinatesRepository } from '../repository/GridCoordinates.Repository.js';
+import { InjectRepository } from 'typeorm-typedi-extensions';
 
 @Service()
 export class WeatherService {
+    constructor(
+        @InjectRepository() private gridCoordinatesRepository: GridCoordinatesRepository
+    ) {}
     private apikey: string = process.env.API_KEY;
     private apiUrl: string = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
 
@@ -28,16 +33,8 @@ export class WeatherService {
     }
 
     async bringGridCoordinates(longitude: number, latitude: number) {
-        const tolerance = 0.01; // 기존 0.00001 에서 0.001 로 확대
-        console.log(`Searching for grid coordinates near Longitude: ${longitude}, Latitude: ${latitude}`);
+        const gridData = await this.gridCoordinatesRepository.findNearbyGridCoordinates(longitude, latitude);
 
-        const gridData = await getRepository(GridCoordinates)
-          .createQueryBuilder("grid")
-          .where("ABS(grid.longitude - :longitude) < :tolerance", { longitude, tolerance })
-          .andWhere("ABS(grid.latitude - :latitude) < :tolerance", { latitude, tolerance })
-          .getOne();
-
-        console.log(`Grid Data: ${gridData}`);
         return gridData;
     }
 
@@ -63,8 +60,6 @@ export class WeatherService {
                 ny: gridY,
             }
         });
-
-        console.log(gridCoordinate.gridX, gridCoordinate.gridY)
 
         const weatherData = response.data.response.body.items.item;
 
@@ -103,8 +98,7 @@ export class WeatherService {
 
         for (const [date, times] of Object.entries(informations)) {
             for (const [time, values] of Object.entries(times)) {
-                console.log(`Values at date ${date} and time ${time}:`, values);
-
+        
                 const skyStatus = skyCode[values['SKY']] || '정보 없음';
                 const precipitationType = ptyCode[values['PTY']] || '정보 없음';
                 const temperature = values['TMP'] ? `${values['TMP']}℃` : '정보 없음';
