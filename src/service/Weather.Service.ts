@@ -4,11 +4,11 @@ import { getRepository } from 'typeorm';
 import { BusStation } from '../entity/BusStation.js';
 import { SubwayStation } from '../entity/SubwayStation.js';
 import { GridCoordinates } from '../entity/GridCoordinates.js';
-import { ErrorResponseDto } from '../response/ErrorResponseDto.js'; 
+import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { ErrorCode } from '../exception/ErrorCode.js';
 
 @Service()
-export class WeatherService { 
+export class WeatherService {
     private apikey: string = process.env.API_KEY;
     private apiUrl: string = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
 
@@ -30,19 +30,19 @@ export class WeatherService {
     async bringGridCoordinates(longitude: number, latitude: number) {
         const tolerance = 0.01; // 기존 0.00001 에서 0.001 로 확대
         console.log(`Searching for grid coordinates near Longitude: ${longitude}, Latitude: ${latitude}`);
-    
+
         const gridData = await getRepository(GridCoordinates)
           .createQueryBuilder("grid")
           .where("ABS(grid.longitude - :longitude) < :tolerance", { longitude, tolerance })
           .andWhere("ABS(grid.latitude - :latitude) < :tolerance", { latitude, tolerance })
           .getOne();
-    
+
         console.log(`Grid Data: ${gridData}`);
         return gridData;
     }
 
-    async bringWeatherData(stationaName: string, stationType: 'bus' | 'subway', baseDate: string, baseTime: string) {
-        const coordinates = await this.bringCoordinates(stationaName, stationType);
+    async bringWeatherData(stationName: string, stationType: 'bus' | 'subway', baseDate: string, baseTime: string) {
+        const coordinates = await this.bringCoordinates(stationName, stationType);
         const gridCoordinate = await this.bringGridCoordinates(coordinates.xValue, coordinates.yValue);
 
         if(!gridCoordinate) {
@@ -64,6 +64,8 @@ export class WeatherService {
             }
         });
 
+        console.log(gridCoordinate.gridX, gridCoordinate.gridY)
+
         const weatherData = response.data.response.body.items.item;
 
         // 필요한 데이터 추출 및 정렬
@@ -84,32 +86,38 @@ export class WeatherService {
             const forecastValue = item.fcstValue;
             const forecastDate = item.fcstDate;
 
-            if (!informations[forecastTime]) {
-                informations[forecastTime] = { forecastDate };
+            if (!informations[forecastDate]) {
+                informations[forecastDate] = {};
             }
 
-            informations[forecastTime][category] = forecastValue;
+            if (!informations[forecastDate][forecastTime]) {
+                informations[forecastDate][forecastTime] = {};
+            }
+
+            informations[forecastDate][forecastTime][category] = forecastValue;
         }
 
         const result = [];
         const skyCode = { 1: '맑음', 3: '구름많음', 4: '흐림' };
-        const ptyCode = { 0: '강수 없음', 1: '비', 2: '비/눈', 3: '눈', 5: '빗방울', 6: '진눈깨비', 7: '눈날림' };
+        const ptyCode = { 0: '강수 없음', 1: '비', 2: '비/눈', 3: '눈', 4: '소나기' };
 
-        for (const [time, values] of Object.entries(informations)) {
-            const skyStatus = skyCode[values['SKY']] || '정보 없음';
-            const precipitationType = ptyCode[values['PTY']] || '정보 없음';
-            const temperature = values['TMP'] ? `${values['TMP']}℃` : '정보 없음';
+        for (const [date, times] of Object.entries(informations)) {
+            for (const [time, values] of Object.entries(times)) {
+                console.log(`Values at date ${date} and time ${time}:`, values);
 
-            result.push({
-                time,
-                date: values['forecastDate'],
-                skyStatus,
-                precipitationType,
-                temperature,
-                hourlyTemp: values['TMP'] ? `${values['TMP']}℃` : '정보 없음',
-                hourlyPrecipitation: values['RN1'] ? `${values['RN1']}mm` : '정보 없음',
-                hourlySkyStatus: values['SKY'] ? skyCode[values['SKY']] : '정보 없음',
-            });
+                const skyStatus = skyCode[values['SKY']] || '정보 없음';
+                const precipitationType = ptyCode[values['PTY']] || '정보 없음';
+                const temperature = values['TMP'] ? `${values['TMP']}℃` : '정보 없음';
+
+                result.push({
+                    date,
+                    time,
+                    skyStatus,
+                    precipitationType,
+                    temperature,
+                    hourlyPrecipitation: values['PCP'] ? values['PCP'].includes('mm') ? values['PCP'] : `${values['PCP']}mm` : '정보 없음',
+                });
+            }
         }
 
         // 날짜와 시간순으로 정렬
