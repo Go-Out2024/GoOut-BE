@@ -67,18 +67,19 @@ initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
 
-        const busFilePath = path.resolve(__dirname, "bus_station_data.csv");
+        const busFilePath = path.resolve(__dirname, "util/bus_station_data.csv");
         await BusStationImportService.importBusstation(busFilePath);
 
-        const subwayFilePath1to8 = path.resolve(__dirname, "subway_1-8_data.csv");
-        const subwayFilePath9 = path.resolve(__dirname, "subway_9_data.csv");
+        const subwayFilePath1to8 = path.resolve(__dirname, "util/subway_1-8_data.csv");
+        const subwayFilePath9 = path.resolve(__dirname, "util/subway_9_data.csv");
 
+     
         await SubwayStationImportService.importSubwayStations(subwayFilePath1to8);
         await SubwayStationImportService.importSubwayStations(subwayFilePath9);
 
-        const gridCoordinatesFilePath = path.resolve(__dirname, "grid_coordinates_data.csv");
+        const gridCoordinatesFilePath = path.resolve(__dirname, "util/grid_coordinates_data.csv");
         await GridCoordinatesImportService.importGridCoordinates(gridCoordinatesFilePath);
-
+        
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, () => {
