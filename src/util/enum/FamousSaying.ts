@@ -103,7 +103,6 @@ export enum FamousSaying {
 
  
 const famousSayingKeys: { [key: number]: string } = Object.keys(FamousSaying)
-    .filter(key => !isNaN(Number(key))) 
     .reduce((acc, key) => {
         acc[FamousSaying[key]] = key;
         return acc;
@@ -115,20 +114,27 @@ const famousSayingKeys: { [key: number]: string } = Object.keys(FamousSaying)
  * @param value enum 값
  * @returns 
  */
-export const bringFamousSaying = (value:number)=>{
+export const getFamousSaying = (value:number)=>{
     return famousSayingKeys[value];
 }
 
 
-export const getFamousSayingRandom = ()=>{
+export const getFamousSayingRandomNumber = ()=>{
     return Math.floor(Math.random() * (99 - 0 + 1)) + 0;
 }
 
 
 /**
  * FamousSaying enum의 값에 따라 명언 저자 조회 함수
+ * @param code 랜덤 숫자
+ * @returns 
  */
-export const bringWriter: { [key: number]: string } = {
+export function getWriter(code:number): string {
+    return writer[code] || "알 수 없는 오류가 발생하였습니다.";
+}
+
+
+const writer: { [key: number]: string } = {
     0: "키케로",
     1: "로망 로랑",
     2: "사무엘 존슨",
