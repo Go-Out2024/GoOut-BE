@@ -21,4 +21,7 @@ export const envs = {
     key:process.env.KAKAO_KEY
   },
   prefix: process.env.PREFIX || '',
+  apikey:{
+    weatherapikey: process.env.WEATHER_API_KEY as string
+  },
 };

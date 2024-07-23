@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import axios from 'axios';
 import { getRepository } from 'typeorm';
 import { BusStation } from '../entity/BusStation.js';
@@ -8,32 +8,35 @@ import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
 import { ErrorCode } from '../exception/ErrorCode.js';
 import { GridCoordinatesRepository } from '../repository/GridCoordinates.Repository.js';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+import { envs } from '../config/environment.js';
+import { BusStationRepository } from '../repository/BusStation.Repository.js';
+import { SubwayStationRepository } from '../repository/SubwayStation.Repository.js';
+import { checkData } from '../util/checker.js';
 
 @Service()
 export class WeatherService {
     constructor(
+        @InjectRepository() private busStationRepository: BusStationRepository,
+        @InjectRepository() private subwayStationRepository: SubwayStationRepository,
         @InjectRepository() private gridCoordinatesRepository: GridCoordinatesRepository
     ) {}
-    private apikey: string = process.env.API_KEY;
+    private apikey: string = envs.apikey.weatherapikey;
     private apiUrl: string = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
 
     async bringCoordinates(stationName: string, stationType: 'bus' | 'subway') {
-        let coordinates;
+        let coordinates
         if (stationType === 'bus') {
-            coordinates = await getRepository(BusStation).findOne({ where: {stationName}});
+            coordinates = await this.busStationRepository.findCoordinatesByBusStationName(stationName);
         } else {
-            coordinates = await getRepository(SubwayStation).findOne({ where: { subwayName: stationName }});
+            coordinates = await this.subwayStationRepository.findCoordinatesBySubwayStationName(stationName);
         }
 
-        if (!coordinates) {
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);;
-        }
-
+        this.verifyCoordinates(coordinates);
         return coordinates;
     }
 
     async bringGridCoordinates(longitude: number, latitude: number) {
-        const gridData = await this.gridCoordinatesRepository.findNearbyGridCoordinates(longitude, latitude);
+        const gridData = await this.gridCoordinatesRepository.findGridCoordinatesByLongitudeAndLatitude(longitude, latitude);
 
         return gridData;
     }
@@ -41,10 +44,6 @@ export class WeatherService {
     async bringWeatherData(stationName: string, stationType: 'bus' | 'subway', baseDate: string, baseTime: string) {
         const coordinates = await this.bringCoordinates(stationName, stationType);
         const gridCoordinate = await this.bringGridCoordinates(coordinates.xValue, coordinates.yValue);
-
-        if(!gridCoordinate) {
-            throw new Error('Grid coordinate not found');
-        }
 
         const { gridX, gridY, level1, level2, level3 } = gridCoordinate;
 
@@ -134,5 +133,11 @@ export class WeatherService {
         const endWeather = await this.bringWeatherData(endName, endType, baseDate, baseTime);
 
         return { startWeather, endWeather };
+    }
+
+    public verifyCoordinates(coordinates: any) {
+        if (!checkData(coordinates)) {
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
+        }
     }
 }
