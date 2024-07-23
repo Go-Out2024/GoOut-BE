@@ -15,12 +15,15 @@ import { TokenController } from './controller/Token.Controller.js';
 import { FirebaseController } from './controller/Firebase.Controller.js';
 import { KakaoController } from './controller/Kakao.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
+import { FamousSayingController } from './controller/FamousSaying.Controller.js';
 
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, CalendarController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, 
+        CalendarController, FamousSayingController
+    ],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
