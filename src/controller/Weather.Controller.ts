@@ -10,6 +10,17 @@ export class WeatherController {
         private weatherService: WeatherService
     ) {}
 
+     /**
+     * 교통 컬렉션 기준 날씨 조회 함수
+     * @param startName 출발역 이름
+     * @param startType 출발역 타입 bus or subway
+     * @param endName 도착역 이름
+     * @param endType 도착역 타입
+     * @param baseDate 요청 날짜
+     * @param baseTime 요청 시간
+     * @returns 
+     */
+
     @Get('/information')
     async bringWeather(
         @QueryParam('startName') startName: string,

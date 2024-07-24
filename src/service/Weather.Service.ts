@@ -12,6 +12,7 @@ import { envs } from '../config/environment.js';
 import { BusStationRepository } from '../repository/BusStation.Repository.js';
 import { SubwayStationRepository } from '../repository/SubwayStation.Repository.js';
 import { checkData } from '../util/checker.js';
+import { formatWeatherData } from '../util/weatherData.js';
 
 @Service()
 export class WeatherService {
@@ -23,6 +24,12 @@ export class WeatherService {
     private apikey: string = envs.apikey.weatherapikey;
     private apiUrl: string = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
 
+    /**
+     * 역 또는 정류장 이름의 위도 경도 좌표 조회
+     * @param stationName 역 이름
+     * @param stationType 역 타입
+     * @returns 
+     */
     async bringCoordinates(stationName: string, stationType: 'bus' | 'subway') {
         let coordinates
         if (stationType === 'bus') {
@@ -35,12 +42,26 @@ export class WeatherService {
         return coordinates;
     }
 
+    /**
+     * 조회한 역 및 정류장 위도 경도 좌표를 이용한 해당 역 및 정류장의 격자 X, Y값 조회 함수
+     * @param longitude 경도
+     * @param latitude 위도
+     * @returns 
+     */
     async bringGridCoordinates(longitude: number, latitude: number) {
         const gridData = await this.gridCoordinatesRepository.findGridCoordinatesByLongitudeAndLatitude(longitude, latitude);
 
         return gridData;
     }
 
+    /**
+     * 해당 역의 날씨 데이터 조회 함수
+     * @param stationName 역 이름
+     * @param stationType 역 타입
+     * @param baseDate 요청 날짜
+     * @param baseTime 요청 시간
+     * @returns 
+     */
     async bringWeatherData(stationName: string, stationType: 'bus' | 'subway', baseDate: string, baseTime: string) {
         const coordinates = await this.bringCoordinates(stationName, stationType);
         const gridCoordinate = await this.bringGridCoordinates(coordinates.xValue, coordinates.yValue);
@@ -62,8 +83,7 @@ export class WeatherService {
 
         const weatherData = response.data.response.body.items.item;
 
-        // 필요한 데이터 추출 및 정렬
-        const formattedWeatherData = this.formatWeatherData(weatherData);
+        const formattedWeatherData = formatWeatherData(weatherData);
 
         return {
             weatherData: formattedWeatherData,
@@ -71,63 +91,16 @@ export class WeatherService {
         };
     }
 
-    formatWeatherData(weatherData: any) {
-        const informations = {};
-
-        for (const item of weatherData) {
-            const category = item.category;
-            const forecastTime = item.fcstTime;
-            const forecastValue = item.fcstValue;
-            const forecastDate = item.fcstDate;
-
-            if (!informations[forecastDate]) {
-                informations[forecastDate] = {};
-            }
-
-            if (!informations[forecastDate][forecastTime]) {
-                informations[forecastDate][forecastTime] = {};
-            }
-
-            informations[forecastDate][forecastTime][category] = forecastValue;
-        }
-
-        const result = [];
-        const skyCode = { 1: '맑음', 3: '구름많음', 4: '흐림' };
-        const ptyCode = { 0: '강수 없음', 1: '비', 2: '비/눈', 3: '눈', 4: '소나기' };
-
-        for (const [date, times] of Object.entries(informations)) {
-            for (const [time, values] of Object.entries(times)) {
-        
-                const skyStatus = skyCode[values['SKY']] || '정보 없음';
-                const precipitationType = ptyCode[values['PTY']] || '정보 없음';
-                const temperature = values['TMP'] ? `${values['TMP']}℃` : '정보 없음';
-
-                result.push({
-                    date,
-                    time,
-                    skyStatus,
-                    precipitationType,
-                    temperature,
-                    hourlyPrecipitation: values['PCP'] ? values['PCP'].includes('mm') ? values['PCP'] : `${values['PCP']}mm` : '정보 없음',
-                });
-            }
-        }
-
-        // 날짜와 시간순으로 정렬
-        result.sort((a, b) => {
-            if (a.date === b.date) {
-                return a.time.localeCompare(b.time);
-            }
-            return a.date.localeCompare(b.date);
-        });
-
-        return {
-            dailyMinTemp: weatherData.find(item => item.category === 'TMN')?.fcstValue + '℃' || '정보 없음',
-            dailyMaxTemp: weatherData.find(item => item.category === 'TMX')?.fcstValue + '℃' || '정보 없음',
-            hourlyData: result
-        };
-    }
-
+    /**
+     * 
+     * @param startName 출발역 이름
+     * @param startType 출발역 타입
+     * @param endName 도착역 이름
+     * @param endType 도착역 타입
+     * @param baseDate 요청 날짜
+     * @param baseTime 요청 시간
+     * @returns 
+     */
     async bringWeatherForLocations(startName: string, startType: 'bus' | 'subway', endName: string, endType: 'bus' | 'subway', baseDate: string, baseTime: string) {
         const startWeather = await this.bringWeatherData(startName, startType, baseDate, baseTime);
         const endWeather = await this.bringWeatherData(endName, endType, baseDate, baseTime);
@@ -135,6 +108,10 @@ export class WeatherService {
         return { startWeather, endWeather };
     }
 
+    /**
+     * 존재하지 않을 역 이름 요청했을 때 예외 처리 함수
+     * @param coordinates 
+     */
     public verifyCoordinates(coordinates: any) {
         if (!checkData(coordinates)) {
             throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
