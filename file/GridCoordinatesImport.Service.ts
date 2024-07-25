@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import csv from 'csv-parser';
 import * as fs from 'fs';
-import { GridCoordinates } from '../entity/GridCoordinates.js';
+import { GridCoordinates } from '../src/entity/GridCoordinates.js';
 
 export default class GridCoordinatesImportService {
     public static async importGridCoordinates(filePath: string): Promise<void> {
