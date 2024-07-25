@@ -14,16 +14,27 @@ import { createRequire } from 'module'
 import { TokenController } from './controller/Token.Controller.js';
 import { FirebaseController } from './controller/Firebase.Controller.js';
 import { KakaoController } from './controller/Kakao.Controller.js';
+import * as path from 'path';
+import {fileURLToPath} from 'url';
+import { WeatherController } from './controller/Weather.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
 import { FamousSayingController } from './controller/FamousSaying.Controller.js';
+
 
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 export const app: express.Application = createExpressServer({
+
     controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, 
-        CalendarController, FamousSayingController
+        CalendarController, FamousSayingController, WeatherController
     ],
+
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
@@ -59,7 +70,7 @@ app.use(function (req: express.Request, res: express.Response, next: express.Nex
 useContainer(Container);
 
 initializeDatabase()
-    .then(() => {
+    .then( () => {
         console.log('Database connected.');
 
         const httpServer: Server = createServer(app);
