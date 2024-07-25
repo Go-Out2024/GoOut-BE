@@ -14,7 +14,15 @@ export class KakaoService {
 
     constructor(private readonly kakaoApiService: KakaoApiService){}
 
-    // 거리 -> distance, 이름 -> place_name, url -> place_url
+
+    /**
+     * 
+     * @param x x 좌표
+     * @param y y 좌표
+     * @param category 카테고리 -> 음식점, 카페 
+     * @param radius 반경
+     * @returns     // 거리 -> distance, 이름 -> place_name, url -> place_url, phone -> 전화번호
+     */
     async bringKakaoEatery(x:string, y:string, category:string, radius:string) {
         this.verifyEateryCategory(getProductCategoryByCondition(category));
         const eateryData = await this.kakaoApiService.bringEateryData(x,y,getProductCategoryByCondition(category), radius);
