@@ -16,6 +16,9 @@ import { FirebaseController } from './controller/Firebase.Controller.js';
 import { KakaoController } from './controller/Kakao.Controller.js';
 import * as path from 'path';
 import {fileURLToPath} from 'url';
+import { FamousSayingController } from './controller/FamousSaying.Controller.js';
+import { WeatherController } from './controller/Weather.Controller.js';
+import { CalendarController } from './controller/Calendar.Controller.js';
 
 const require = createRequire(import.meta.url)
 require('dotenv').config();
@@ -26,7 +29,7 @@ const __dirname = path.dirname(__filename);
 
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, FamousSayingController, WeatherController, CalendarController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
