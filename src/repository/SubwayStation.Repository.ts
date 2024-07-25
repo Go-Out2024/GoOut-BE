@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { SubwayStation } from '../entity/SubwayStation';
+import { SubwayStation } from '../entity/SubwayStation.js';
 
 @EntityRepository(SubwayStation)
 export class SubwayStationRepository extends Repository<SubwayStation> {

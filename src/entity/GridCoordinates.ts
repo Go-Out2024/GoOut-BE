@@ -6,27 +6,27 @@ export class GridCoordinates extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', length: 10 })
+    @Column({ type: 'varchar', name:'region_code' ,length: 10 })
     regionCode: string;
 
-    @Column({ type: 'varchar', length: 50 })
+    @Column({ type: 'varchar',name:'level1', length: 50 })
     level1: string;
 
-    @Column({ type: 'varchar', length: 50 })
+    @Column({ type: 'varchar', name:'level2', length: 50 })
     level2: string;
 
-    @Column({ type: 'varchar', length: 50 })
+    @Column({ type: 'varchar', name:'level3' ,length: 50 })
     level3: string;
 
-    @Column({ type: 'int' })
+    @Column({ type: 'int', name:'grid_x' })
     gridX: number;
 
-    @Column({ type: 'int' })
+    @Column({ type: 'int', name:'grid_y' })
     gridY: number;
 
-    @Column({ type: 'double' })
+    @Column({ type: 'double', name:'longitude' })
     longitude: number;
 
-    @Column({ type: 'double' })
+    @Column({ type: 'double', name:'latitude' })
     latitude: number;
 }
