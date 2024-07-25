@@ -47,7 +47,7 @@ export class KakaoService {
      */
     public mappingEateryData(datas:object[]):KakaoEatery[]{
         return datas.map((data:any) => {
-            return KakaoEatery.of(data.distance as number, data.place_name as string, data.place_url as string, data.phone as string);     
+            return KakaoEatery.of(data.distance as number, data.place_name as string, data.place_url as string, data.phone as string, data.road_address_name as string);     
         })
     }
     
