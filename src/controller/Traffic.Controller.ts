@@ -17,6 +17,12 @@ export class TrafficController{
         private readonly trafficService: TrafficService
     ){}
 
+    /**
+     * 교통 컬렉션 등록 함수
+     * @param collectionInsert 교통 컬렉션 등록 dto
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Post('/collection')
@@ -25,6 +31,12 @@ export class TrafficController{
         return SuccessResponseDto.of();
     }
 
+    /**
+     * 교통 컬렉션 삭제 함수
+     * @param collectionErase 교통 컬렉션 삭제 dtd 
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Delete('/collection')
@@ -34,6 +46,12 @@ export class TrafficController{
         return SuccessResponseDto.of();
     }
 
+    /**
+     * 교통 컬렉션 수정 함수
+     * @param collectionUpdate 교통 컬렉션 수정 dto
+     * @param req 
+     * @returns 
+     */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
     @Patch('/collection')
@@ -43,6 +61,11 @@ export class TrafficController{
         return SuccessResponseDto.of();
     }
 
+    /**
+     * 유저 아이디로 모든 교통 컬렉션 조회 
+     * @param req 
+     * @returns 
+     */
     @Get('/collection')
     @UseBefore(compareAuthToken)
     async bringTrafficCollections(@Req() req: Request) {
@@ -50,10 +73,16 @@ export class TrafficController{
         return SuccessResponseDto.of(collections);
     }
 
+    /**
+     * 특정 교통 컬렉션 조회
+     * @param collectionBring 교통 컬렉션 조회 dto
+     * @param req 
+     * @returns 
+     */
     @Get('/collection/detail')
     @UseBefore(compareAuthToken)
-    async getTrafficCollectionDetails(@Body() collectionBring: CollectionBring) {
-        const collectionDetails = await this.trafficService.bringTrafficCollectionDetailsById(collectionBring.getCollectionId());
+    async bringTrafficCollectionDetails(@Body() collectionBring: CollectionBring, @Req() req: Request) {
+        const collectionDetails = await this.trafficService.bringTrafficCollectionDetailsById(req.decoded.id, collectionBring.getCollectionId());
         return SuccessResponseDto.of(collectionDetails);
     }
 }

@@ -1,79 +1,91 @@
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { UserRepository } from "../repository/User.Repository.js";
-import { TrafficCollectionRepository } from "../repository/TrafficCollection.Repository.js";
+import { TrafficCollectionDeleteRepository } from "../repository/TrafficCollectionDelete.Repository.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { TrafficRepository } from "../repository/Traffic.Repository.js";
+import { TrafficCollectionInsertRepository } from "../repository/TrafficCollectionInsert.Repository.js";
 import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
+import { TrafficCollectionUpdateRepository } from "../repository/TrafficCollectionUpdate.Reposiotry.js";
+import { TrafficCollectionSelectRepository } from "../repository/TrafficCollectionSelect.Repository.js";
 
 @Service()
 export class TrafficService {
 
     constructor(
         @InjectRepository(UserRepository) private userRepository: UserRepository,
-        @InjectRepository(TrafficRepository) private trafficRepository: TrafficRepository,
-        @InjectRepository(TrafficCollectionRepository) private trafficCollectionRepository: TrafficCollectionRepository
+        @InjectRepository(TrafficCollectionInsertRepository) private trafficCollectionInsertRepository: TrafficCollectionInsertRepository,
+        @InjectRepository(TrafficCollectionDeleteRepository) private trafficCollectionDeleteRepository: TrafficCollectionDeleteRepository,
+        @InjectRepository(TrafficCollectionUpdateRepository) private trafficCollectionUpdateRepository: TrafficCollectionUpdateRepository,
+        @InjectRepository(TrafficCollectionSelectRepository) private trafficCollectionSelectRepository: TrafficCollectionSelectRepository
     ) { }
-
+    /**
+     * 교통 컬렉션 등록 함수
+     * @param collectionInsert 교통 컬렉션 등록 dto 
+     * @param userId 사용자 id
+     */
     async penetrateTrafficCollection(collectionInsert: CollectionInsert, userId: number) {
+        const user = await this.userRepository.findUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
 
-        await this.trafficRepository.insertTrafficCollection(collectionInsert, userId);
+        await this.trafficCollectionInsertRepository.insertTrafficCollection(collectionInsert, user);
     }
 
+    /**
+     * 교통 컬렉션 삭제 함수
+     * @param userId 유저 아이디
+     * @param collectionId 교통 컬렉션 ID
+     */
     async eraseTrafficCollection(userId: number, collectionId: number) {
         const user = await this.userRepository.findUserById(userId);
         if (!user) {
             throw new Error('User not found');
         }
 
-        await this.trafficCollectionRepository.deleteTrafficCollection(collectionId, user);
+        await this.trafficCollectionDeleteRepository.deleteTrafficCollection(collectionId, user);
     }
 
+    /**
+     * 교통 컬렉션 수정 함수
+     * @param collectionUpdate 교통 컬렉션 수정 dto
+     * @param userId 유저 아이디
+     */
     async modifyTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
         const user = await this.userRepository.findUserById(userId);
         if (!user) {
             throw new Error('User not found');
         }
 
-        await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, user);
+        await this.trafficCollectionUpdateRepository.updateTrafficCollection(collectionUpdate, user);
     }
 
+    /**
+     * 유저 아이디로 모든 교통 컬렉션 조회
+     * @param userId 유저 아이디
+     * @returns 유저의 모든 교통 컬렉션
+     */
     async bringTrafficCollectionsByUserId(userId: number) {
-        const userCollections = await this.trafficCollectionRepository.find({
-            where: { user: { id: userId } },
-            relations: ["trafficCollectionDetails", "trafficCollectionDetails.transportations"]
-        });
-
-        return userCollections.map(collection => ({
-            name: collection.name,
-            details: collection.trafficCollectionDetails.map(detail => ({
-                status: detail.status,
-                stations: detail.transportations.map(transportation => ({
-                    stationName: transportation.stationName
-                }))
-            }))
-        }));
-    }
-
-    async bringTrafficCollectionDetailsById(collectionId: number) {
-        const collection = await this.trafficCollectionRepository.findOne({
-            where: { id: collectionId },
-            relations: ["trafficCollectionDetails", "trafficCollectionDetails.transportations"]
-        });
-
-        if (!collection) {
-            throw new Error("Traffic collection not found");
+        const user = await this.userRepository.findUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
         }
 
-        return {
-            name: collection.name,
-            details: collection.trafficCollectionDetails.map(detail => ({
-                status: detail.status,
-                stations: detail.transportations.map(transportation => ({
-                    stationName: transportation.stationName
-                }))
-            }))
-        };
+        return await this.trafficCollectionSelectRepository.findTrafficCollectionsByUserId(userId);
     }
 
+    /**
+     * 특정 교통 컬렉션 조회
+     * @param userId 유저 아이디
+     * @param collectionId 교통 컬렉션 아이디
+     * @returns 특정 교통 컬렉션 상세 정보
+     */
+    async bringTrafficCollectionDetailsById(userId: number, collectionId: number) {
+        const user = await this.userRepository.findUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        return await this.trafficCollectionSelectRepository.findTrafficCollectionDetailsById(userId, collectionId);
+    }
 }
