@@ -3,10 +3,14 @@ const require = createRequire(import.meta.url)
 require('dotenv').config();
 import { Service } from 'typedi';
 import { redisClient } from "../config/redis.js";
+import { promisify } from 'util';
 
+const getAsync = promisify(redisClient.get).bind(redisClient);
 
 @Service()
 export class RedisService {
+
+    public getAsync = promisify(redisClient.get).bind(redisClient);
 
     async penetrateRefreshToken(token: string, userId: number) {
         await redisClient.set(String(userId), token)
@@ -29,6 +33,6 @@ export class RedisService {
     }
 
     async getValue(key:string){
-        return redisClient.get(key);
+        return getAsync(key);
     }
 }

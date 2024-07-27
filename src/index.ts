@@ -19,6 +19,8 @@ import {fileURLToPath} from 'url';
 import { FamousSayingController } from './controller/FamousSaying.Controller.js';
 import { WeatherController } from './controller/Weather.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
+import { MusicController } from './controller/Music.Controller.js';
+import { settingRecommendMusic } from './util/enum/scheduler.js';
 
 const require = createRequire(import.meta.url)
 require('dotenv').config();
@@ -29,7 +31,8 @@ const __dirname = path.dirname(__filename);
 
 
 export const app: express.Application = createExpressServer({
-    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController, FamousSayingController, WeatherController, CalendarController],
+    controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController,
+         FamousSayingController, WeatherController, CalendarController, MusicController],
     middlewares: [ErrorHandler],
 
     routePrefix: envs.prefix,
@@ -69,8 +72,8 @@ initializeDatabase()
         console.log('Database connected.');
 
         const httpServer: Server = createServer(app);
-        httpServer.listen(envs.port, () => {
-      
+        httpServer.listen(envs.port, async () => {
+            await settingRecommendMusic()
             app.emit('started');
           
         });
