@@ -23,4 +23,12 @@ export class RedisService {
         console.log(`ID가 ${userId}인 사용자의 리프레시 토큰:`, token);
         return token;
     }
+
+    async setValue(key:string, value:string){
+        await redisClient.set(key, value);
+    }
+
+    async getValue(key:string){
+        return redisClient.get(key);
+    }
 }
