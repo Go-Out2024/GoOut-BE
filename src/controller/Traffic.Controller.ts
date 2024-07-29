@@ -8,6 +8,7 @@ import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { CollectionErase } from "../dto/request/CollectionErase.js";
 import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
 import { CollectionBring } from "../dto/request/CollectionBring.js";
+import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 
 @Service()
 @JsonController('/traffic')
@@ -86,6 +87,20 @@ export class TrafficController{
     async bringTrafficCollectionDetails(@Body() collectionBring: CollectionBring, @Req() req: Request) {
         const collectionDetails = await this.trafficService.bringTrafficCollectionDetailsById(req.decoded.id, collectionBring.getCollectionId());
         return SuccessResponseDto.of(collectionDetails);
+    }
+
+    /**
+     * 특정 교통 컬렉션 선택
+     * @param collectionChoice 교통 컬렉션 선택 dto 
+     * @param req 
+     * @returns 
+     */
+    @Post('/collection/choice')
+    @UseBefore(compareAuthToken)
+    async choiceTrafficCollection(@Body() collectionChoice: CollectionChoice, @Req() req: Request) {
+        await this.trafficService.choiceTrafficCollection(req.decoded.id, collectionChoice.getCollectionId());
+        console.log("교통 컬렉션 체크박스 업데이트");
+        return SuccessResponseDto.of();
     }
 
 }

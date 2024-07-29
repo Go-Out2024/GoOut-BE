@@ -88,4 +88,30 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
             ])
             .getOne();
     }
+
+    /**
+     * 해당 유저의 모든 교통 컬렉션 choice -> false 처리
+     * @param userId 유저 아이디
+     */
+    async updateAllChoicesToFalse(userId: number) {
+        await this.createQueryBuilder()
+            .update(TrafficCollection)
+            .set({ choice: false })
+            .where("user_id = userId", { userId })
+            .execute();
+    }
+
+    /**
+     * 유저가 선택한 교통 컬렉션 choice -> true 처리
+     * @param userId 유저 아이디
+     * @param collectionId 교통 컬렉션 아이디
+     */
+    async updateChoiceByCollectionId(userId: number, collectionId: number) {
+        await this.createQueryBuilder()
+            .update(TrafficCollection)
+            .set({ choice: true })
+            .where("user_id = :userId AND id = :collectionId", { userId, collectionId })
+            .execute();
+    }
+
 }

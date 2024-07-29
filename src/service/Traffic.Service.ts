@@ -9,6 +9,7 @@ import { TransportationDetailDto } from "../dto/request/TransportationDetailDto.
 import { TrafficCollection } from "../entity/TrafficCollection.js";
 import {TransportationRepository } from "../repository/Transportation.Repository.js";
 import { TransportationNumberRepository } from "../repository/TransportationNumber.Repository.js";
+import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 
 @Service()
 export class TrafficService {
@@ -142,6 +143,19 @@ export class TrafficService {
     async bringTrafficCollectionDetailsById(userId: number, collectionId: number) {
 
         return await this.trafficCollectionRepository.findTrafficCollectionDetailsById(userId, collectionId);
+    }
+
+    /**
+     * 특정 교통 컬렉션 선택 
+     * @param userId 유저 아이디
+     * @param collectionId 교통 컬렉션 아이디
+     */
+    async choiceTrafficCollection(userId: number, collectionId: number) { 
+        const user = await this.userRepository.findUserById(userId);
+
+        await this.trafficCollectionRepository.updateAllChoicesToFalse(user.id);
+
+        await this.trafficCollectionRepository.updateChoiceByCollectionId(user.id, collectionId);
     }
 
 }
