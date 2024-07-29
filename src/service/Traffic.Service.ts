@@ -1,6 +1,5 @@
 import { Inject, Service } from "typedi";
 import { UserRepository } from "../repository/User.Repository.js";
-import { TrafficCollectionDeleteRepository } from "../repository/TrafficCollectionDelete.Repository.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
