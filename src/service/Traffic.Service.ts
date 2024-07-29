@@ -3,21 +3,25 @@ import { UserRepository } from "../repository/User.Repository.js";
 import { TrafficCollectionDeleteRepository } from "../repository/TrafficCollectionDelete.Repository.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { TrafficCollectionInsertRepository } from "../repository/TrafficCollectionInsert.Repository.js";
 import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
-import { TrafficCollectionUpdateRepository } from "../repository/TrafficCollectionUpdate.Reposiotry.js";
-import { TrafficCollectionSelectRepository } from "../repository/TrafficCollectionSelect.Repository.js";
+import { TrafficCollectionRepository } from "../repository/TrafficCollection.Reposiotry.js";
+import { TrafficCollectionDetailRepository } from "../repository/TrafficCollectionDetail.Repository.js";
+import { TransportationDetailDto } from "../dto/request/TransportationDetailDto.js";
+import { TrafficCollection } from "../entity/TrafficCollection.js";
+import {TransportationRepository } from "../repository/Transportation.Repository.js";
+import { TransportationNumberRepository } from "../repository/TransportationNumber.Repository.js";
 
 @Service()
 export class TrafficService {
 
     constructor(
         @InjectRepository(UserRepository) private userRepository: UserRepository,
-        @InjectRepository(TrafficCollectionInsertRepository) private trafficCollectionInsertRepository: TrafficCollectionInsertRepository,
-        @InjectRepository(TrafficCollectionDeleteRepository) private trafficCollectionDeleteRepository: TrafficCollectionDeleteRepository,
-        @InjectRepository(TrafficCollectionUpdateRepository) private trafficCollectionUpdateRepository: TrafficCollectionUpdateRepository,
-        @InjectRepository(TrafficCollectionSelectRepository) private trafficCollectionSelectRepository: TrafficCollectionSelectRepository
-    ) { }
+        @InjectRepository(TrafficCollectionRepository) private trafficCollectionRepository: TrafficCollectionRepository,
+        @InjectRepository(TrafficCollectionDetailRepository) private trafficCollectionDetailRepository: TrafficCollectionDetailRepository,
+        @InjectRepository(TransportationRepository) private transportationRepository: TransportationRepository,
+        @InjectRepository(TransportationNumberRepository) private transportationNumberRepository: TransportationNumberRepository,
+    ) {}
+
     /**
      * 교통 컬렉션 등록 함수
      * @param collectionInsert 교통 컬렉션 등록 dto 
@@ -25,27 +29,55 @@ export class TrafficService {
      */
     async penetrateTrafficCollection(collectionInsert: CollectionInsert, userId: number) {
         const user = await this.userRepository.findUserById(userId);
-        if (!user) {
-            throw new Error('User not found');
+
+        const trafficCollection = await this.trafficCollectionRepository.insertTrafficCollection(collectionInsert, user);
+        const details = [];
+
+        if (collectionInsert.getGoToWork()) {
+            const goToWorkDetail = await this.penetrateTrafficCollectionDetail(collectionInsert.getGoToWork(), trafficCollection);
+            details.push(goToWorkDetail);
         }
 
-        await this.trafficCollectionInsertRepository.insertTrafficCollection(collectionInsert, user);
+        if (collectionInsert.getGoHome()) {
+            const goHomeDetail = await this.penetrateTrafficCollectionDetail(collectionInsert.getGoHome(), trafficCollection);
+            details.push(goHomeDetail);
+        }
+
+        trafficCollection.trafficCollectionDetails = details;
+    }
+    /**
+     * 교통 컬렉션 등록 함수(교통 컬렉션 상세 정보)
+     * @param detailDto 교통 컬렉션 상세(상태) dto
+     * @param trafficCollection 교통 컬렉션
+     */
+    private async penetrateTrafficCollectionDetail(detailDto: TransportationDetailDto, trafficCollection: TrafficCollection) {
+        const detail = await this.trafficCollectionDetailRepository.insertTrafficCollectionDetail(detailDto, trafficCollection);
+
+        const departure = await this.transportationRepository.insertTransportation(detailDto.getDeparture(), detail);
+        const arrival = await this.transportationRepository.insertTransportation(detailDto.getArrival(), detail);
+
+        await this.transportationNumberRepository.insertTransportationNumbers(detailDto.getDeparture().getNumbers(), departure);
+        await this.transportationNumberRepository.insertTransportationNumbers(detailDto.getArrival().getNumbers(), arrival);
+
+        detail.transportations = [departure, arrival];
     }
 
-    /**
+     /**
      * 교통 컬렉션 삭제 함수
      * @param userId 유저 아이디
      * @param collectionId 교통 컬렉션 ID
      */
-    async eraseTrafficCollection(userId: number, collectionId: number) {
+     async eraseTrafficCollection(userId: number, collectionId: number) {
         const user = await this.userRepository.findUserById(userId);
-        if (!user) {
-            throw new Error('User not found');
-        }
 
-        await this.trafficCollectionDeleteRepository.deleteTrafficCollection(collectionId, user);
+        await this.trafficCollectionRepository.deleteTrafficCollection(collectionId, user);
     }
-
+    /**
+     * 교통 컬렉션 수정 함수
+     * @param collectionUpdate 교통 컬렉션 수정 dto
+     * @param userId 유저 아이디
+     */
+    
     /**
      * 교통 컬렉션 수정 함수
      * @param collectionUpdate 교통 컬렉션 수정 dto
@@ -53,11 +85,28 @@ export class TrafficService {
      */
     async modifyTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
         const user = await this.userRepository.findUserById(userId);
-        if (!user) {
-            throw new Error('User not found');
+        
+        // 기존의 상세 정보를 삭제
+        const trafficCollection = await this.trafficCollectionRepository.findOne({ where: { id: collectionUpdate.getCollectionId(), user: user } });
+
+        await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.id);
+
+        // 새로운 상세 정보를 삽입
+        const details = [];
+
+        if (collectionUpdate.getGoToWork()) {
+            const goToWorkDetail = await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoToWork(), trafficCollection);
+            details.push(goToWorkDetail);
         }
 
-        await this.trafficCollectionUpdateRepository.updateTrafficCollection(collectionUpdate, user);
+        if (collectionUpdate.getGoHome()) {
+            const goHomeDetail = await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
+            details.push(goHomeDetail);
+        }
+
+        trafficCollection.trafficCollectionDetails = details;
+
+        await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, user);
     }
 
     /**
@@ -67,11 +116,8 @@ export class TrafficService {
      */
     async bringTrafficCollectionsByUserId(userId: number) {
         const user = await this.userRepository.findUserById(userId);
-        if (!user) {
-            throw new Error('User not found');
-        }
 
-        return await this.trafficCollectionSelectRepository.findTrafficCollectionsByUserId(userId);
+        return await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
     }
 
     /**
@@ -81,11 +127,8 @@ export class TrafficService {
      * @returns 특정 교통 컬렉션 상세 정보
      */
     async bringTrafficCollectionDetailsById(userId: number, collectionId: number) {
-        const user = await this.userRepository.findUserById(userId);
-        if (!user) {
-            throw new Error('User not found');
-        }
 
-        return await this.trafficCollectionSelectRepository.findTrafficCollectionDetailsById(userId, collectionId);
+        return await this.trafficCollectionRepository.findTrafficCollectionDetailsById(userId, collectionId);
     }
+
 }

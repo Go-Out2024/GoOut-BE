@@ -28,6 +28,7 @@ export class TrafficController{
     @Post('/collection')
     async penetrateTrafficCollection(@Body() collectionInsert: CollectionInsert, @Req() req: Request) {
         await this.trafficService.penetrateTrafficCollection(collectionInsert, req.decoded.id);
+        console.log("교통 컬렉션 등록 완료")
         return SuccessResponseDto.of();
     }
 
@@ -57,7 +58,7 @@ export class TrafficController{
     @Patch('/collection')
     async modifyTrafficCollection(@Body() collectionUpdate: CollectionUpdate, @Req() req: Request) {
         await this.trafficService.modifyTrafficCollection(collectionUpdate, req.decoded.id);
-        console.log("교통 컬렉션 수정");
+        console.log("교통 컬렉션 수정 완료");
         return SuccessResponseDto.of();
     }
 
@@ -85,4 +86,5 @@ export class TrafficController{
         const collectionDetails = await this.trafficService.bringTrafficCollectionDetailsById(req.decoded.id, collectionBring.getCollectionId());
         return SuccessResponseDto.of(collectionDetails);
     }
+
 }
