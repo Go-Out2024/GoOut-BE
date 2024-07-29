@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { BaseEntity } from "./base/BaseEntity.js";
 import { TrafficCollectionDetail } from "./TrafficCollectionDetail.js";
 import { TransportationNumber } from "./TransportationNumber.js";
 
 @Entity('transportation')
+@Index("idx_transportation_trafficCollectionDetail", ["trafficCollectionDetail"])
 export class Transportation extends BaseEntity {
 
     constructor(route: string, transportationName: string, stationName: string, trafficCollectionDetailId: number) {

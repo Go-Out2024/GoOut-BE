@@ -4,7 +4,7 @@ import { User } from "./User.js";
 import { TrafficCollectionDetail } from "./TrafficCollectionDetail.js";
 
 @Entity('traffic_collection')
-@Index("idx_traffic_collection_user", ["userId"])
+@Index("idx_traffic_collection_user", ["user"])
 export class TrafficCollection extends BaseEntity{
 
     constructor(name: string, choice: boolean, userId: number) {

@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { Transportation } from "./Transportation.js";
 
 @Entity("transportation_number")
+@Index("idx_transportation_number_transportation", ["transportation"])
 export class TransportationNumber {
 
     constructor(numbers: string, transportationId: number) {
