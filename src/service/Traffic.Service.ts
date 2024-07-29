@@ -115,15 +115,14 @@ export class TrafficService {
      * @returns 유저의 모든 교통 컬렉션
      */
     async bringTrafficCollectionsByUserId(userId: number, currentTime: Date) {
-        const user = await this.userRepository.findUserById(userId);
         const collections = await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
     
-        const hour = currentTime.getHours();
+        const currentHour = currentTime.getHours();
     
         // 필터링 로직 추가
         collections.forEach(collection => {
             collection.trafficCollectionDetails = collection.trafficCollectionDetails.filter(detail => {
-                if (hour >= 14 || hour < 2) {
+                if (currentHour >= 14 || currentHour < 2) {
                     return detail.status === "goHome";
                 } else {
                     return detail.status === "goToWork";
@@ -156,6 +155,20 @@ export class TrafficService {
         await this.trafficCollectionRepository.updateAllChoicesToFalse(user.id);
 
         await this.trafficCollectionRepository.updateChoiceByCollectionId(user.id, collectionId);
+    }
+
+    /**
+     * 메인 화면 교통 컬렉션 조회 함수
+     * @param userId 유저 아이디
+     * @returns 메인 교통 컬렉션
+     */
+    async bringMainTrafficCollection(userId: number) {
+        
+        const currentHour = new Date().getHours();
+        const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
+
+
+        return await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
     }
 
 }

@@ -103,4 +103,16 @@ export class TrafficController{
         return SuccessResponseDto.of();
     }
 
+    /**
+     * 메인 화면 교통 컬렉션 조회 함수
+     * @param req 
+     * @returns 
+     */
+    @Get('/collection/main')
+    @UseBefore(compareAuthToken)
+    async bringMainTrafficCollection(@Req() req: Request) {
+        const collection = await this.trafficService.bringMainTrafficCollection(req.decoded.id);
+        return SuccessResponseDto.of(collection);
+    }
+
 }

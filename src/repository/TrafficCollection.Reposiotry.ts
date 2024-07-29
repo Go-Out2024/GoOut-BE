@@ -114,4 +114,26 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
             .execute();
     }
 
+    /**
+     * 유저 아이디와 choice값이 true인 컬렉션의 시간에 따른 status값을 조회하여 해당 컬렉션의 정보 조회
+     * @param userId 유저 아이디
+     * @param status 상태(goToWork or goHome)
+     * @returns 
+     */
+    async findMainTrafficCollection(userId: number, status: string) {
+        return await this.createQueryBuilder("trafficCollection")
+        .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
+        .leftJoinAndSelect("trafficCollectionDetails.transportations", 'transportations')
+        .where("trafficCollection.user_id = :userId", { userId })
+        .andWhere("trafficCollection.choice = true")
+        .andWhere("trafficCollectionDetails.status = :status", { status })
+        .select([
+            "trafficCollection.id",
+            "trafficCollection.name",
+            "trafficCollectionDetails.status",
+            "transportations.stationName"
+        ])
+        .getOne()
+
+    }
 }
