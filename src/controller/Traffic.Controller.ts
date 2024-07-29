@@ -70,7 +70,8 @@ export class TrafficController{
     @Get('/collection')
     @UseBefore(compareAuthToken)
     async bringTrafficCollections(@Req() req: Request) {
-        const collections = await this.trafficService.bringTrafficCollectionsByUserId(req.decoded.id);
+        const currentTime = new Date()
+        const collections = await this.trafficService.bringTrafficCollectionsByUserId(req.decoded.id, currentTime);
         return SuccessResponseDto.of(collections);
     }
 

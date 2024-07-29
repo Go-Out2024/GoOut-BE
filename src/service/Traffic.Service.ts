@@ -113,10 +113,24 @@ export class TrafficService {
      * @param userId 유저 아이디
      * @returns 유저의 모든 교통 컬렉션
      */
-    async bringTrafficCollectionsByUserId(userId: number) {
+    async bringTrafficCollectionsByUserId(userId: number, currentTime: Date) {
         const user = await this.userRepository.findUserById(userId);
-
-        return await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
+        const collections = await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
+    
+        const hour = currentTime.getHours();
+    
+        // 필터링 로직 추가
+        collections.forEach(collection => {
+            collection.trafficCollectionDetails = collection.trafficCollectionDetails.filter(detail => {
+                if (hour >= 14 || hour < 2) {
+                    return detail.status === "goHome";
+                } else {
+                    return detail.status === "goToWork";
+                }
+            });
+        });
+    
+        return collections;
     }
 
     /**
