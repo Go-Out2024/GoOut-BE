@@ -9,6 +9,7 @@ import { CollectionErase } from "../dto/request/CollectionErase.js";
 import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
 import { CollectionBring } from "../dto/request/CollectionBring.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
+import { CollectionChange } from "../dto/request/CollectionChange.js";
 
 @Service()
 @JsonController('/traffic')
@@ -113,6 +114,19 @@ export class TrafficController{
     async bringMainTrafficCollection(@Req() req: Request) {
         const collection = await this.trafficService.bringMainTrafficCollection(req.decoded.id);
         return SuccessResponseDto.of(collection);
+    }
+
+    /**
+     * 루트 전환 함수
+     * @param collectionChange 컬렉션 전환 dto
+     * @param req 
+     * @returns 
+     */
+    @Get('/collection/change')
+    @UseBefore(compareAuthToken)
+    async changeTrafficRoute(@Body() collectionChange:CollectionChange, @Req() req: Request) {
+        const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getCollectionId(), collectionChange.getStatus());
+        return SuccessResponseDto.of(newCollection);
     }
 
 }

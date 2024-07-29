@@ -160,7 +160,7 @@ export class TrafficService {
     /**
      * 메인 화면 교통 컬렉션 조회 함수
      * @param userId 유저 아이디
-     * @returns 메인 교통 컬렉션
+     * @returns 
      */
     async bringMainTrafficCollection(userId: number) {
         
@@ -169,6 +169,21 @@ export class TrafficService {
 
 
         return await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+    }
+
+    /**
+     * 유저 아이디와 컬렉션 아이디, 컬렉션 상태를 조회해 반대 상태의 정보 조회
+     * @param userId 유저 아이디
+     * @param collectionId 컬렉션 아이디
+     * @param currentStatus 컬렉션의 상태(goToWokrt or goHome)
+     * @returns 
+     */
+    async changeTrafficRoute(userId: number, collectionId: number, currentStatus: 'goToWork' | 'goHome') {
+        const user = await this.userRepository.findUserById(userId);
+
+        const newStatus = currentStatus === 'goToWork' ? 'goHome' : 'goToWork';
+
+        return await this.trafficCollectionRepository.findChangeTrafficRoute(userId, collectionId, newStatus);
     }
 
 }
