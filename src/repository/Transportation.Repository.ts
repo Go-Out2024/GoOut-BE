@@ -20,9 +20,6 @@ export class TransportationRepository extends Repository<Transportation> {
             stationDto.getName(),
             detail.id
         );
-
-        transportation.trafficCollectionDetail = detail;
-
         return await this.save(transportation);
     }
 }

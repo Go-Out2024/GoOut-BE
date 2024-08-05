@@ -74,6 +74,7 @@ export class TrafficController{
     async bringTrafficCollections(@Req() req: Request) {
         const currentTime = new Date()
         const collections = await this.trafficService.bringTrafficCollectionsByUserId(req.decoded.id, currentTime);
+        console.log("교통 컬렉션 조회 완료");
         return SuccessResponseDto.of(collections);
     }
 
@@ -87,6 +88,7 @@ export class TrafficController{
     @UseBefore(compareAuthToken)
     async bringTrafficCollectionDetails(@Body() collectionBring: CollectionBring, @Req() req: Request) {
         const collectionDetails = await this.trafficService.bringTrafficCollectionDetailsById(req.decoded.id, collectionBring.getCollectionId());
+        console.log("특정 교통 컬렉션 조회 완료");
         return SuccessResponseDto.of(collectionDetails);
     }
 
@@ -100,7 +102,7 @@ export class TrafficController{
     @UseBefore(compareAuthToken)
     async choiceTrafficCollection(@Body() collectionChoice: CollectionChoice, @Req() req: Request) {
         await this.trafficService.choiceTrafficCollection(req.decoded.id, collectionChoice.getCollectionId());
-        console.log("교통 컬렉션 체크박스 업데이트");
+        console.log("교통 컬렉션 체크박스 업데이트 완료");
         return SuccessResponseDto.of();
     }
 
@@ -113,6 +115,7 @@ export class TrafficController{
     @UseBefore(compareAuthToken)
     async bringMainTrafficCollection(@Req() req: Request) {
         const collection = await this.trafficService.bringMainTrafficCollection(req.decoded.id);
+        console.log("메인 화면 교통 컬렉션 조회 완료");
         return SuccessResponseDto.of(collection);
     }
 
@@ -126,6 +129,7 @@ export class TrafficController{
     @UseBefore(compareAuthToken)
     async changeTrafficRoute(@Body() collectionChange:CollectionChange, @Req() req: Request) {
         const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getCollectionId(), collectionChange.getStatus());
+        console.log("교통 컬렉션 루트 전환 완료");
         return SuccessResponseDto.of(newCollection);
     }
 

@@ -13,14 +13,13 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
      * @param user 해당 유저
      * @returns 
      */
-    async insertTrafficCollection(collectionInsert: CollectionInsert, user: User): Promise<TrafficCollection> {
+    async insertTrafficCollection(collectionInsert: CollectionInsert, userId: number): Promise<TrafficCollection> {
         const trafficCollection = TrafficCollection.createTrafficCollection(
             collectionInsert.getName(),
             true,
-            user.id
+            userId
         );
 
-        trafficCollection.user = user;
         return await this.save(trafficCollection);
     }
 
@@ -29,11 +28,13 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
      * @param collectionId 교통 컬렉션 id
      * @param user 해당 유저
      */
-    async deleteTrafficCollection(collectionId: number, user: User) {
-        
-        const trafficCollection = await this.findOne({ where: { id: collectionId, user: user } });
-
-        await this.remove(trafficCollection);
+    async deleteTrafficCollection(collectionId: number, userId: number) {
+        await this.createQueryBuilder()
+            .delete()
+            .from(TrafficCollection)
+            .where('id = :collectionId', { collectionId })
+            .andWhere('user_Id = :userId', { userId })
+            .execute();
     }
 
     /**
@@ -41,12 +42,13 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
      * @param collectionUpdate 교통 컬렉션 수정 dto
      * @param user 해당 유저
      */
-    async updateTrafficCollection(collectionUpdate: CollectionUpdate, user: User) {
-        const trafficCollection = await this.findOne({ where: { id: collectionUpdate.getCollectionId(), user: user } });
-
-        trafficCollection.name = collectionUpdate.getName();
-
-        await this.save(trafficCollection);
+    async updateTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
+        await this.createQueryBuilder()
+        .update(TrafficCollection)
+        .set({ name: collectionUpdate.getName() })
+        .where("id = :collectionId", { collectionId: collectionUpdate.getCollectionId() })
+        .andWhere('user_Id = :userId', { userId })
+        .execute()
     }
 
     /**
@@ -65,6 +67,7 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
                 "trafficCollectionDetails.status",
                 "transportations.stationName"
             ])
+            .orderBy("trafficCollection.id", "ASC")
             .getMany();
     }
 

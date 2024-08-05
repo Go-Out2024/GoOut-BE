@@ -17,12 +17,9 @@ export class TransportationNumberRepository extends Repository<TransportationNum
                 number,
                 transportation.id
             );
-            transportationNumber.transportation = transportation;
             return transportationNumber;
         });
-
         await this.save(transportationNumbers);
-
         return transportationNumbers;
     }
 }

@@ -28,22 +28,8 @@ export class TrafficService {
      * @param userId 사용자 id
      */
     async penetrateTrafficCollection(collectionInsert: CollectionInsert, userId: number) {
-        const user = await this.userRepository.findUserById(userId);
-
-        const trafficCollection = await this.trafficCollectionRepository.insertTrafficCollection(collectionInsert, user);
-        const details = [];
-
-        if (collectionInsert.getGoToWork()) {
-            const goToWorkDetail = await this.penetrateTrafficCollectionDetail(collectionInsert.getGoToWork(), trafficCollection);
-            details.push(goToWorkDetail);
-        }
-
-        if (collectionInsert.getGoHome()) {
-            const goHomeDetail = await this.penetrateTrafficCollectionDetail(collectionInsert.getGoHome(), trafficCollection);
-            details.push(goHomeDetail);
-        }
-
-        trafficCollection.trafficCollectionDetails = details;
+        const trafficCollection = await this.trafficCollectionRepository.insertTrafficCollection(collectionInsert, userId);
+        await this.verifyInsertTrafficCollectionStatus(collectionInsert, trafficCollection);
     }
     /**
      * 교통 컬렉션 등록 함수(교통 컬렉션 상세 정보)
@@ -52,14 +38,10 @@ export class TrafficService {
      */
     private async penetrateTrafficCollectionDetail(detailDto: TransportationDetailDto, trafficCollection: TrafficCollection) {
         const detail = await this.trafficCollectionDetailRepository.insertTrafficCollectionDetail(detailDto, trafficCollection);
-
         const departure = await this.transportationRepository.insertTransportation(detailDto.getDeparture(), detail);
         const arrival = await this.transportationRepository.insertTransportation(detailDto.getArrival(), detail);
-
         await this.transportationNumberRepository.insertTransportationNumbers(detailDto.getDeparture().getNumbers(), departure);
         await this.transportationNumberRepository.insertTransportationNumbers(detailDto.getArrival().getNumbers(), arrival);
-
-        detail.transportations = [departure, arrival];
     }
 
      /**
@@ -68,15 +50,8 @@ export class TrafficService {
      * @param collectionId 교통 컬렉션 ID
      */
      async eraseTrafficCollection(userId: number, collectionId: number) {
-        const user = await this.userRepository.findUserById(userId);
-
-        await this.trafficCollectionRepository.deleteTrafficCollection(collectionId, user);
+        await this.trafficCollectionRepository.deleteTrafficCollection(collectionId, userId);
     }
-    /**
-     * 교통 컬렉션 수정 함수
-     * @param collectionUpdate 교통 컬렉션 수정 dto
-     * @param userId 유저 아이디
-     */
     
     /**
      * 교통 컬렉션 수정 함수
@@ -85,28 +60,10 @@ export class TrafficService {
      */
     async modifyTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
         const user = await this.userRepository.findUserById(userId);
-        
-        // 기존의 상세 정보를 삭제
         const trafficCollection = await this.trafficCollectionRepository.findOne({ where: { id: collectionUpdate.getCollectionId(), user: user } });
-
         await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.id);
-
-        // 새로운 상세 정보를 삽입
-        const details = [];
-
-        if (collectionUpdate.getGoToWork()) {
-            const goToWorkDetail = await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoToWork(), trafficCollection);
-            details.push(goToWorkDetail);
-        }
-
-        if (collectionUpdate.getGoHome()) {
-            const goHomeDetail = await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
-            details.push(goHomeDetail);
-        }
-
-        trafficCollection.trafficCollectionDetails = details;
-
-        await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, user);
+        await this.verifyUpdateTrafficCollectionStatus(collectionUpdate, trafficCollection);
+        await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, userId);
     }
 
     /**
@@ -116,9 +73,7 @@ export class TrafficService {
      */
     async bringTrafficCollectionsByUserId(userId: number, currentTime: Date) {
         const collections = await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
-    
         const currentHour = currentTime.getHours();
-    
         // 필터링 로직 추가
         collections.forEach(collection => {
             collection.trafficCollectionDetails = collection.trafficCollectionDetails.filter(detail => {
@@ -129,7 +84,6 @@ export class TrafficService {
                 }
             });
         });
-    
         return collections;
     }
 
@@ -140,7 +94,6 @@ export class TrafficService {
      * @returns 특정 교통 컬렉션 상세 정보
      */
     async bringTrafficCollectionDetailsById(userId: number, collectionId: number) {
-
         return await this.trafficCollectionRepository.findTrafficCollectionDetailsById(userId, collectionId);
     }
 
@@ -151,10 +104,8 @@ export class TrafficService {
      */
     async choiceTrafficCollection(userId: number, collectionId: number) { 
         const user = await this.userRepository.findUserById(userId);
-
-        await this.trafficCollectionRepository.updateAllChoicesToFalse(user.id);
-
-        await this.trafficCollectionRepository.updateChoiceByCollectionId(user.id, collectionId);
+        await this.trafficCollectionRepository.updateAllChoicesToFalse(userId);
+        await this.trafficCollectionRepository.updateChoiceByCollectionId(userId, collectionId);
     }
 
     /**
@@ -163,11 +114,8 @@ export class TrafficService {
      * @returns 
      */
     async bringMainTrafficCollection(userId: number) {
-        
         const currentHour = new Date().getHours();
         const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
-
-
         return await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
     }
 
@@ -180,10 +128,35 @@ export class TrafficService {
      */
     async changeTrafficRoute(userId: number, collectionId: number, currentStatus: 'goToWork' | 'goHome') {
         const user = await this.userRepository.findUserById(userId);
-
         const newStatus = currentStatus === 'goToWork' ? 'goHome' : 'goToWork';
-
         return await this.trafficCollectionRepository.findChangeTrafficRoute(userId, collectionId, newStatus);
     }
 
+    /**
+     * 교통 컬렉션 등록 시 교통 컬렉션 상태 검증 함수
+     * @param collectionInsert 컬렉션 등록 dto
+     * @param trafficCollection 교통 컬렉션
+     */
+    public async verifyInsertTrafficCollectionStatus(collectionInsert: CollectionInsert, trafficCollection: TrafficCollection){
+        if (collectionInsert.getGoToWork()) {
+            await this.penetrateTrafficCollectionDetail(collectionInsert.getGoToWork(), trafficCollection);
+        }
+        if (collectionInsert.getGoHome()) {
+            await this.penetrateTrafficCollectionDetail(collectionInsert.getGoHome(), trafficCollection);
+        }
+    }
+
+    /**
+     * 교통 컬렉션 수정 시 교통 컬렉션 상태 검증 함수
+     * @param collectionInsert 컬렉션 등록 dto
+     * @param trafficCollection 교통 컬렉션
+     */
+    public async verifyUpdateTrafficCollectionStatus(collectionUpdate: CollectionUpdate, trafficCollection: TrafficCollection){
+        if (collectionUpdate.getGoToWork()) {
+            await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoToWork(), trafficCollection);
+        }
+        if (collectionUpdate.getGoHome()) {
+            await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
+        }
+    }
 }

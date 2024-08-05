@@ -16,8 +16,6 @@ export class TrafficCollectionDetailRepository extends Repository<TrafficCollect
             detailDto.getStatus(),
             trafficCollection.id
         );
-
-        detail.trafficCollection = trafficCollection;
         return await this.save(detail);
     }
 
