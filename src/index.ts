@@ -20,7 +20,7 @@ import { FamousSayingController } from './controller/FamousSaying.Controller.js'
 import { WeatherController } from './controller/Weather.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
 import { MusicController } from './controller/Music.Controller.js';
-import { settingRecommendMusic } from './util/enum/scheduler.js';
+import { settingRecommendMusic } from './util/scheduler.js';
 
 const require = createRequire(import.meta.url)
 require('dotenv').config();
