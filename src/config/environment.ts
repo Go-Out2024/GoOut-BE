@@ -23,6 +23,7 @@ export const envs = {
   prefix: process.env.PREFIX || '',
   apikey:{
     weatherapikey: process.env.WEATHER_API_KEY as string,
-    openai: process.env.OPEN_AI_API_KEY as string
+    openai: process.env.OPEN_AI_API_KEY as string,
+    youtubeapikey: process.env.YOUTUBE_API_KEY as string,
   },
 };
