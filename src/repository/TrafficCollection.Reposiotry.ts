@@ -38,6 +38,19 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
     }
 
     /**
+     * 컬렉션 ID와 사용자 ID로 해당 교통 컬렉션 조회
+     * @param collectionId 컬렉션 아이디
+     * @param userId 유저 아이디
+     * @returns 
+     */
+    async findTrafficCollectionByCollectionIdAndUserId(collectionId: number, userId: number) {
+        return await this.createQueryBuilder("trafficCollcection")
+            .where('id = :collectionId', { collectionId })
+            .andWhere('user_id = :userId', { userId })
+            .getOne()
+    }
+    
+    /**
      * 교통 컬렉션 수정 함수(교통 컬렉션 테이블)
      * @param collectionUpdate 교통 컬렉션 수정 dto
      * @param user 해당 유저

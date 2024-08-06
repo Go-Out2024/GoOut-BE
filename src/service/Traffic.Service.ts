@@ -60,7 +60,7 @@ export class TrafficService {
      */
     async modifyTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
         const user = await this.userRepository.findUserById(userId);
-        const trafficCollection = await this.trafficCollectionRepository.findOne({ where: { id: collectionUpdate.getCollectionId(), user: user } });
+        const trafficCollection = await this.trafficCollectionRepository.findTrafficCollectionByCollectionIdAndUserId(collectionUpdate.getCollectionId(), userId);
         await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.id);
         await this.verifyUpdateTrafficCollectionStatus(collectionUpdate, trafficCollection);
         await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, userId);
