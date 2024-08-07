@@ -12,8 +12,15 @@ export class MusicService {
 
 
     async recommendMusic() {
-        const result : string = await this.redisService.getValue("today-music");
-        return Music.of(result.split(',')[0], result.split(',')[1], result.split(',')[2])
+        const result : string = await this.redisService.getValue("video-url");
+        const [ videoUrl, videoImage, videoSinger, videoTitle] = await Promise.all([
+            this.redisService.getValue("video-url"),
+            this.redisService.getValue("video-image"),
+            this.redisService.getValue("video-singer"),
+            this.redisService.getValue("video-title")
+        ]);
+        return Music.of(videoUrl,videoImage,videoSinger,videoTitle)
     }
 
 }
+

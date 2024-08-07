@@ -17,7 +17,7 @@ export class YouTubeSchedule{
         const beforeMusic = await this.redisService.getValue('today-music');
         this.checkData(recommentMusic, beforeMusic);
         const video : any = await this.youtubeApi.bringVideo(recommentMusic);
-        this.setVideo(video);
+        this.setVideo(video, recommentMusic);
     }
 
     async checkData(recommentMusic:string, beforeMusic:string){
@@ -27,9 +27,11 @@ export class YouTubeSchedule{
         }
     }
 
-    async setVideo(video:any){
+    async setVideo(video:any, recommentMusic:string){
+        recommentMusic = recommentMusic.replace(/[()]/g, '');
         await this.redisService.setValue("video-url",  await this.youtubeApi.getVideoUrl(video.id.videoId));
         await this.redisService.setValue('video-image', video.snippet.thumbnails.default.url);
-        console.log(await this.youtubeApi.getVideoUrl(video.id.videoId))
+        await this.redisService.setValue('video-singer', recommentMusic.split(',')[0]);
+        await this.redisService.setValue('video-title',recommentMusic.split(',')[1]);
     }
 }
