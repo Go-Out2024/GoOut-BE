@@ -12,7 +12,6 @@ export class MusicService {
 
 
     async recommendMusic() {
-        const result : string = await this.redisService.getValue("video-url");
         const [ videoUrl, videoImage, videoSinger, videoTitle] = await Promise.all([
             this.redisService.getValue("video-url"),
             this.redisService.getValue("video-image"),
