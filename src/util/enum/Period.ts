@@ -4,7 +4,8 @@ export enum Period{
     "매주"=7,
     "반복 안 함"=0,
     "매일"=1,
-    "2주마다"=14
+    "2주마다"=14,
+    "4주마다"=28
 }
 
 export const getPeriodValue = (key: string): number => {

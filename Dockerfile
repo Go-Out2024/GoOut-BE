@@ -15,4 +15,4 @@ COPY ./ ./
 
 ENV CHOKIDAR_USEPOLLING=true
 # 컨테이너가 올라가면 서버 기동
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
