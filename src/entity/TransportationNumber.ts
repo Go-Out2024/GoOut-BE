@@ -1,11 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { Transportation } from "./Transportation.js";
 
-
-
 @Entity("transportation_number")
-export class TransportationNumber{
+@Index("idx_transportation_number_transportation", ["transportation"])
+export class TransportationNumber {
 
+    constructor(numbers: string, transportationId: number) {
+        this.setNumbers(numbers);
+        this.setTransportationId(transportationId);
+    }
+
+    public static createTransportationNumber(numbers: string, transportationId: number) {
+        return new TransportationNumber(numbers, transportationId);
+    }
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,12 +20,29 @@ export class TransportationNumber{
     @Column({ type: 'varchar', name: 'numbers', nullable: false })
     numbers: string;
 
-    @ManyToOne(() => Transportation,  transportation =>  transportation.transportationNumbers, {
+    @Column({ type: 'int', name: 'transportation_id', nullable: false })
+    transportationId: number;
+
+    @ManyToOne(() => Transportation, transportation => transportation.transportationNumbers, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
-    @JoinColumn({ name: "tsransportation_id", referencedColumnName: "id" })
+    @JoinColumn({ name: "transportation_id", referencedColumnName: "id" })
     transportation: Relation<Transportation>;
 
+    private setNumbers(numbers: string) {
+        this.numbers = numbers;
+    }
 
+    private setTransportationId(transportationId: number) {
+        this.transportationId = transportationId;
+    }
+
+    public getNumbers() {
+        return this.numbers;
+    }
+
+    public getId() {
+        return this.id;
+    }
 }
