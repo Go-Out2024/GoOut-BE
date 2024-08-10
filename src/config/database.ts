@@ -31,7 +31,6 @@ export async function initializeDatabase() {
     try {
         useContainer(Container);
   
-
         // 엔티티 파일을 동적으로 불러와서 배열에 추가
      //   const entities = entityFiles.map(file => require(file).default);
         const connection = await createConnection({
