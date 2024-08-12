@@ -35,7 +35,7 @@ const __dirname = path.dirname(__filename);
 export const app: express.Application = createExpressServer({
 
     controllers: [ UserController, AuthController, TokenController, FirebaseController, KakaoController,
-         FamousSayingController, WeatherController, CalendarController, MusicController],
+         FamousSayingController, WeatherController, TrafficController, CalendarController, MusicController],
 
     middlewares: [ErrorHandler],
 

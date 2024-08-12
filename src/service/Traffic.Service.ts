@@ -10,6 +10,12 @@ import { TrafficCollection } from "../entity/TrafficCollection.js";
 import {TransportationRepository } from "../repository/Transportation.Repository.js";
 import { TransportationNumberRepository } from "../repository/TransportationNumber.Repository.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
+import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
+import { BusStationRepository } from "../repository/BusStation.Repository.js";
+import { checkData } from "../util/checker.js";
+import { ErrorResponseDto } from "../response/ErrorResponseDto.js";
+import { ErrorCode } from "../exception/ErrorCode.js";
+import { BusRepository } from "../repository/Bus.Repository.js";
 
 @Service()
 export class TrafficService {
@@ -20,6 +26,9 @@ export class TrafficService {
         @InjectRepository(TrafficCollectionDetailRepository) private trafficCollectionDetailRepository: TrafficCollectionDetailRepository,
         @InjectRepository(TransportationRepository) private transportationRepository: TransportationRepository,
         @InjectRepository(TransportationNumberRepository) private transportationNumberRepository: TransportationNumberRepository,
+        @InjectRepository(SubwayStationRepository) private subwayStationRepository: SubwayStationRepository,
+        @InjectRepository(BusStationRepository) private busStationRepository: BusStationRepository,
+        @InjectRepository(BusRepository) private busRepository: BusRepository,
     ) {}
 
     /**
@@ -157,6 +166,65 @@ export class TrafficService {
         }
         if (collectionUpdate.getGoHome()) {
             await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
+        }
+    }
+    /**
+     * 역 또는 정류장 이름으로 해당 역 또는 정류장 도착정보 조회 함수
+     * @param stationName 역 또는 정류장 이름
+     */
+    async bringStationInformation(stationName: string) {
+        let result: any = {};
+        if (stationName.endsWith('역')) {
+            //'역'으로 끝나는 경우
+            const subwayName = stationName.slice(0, -1); // '역' 뺴고 조회 -> DB에 그렇게 저장되어 있기 때문에
+            const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
+            if (subwayStation) {
+                result.subwayStation = subwayStation;
+            }
+            //'역'을 포함해 버스 정류장 조회
+            const busStations = await this.busStationRepository.findByStationName(stationName);
+            if (busStations.length > 0) {
+                result.busStations = await Promise.all(
+                    busStations.map(async (station) => {
+                        const buses = await this.busRepository.findByStationId(station.id)
+                        return {
+                            station,
+                            buses,
+                        };
+                    })
+                );
+            }
+            if (!result.subwayStation && !result.busStations) {
+                throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
+              }
+        }
+        else {
+            //'역'이 아닌 경우, 버스 정류장만 조회
+            const busStations = await this.busStationRepository.findByStationName(stationName);
+            if (busStations.length === 0) {
+                throw new Error('해당 버스 정류장이 존재하지 않습니다.');
+            }
+            result.busStations = await Promise.all(
+                busStations.map(async (station) => {
+                    const buses = await this.busRepository.findByStationId(station.id);
+                    return {
+                        station,
+                        buses,
+                    };
+                })
+            );
+    }
+    
+    return result;
+}
+    
+    /**
+     * 역 또는 정류장 존재에 대한 검증 함수
+     * @param stationName 역 이름
+     */
+    public verifyStationName(stationName: string) {
+        if (!checkData(stationName)) {
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
         }
     }
 }

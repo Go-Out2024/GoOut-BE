@@ -12,5 +12,11 @@ export class BusStationRepository extends Repository<BusStation> {
     async findCoordinatesByBusStationName(stationName: string) {
         return this.findOne({ where: { stationName }});
     }
+    
+    async findByStationName(stationName: string): Promise<BusStation[]> {
+        return this.createQueryBuilder('bus_station')
+            .where('bus_station.station_name = :stationName', { stationName })
+            .getMany();
+    }
 }
 

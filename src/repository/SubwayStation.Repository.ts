@@ -12,5 +12,14 @@ export class SubwayStationRepository extends Repository<SubwayStation> {
     async findCoordinatesBySubwayStationName(subwayName: string) {
         return this.findOne({ where: { subwayName }});
     }
+    
+    /**
+     * 지하철 역 이름으로 지하철 역 조회
+     * @param stationName 지하철 역 이름
+     * @returns 
+     */
+    async findByStationName(stationName: string): Promise<SubwayStation | undefined> {
+        return this.findOne({ where: { subwayName: stationName }});
+    }
 }
 

@@ -133,4 +133,16 @@ export class TrafficController{
         return SuccessResponseDto.of(newCollection);
     }
 
+    /**
+     * 역 또는 정류장 이름에 대한 도착시간 정보 조회
+     * @param stationName 역 또는 정류장 이름
+     * @returns 
+     */
+    @Get('/time-information')
+    async bringStationInformation(@QueryParam('stationName') stationName: string) {
+        const result = await this.trafficService.bringStationInformation(stationName);
+        console.log("해당 역 또는 정류장 정보 가져오기 성공");
+        return SuccessResponseDto.of(result);
+    }
+
 }
