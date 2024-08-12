@@ -13,6 +13,7 @@ import { CalendarData, CalendarDatas } from '../dto/response/CalendarData.js';
 import { getPeriodKey } from '../util/enum/Period.js';
 
 
+
 @Service()
 export class CalendarService { 
 
@@ -53,6 +54,7 @@ export class CalendarService {
   
     }
 
+
     public mappingCalendarData(calendars: Calendar[]){
         return calendars.map((calendar)=>{
             return CalendarData.of(calendar.getId(), calendar.getContent(), calendar.getKind(), getPeriodKey(calendar.getPeriod()));
@@ -84,12 +86,31 @@ export class CalendarService {
      */
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
         const calendarIds = this.extractCalendarId(calendarUpdate);
-        const calendarData = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendar(calendarData);
-        await this.calendarRepository.updateCalendar(calendarUpdate, userId);
+        const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+        this.verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
+        const mappedCalendarUpdateStatus = this.mappingCalendarUpdateStatus(calendarUpdate, userId);
+        await this.calendarRepository.updateCalendar(mappedCalendarUpdateStatus);
+    }
+
+  
+    /**
+     * 업데이트할 캘린더 데이터를 엔티티 변환 함수
+     * @param calendarUpdate 업데이트할 캘린더 데이터
+     * @param userId 유저 id
+     * @returns 
+     */
+    private mappingCalendarUpdateStatus(calendarUpdate: CalendarUpdate, userId:number){
+        return calendarUpdate.getCalendarContent().map(update => {
+            return Calendar.createCalendarUpdate(update.getCalendarId(), update.getContent(), update.getPeriod(), userId)
+        });
     }
 
 
+    /**
+     * 캘린더 id 추출 함수
+     * @param calendarUpdate 업데이트할 캘린더 데이터
+     * @returns 
+     */
     private extractCalendarId(calendarUpdate: CalendarUpdate){
         return calendarUpdate.getCalendarContent().map((data)=> data.getCalendarId());
     }
