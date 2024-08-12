@@ -6,9 +6,9 @@ export class CalendarErase{
 
 
     @IsNotEmpty()
-    private calendarId:number;
+    private calendarIds:number[];
 
-    public getCalendarId(){
-        return this.calendarId;
+    public getCalendarIds(){
+        return this.calendarIds;
     }
 }
