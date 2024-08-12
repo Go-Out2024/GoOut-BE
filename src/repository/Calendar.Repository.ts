@@ -20,6 +20,21 @@ export class CalendarRepository extends Repository<Calendar> {
 
 
     /**
+     * 캘린더id와 유저 id를 활용한  Calendar 엔티티 배열 조회 함수 
+     * @param calendarsId 캘린더 id 배열 
+     * @param userId 유저 id
+     * @returns Calendar 엔티티
+     */
+    public async findCalendarsByIdAndUserId(calendarIds:number[], userId:number){
+        return this.createQueryBuilder()
+            .select('c')
+            .from(Calendar, 'c')
+            .where('c.id IN (:...calendarIds)', { calendarIds })
+            .andWhere('c.user_id = :userId',{userId})
+            .getMany();
+    }
+
+    /**
      * 캘린더id와 유저 id를 활용한 특정 Calendar 엔티티 조회 함수 
      * @param calendarId 캘린더 id
      * @param userId 유저 id
@@ -40,13 +55,13 @@ export class CalendarRepository extends Repository<Calendar> {
      * @param userId 유저 id
      * @returns 
      */
-    public async deleteCalendar(calendarId:number, userId:number){
+    public async deleteCalendar(calendarIds:number[], userId:number){
         return this.createQueryBuilder()
-            .delete()
-            .from(Calendar)
-            .where('id = :calendarId',{calendarId})
-            .andWhere('user_id = :userId',{userId})
-            .execute();
+        .delete()
+        .from(Calendar)
+        .where('id IN (:...calendarIds)', { calendarIds })
+        .andWhere('user_id = :userId', { userId })
+        .execute();
     }
 
     /**
