@@ -77,10 +77,10 @@ initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
 
-        // const busFilePath = path.resolve(__dirname, "util/bus_sequence.csv");
+        // const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
         // await BusImportService.importBusData(busFilePath);
 
-        const busFilePath = path.resolve(__dirname, "util/bus_sequence.csv");
+        const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
         await BusUpdateService.updateBusSequence(busFilePath);
 
         const httpServer: Server = createServer(app);
