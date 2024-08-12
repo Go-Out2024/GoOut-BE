@@ -25,4 +25,7 @@ export class BusStation extends BaseEntity{
 
     @OneToMany(() => Bus, buss => buss.busStation)
     buss: Relation<Bus>[];
+
+
+
 }
