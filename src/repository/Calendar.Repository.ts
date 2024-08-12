@@ -1,7 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Calendar } from '../entity/Calendar.js';
 import { CalendarInsert } from '../dto/request/CalendarInsert.js';
-import { CalendarUpdate } from '../dto/request/CalendarUpdate.js';
 import { getPeriodValue } from '../util/enum/Period.js';
 
 @EntityRepository(Calendar)
@@ -70,13 +69,8 @@ export class CalendarRepository extends Repository<Calendar> {
      * @param userId 유저 id
      * @returns 
      */
-    public async updateCalendar(calendarUpdate: CalendarUpdate, userId:number){
-        return this.createQueryBuilder()
-            .update(Calendar)
-            .set({content:calendarUpdate.getContent(), period:calendarUpdate.getPeriod()})
-            .where('id = :calendarId',{calendarId :calendarUpdate.getCalendarId()})
-            .andWhere('user_id = :userId',{userId})
-            .execute();
+    public async updateCalendar(calendarUpdate: Calendar[]){
+        this.save(calendarUpdate)
     }
 
 
