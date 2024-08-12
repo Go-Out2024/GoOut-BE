@@ -1,6 +1,6 @@
 import { getRepository, getConnection } from "typeorm";
-import { Bus } from "../entity/Bus";
-import { BusStation } from "../entity/BusStation";
+import { Bus } from "../entity/Bus.js";
+import { BusStation } from "../entity/BusStation.js";
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
