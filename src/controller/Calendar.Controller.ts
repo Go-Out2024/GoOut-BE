@@ -44,7 +44,7 @@ export class CalendarController{
     @UseBefore(compareAuthToken)
     @Delete('/content')
     async eraseScheduleOrProduct(@Body() calendarErase: CalendarErase, @Req() req: Request) {
-        await this.calendarService.eraseScheduleOrProduct(req.decoded.id, calendarErase.getCalendarId());
+        await this.calendarService.eraseScheduleOrProduct(req.decoded.id, calendarErase.getCalendarIds());
         console.log("캘린더 일정 or 준비물 삭제 완료");
         return SuccessResponseDto.of();
     }

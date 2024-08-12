@@ -13,6 +13,7 @@ import { CalendarData, CalendarDatas } from '../dto/response/CalendarData.js';
 import { getPeriodKey } from '../util/enum/Period.js';
 
 
+
 @Service()
 export class CalendarService { 
 
@@ -32,10 +33,10 @@ export class CalendarService {
      * @param userId 유저 id
      * @param calendarId 캘린더 id
      */
-    async eraseScheduleOrProduct(userId:number, calendarId:number) {
-        const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarId, userId);
-        this.verifyCalendar(calendarData);
-        await this.calendarRepository.deleteCalendar(calendarId, userId);
+    async eraseScheduleOrProduct(userId:number, calendarIds:number[]) {
+        const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+        this.verifyCalendars(calendarDatas, calendarIds.length);
+        await this.calendarRepository.deleteCalendar(calendarIds, userId);
     }
 
 
@@ -52,6 +53,7 @@ export class CalendarService {
         return CalendarDatas.of(this.mappingCalendarData(filteredCalendars));
   
     }
+
 
     public mappingCalendarData(calendars: Calendar[]){
         return calendars.map((calendar)=>{
@@ -83,9 +85,34 @@ export class CalendarService {
      * @param userId 유저 id
      */
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
-        const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarUpdate.getCalendarId(), userId);
-        this.verifyCalendar(calendarData);
-        await this.calendarRepository.updateCalendar(calendarUpdate, userId);
+        const calendarIds = this.extractCalendarId(calendarUpdate);
+        const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+        this.verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
+        const mappedCalendarUpdateStatus = this.mappingCalendarUpdateStatus(calendarUpdate, userId);
+        await this.calendarRepository.updateCalendar(mappedCalendarUpdateStatus);
+    }
+
+  
+    /**
+     * 업데이트할 캘린더 데이터를 엔티티 변환 함수
+     * @param calendarUpdate 업데이트할 캘린더 데이터
+     * @param userId 유저 id
+     * @returns 
+     */
+    private mappingCalendarUpdateStatus(calendarUpdate: CalendarUpdate, userId:number){
+        return calendarUpdate.getCalendarContent().map(update => {
+            return Calendar.createCalendarUpdate(update.getCalendarId(), update.getContent(), update.getPeriod(), userId)
+        });
+    }
+
+
+    /**
+     * 캘린더 id 추출 함수
+     * @param calendarUpdate 업데이트할 캘린더 데이터
+     * @returns 
+     */
+    private extractCalendarId(calendarUpdate: CalendarUpdate){
+        return calendarUpdate.getCalendarContent().map((data)=> data.getCalendarId());
     }
 
     /**
@@ -163,6 +190,17 @@ export class CalendarService {
      */
     public verifyCalendar(calendar:Calendar){
         if(!checkData(calendar))
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
+    }
+
+
+    /**
+     * 캘린더 데이터와 유저가 요청한 length를 통해 길이가 같지 않을 경우 에러처리를 한다.
+     * @param calendars 캘린더 엔티티 데이터
+     * @param length 유저 요청 길이
+     */
+    public verifyCalendars(calendars:Calendar[], length:number){
+        if(!(calendars.length === length))
             throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
     }
 
