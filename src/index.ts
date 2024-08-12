@@ -76,8 +76,8 @@ initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
 
-        const busFilePath = path.resolve(__dirname, "util/bus_sequence.csv");
-        await BusImportService.importBusData(busFilePath);
+        // const busFilePath = path.resolve(__dirname, "util/bus_sequence.csv");
+        // await BusImportService.importBusData(busFilePath);
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {
