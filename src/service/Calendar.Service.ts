@@ -32,10 +32,10 @@ export class CalendarService {
      * @param userId 유저 id
      * @param calendarId 캘린더 id
      */
-    async eraseScheduleOrProduct(userId:number, calendarId:number) {
-        const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarId, userId);
-        this.verifyCalendar(calendarData);
-        await this.calendarRepository.deleteCalendar(calendarId, userId);
+    async eraseScheduleOrProduct(userId:number, calendarIds:number[]) {
+        const calendarData = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+        this.verifyCalendars(calendarData, calendarIds.length);
+        await this.calendarRepository.deleteCalendar(calendarIds, userId);
     }
 
 
@@ -163,6 +163,17 @@ export class CalendarService {
      */
     public verifyCalendar(calendar:Calendar){
         if(!checkData(calendar))
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
+    }
+
+
+    /**
+     * 캘린더 데이터와 유저가 요청한 length를 통해 길이가 같지 않을 경우 에러처리를 한다.
+     * @param calendars 캘린더 엔티티 데이터
+     * @param length 유저 요청 길이
+     */
+    public verifyCalendars(calendars:Calendar[], length:number){
+        if(!(calendars.length === length))
             throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
     }
 
