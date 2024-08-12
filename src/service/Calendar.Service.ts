@@ -33,8 +33,8 @@ export class CalendarService {
      * @param calendarId 캘린더 id
      */
     async eraseScheduleOrProduct(userId:number, calendarIds:number[]) {
-        const calendarData = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendars(calendarData, calendarIds.length);
+        const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+        this.verifyCalendars(calendarDatas, calendarIds.length);
         await this.calendarRepository.deleteCalendar(calendarIds, userId);
     }
 
@@ -83,9 +83,15 @@ export class CalendarService {
      * @param userId 유저 id
      */
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
-        const calendarData = await this.calendarRepository.findCalendarByIdAndUserId(calendarUpdate.getCalendarId(), userId);
+        const calendarIds = this.extractCalendarId(calendarUpdate);
+        const calendarData = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
         this.verifyCalendar(calendarData);
         await this.calendarRepository.updateCalendar(calendarUpdate, userId);
+    }
+
+
+    private extractCalendarId(calendarUpdate: CalendarUpdate){
+        return calendarUpdate.getCalendarContent().map((data)=> data.getCalendarId());
     }
 
     /**
