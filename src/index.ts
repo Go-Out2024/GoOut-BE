@@ -20,7 +20,6 @@ import { FamousSayingController } from './controller/FamousSaying.Controller.js'
 import { WeatherController } from './controller/Weather.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
 import { TrafficController } from './controller/Traffic.Controller.js';
-import BusImportService from './service/BusImport.Service.js';
 import BusUpdateService from './service/BusUpdate.Service.js';
 
 const require = createRequire(import.meta.url)
@@ -73,7 +72,7 @@ initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
 
-        const busFilePath = path.resolve(__dirname, "util/bus_sequence.csv");
+        const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
         await BusUpdateService.updateBusSequence(busFilePath);
 
         const httpServer: Server = createServer(app);
