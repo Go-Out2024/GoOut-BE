@@ -22,8 +22,7 @@ import { CalendarController } from './controller/Calendar.Controller.js';
 import { MusicController } from './controller/Music.Controller.js';
 import { settingRecommendMusic } from './util/scheduler.js';
 import { TrafficController } from './controller/Traffic.Controller.js';
-import BusImportService from './service/BusImport.Service.js';
-import BusUpdateService from './service/BusUpdate.Service.js';
+
 
 
 const require = createRequire(import.meta.url)
@@ -76,12 +75,6 @@ useContainer(Container);
 initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
-
-         const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
-         await BusImportService.importBusData(busFilePath);
-
-       // const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
-        await BusUpdateService.updateBusSequence(busFilePath);
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {
