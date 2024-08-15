@@ -13,6 +13,11 @@ export class BusStationRepository extends Repository<BusStation> {
         return this.findOne({ where: { stationName }});
     }
     
+    /**
+     * 역 이름으로 버스 정류장 조회
+     * @param stationName 역 이름
+     * @returns 
+     */
     async findByStationName(stationName: string): Promise<BusStation[]> {
         return this.createQueryBuilder('bus_station')
             .where('bus_station.station_name = :stationName', { stationName })

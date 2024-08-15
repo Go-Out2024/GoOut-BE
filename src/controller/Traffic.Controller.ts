@@ -10,13 +10,15 @@ import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
 import { CollectionBring } from "../dto/request/CollectionBring.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 import { CollectionChange } from "../dto/request/CollectionChange.js";
+import { TrafficSearchService } from "../service/TrafficSearch.Service.js";
 
 @Service()
 @JsonController('/traffic')
 export class TrafficController{
 
     constructor(
-        private readonly trafficService: TrafficService
+        private readonly trafficService: TrafficService,
+        private readonly trafficSearchService: TrafficSearchService
     ){}
 
     /**
@@ -140,7 +142,7 @@ export class TrafficController{
      */
     @Get('/time-information')
     async bringStationInformation(@QueryParam('stationName') stationName: string) {
-        const result = await this.trafficService.bringStationInformation(stationName);
+        const result = await this.trafficSearchService.bringStationInformation(stationName);
         console.log("해당 역 또는 정류장 정보 가져오기 성공");
         return SuccessResponseDto.of(result);
     }
