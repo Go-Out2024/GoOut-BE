@@ -102,8 +102,8 @@ export class TrafficSearchService {
     private subwayApiKey: string = envs.apikey.subwayapikey;
     private busApiKey: string = envs.apikey.busapikey;
     /**
-     * 
-     * @param stationName 
+     * 지하철 역 이름으로 해당 역에 대한 역 이름, 역 호선, 방면, 첫번 째 두 번째 도착 예정 열차 정보, 목적지 조회 함수
+     * @param stationName 지하철 역 이름
      * @returns 
      */
     private async bringSubwayArrivalInfo(stationName: string) {
@@ -131,6 +131,13 @@ export class TrafficSearchService {
         }
     }
 
+    /**
+     * 버스 정류장 아이디, 버스 노선 아이디, 버스 순번으로 해당 정류장을 지나는 모든 버스에 대한 이름과 두 번째 도착 정보까지 조회
+     * @param stId 버스 정류장 아이디
+     * @param busRouteId 버스 노선 아이디
+     * @param ord 버스 순번
+     * @returns 
+     */
     private async bringBusArrivalInfo(stId: number, busRouteId: number, ord: number){
         const busApiUrl = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?serviceKey=${this.busApiKey}&stId=${stId}&busRouteId=${busRouteId}&ord=${ord}`;
         console.log(busApiUrl);
