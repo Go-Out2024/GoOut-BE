@@ -58,7 +58,7 @@ export class TrafficController{
      */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
-    @Patch('/collection-name')
+    @Patch('/collection/name')
     async modifyTrafficCollectionName(@Body() collectionNameUpdate: CollectionNameUpdate, @Req() req: Request) {
         await this.trafficService.modifyTrafficCollectionName(collectionNameUpdate, req.decoded.id);
         console.log("교통 컬렉션 이름 수정 완료");
@@ -73,7 +73,7 @@ export class TrafficController{
      */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
-    @Patch('/collection-detail')
+    @Patch('/collection/detail')
     async modifyTrafficCollectionDetail(@Body() collectionDetailUpdate: CollectionDetailUpdate, @Req() req: Request) {
         await this.trafficService.modifyTrafficCollectionDetail(collectionDetailUpdate, req.decoded.id);
         console.log("교통 컬렉션 상세 정보들 수정 완료");
