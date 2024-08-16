@@ -99,6 +99,37 @@ export class TrafficSearchService {
     return result;
 }
 
+    /**
+     * 사용자가 입력 단어로 연관 역 또는 정류장 이름 조회 함수
+     * @param searchTerm 입력 단어
+     * @returns 
+     */
+    async bringStationRelatedSearch(searchTerm: string) {
+        const subwayResults = await this.subwayStationRepository.findSubwayStations(searchTerm);
+        const busStationResults = await this.busStationRepository.findBusStations(searchTerm);
+        const result = [];
+
+        if(subwayResults.length > 0) {
+            result.push(
+                ...subwayResults.map(station => ({
+                    name: station.subwayName,
+                    type: '지하철'
+                }))
+            );
+        }
+
+        if (busStationResults.length> 0) {
+            result.push(
+                ...busStationResults.map(station => ({
+                    name: station.stationName,
+                    id: station.id,
+                    type: '버스'
+                }))
+            );
+        }
+        return result;
+    }   
+
     private subwayApiKey: string = envs.apikey.subwayapikey;
     private busApiKey: string = envs.apikey.busapikey;
     /**

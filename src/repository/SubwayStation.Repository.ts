@@ -21,5 +21,16 @@ export class SubwayStationRepository extends Repository<SubwayStation> {
     async findByStationName(stationName: string): Promise<SubwayStation | undefined> {
         return this.findOne({ where: { subwayName: stationName }});
     }
+
+    /**
+     * 입력 단어로 연관된 모든 지하철 역 이름 조회
+     * @param searchTerm 입력 단어
+     * @returns 
+     */
+    async findSubwayStations(searchTerm: string): Promise<SubwayStation[]> {
+        return await this.createQueryBuilder('subwayStation')
+            .where('subwayStation.subwayName LIKE :searchTerm', { searchTerm: `${searchTerm}%`})
+            .getMany();
+    }
 }
 

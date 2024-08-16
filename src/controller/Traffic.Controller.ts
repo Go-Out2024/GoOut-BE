@@ -147,4 +147,11 @@ export class TrafficController{
         return SuccessResponseDto.of(result);
     }
 
+    @Get('/related-search')
+    async bringStationRelatedSearch(@QueryParam('searchTerm') searchTerm: string) {
+        const result = await this.trafficSearchService.bringStationRelatedSearch(searchTerm);
+        console.log("해당 단어에 대한 연관 검색어 조회 성공");
+        return SuccessResponseDto.of(result);
+    }
+
 }

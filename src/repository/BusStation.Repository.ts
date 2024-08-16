@@ -23,5 +23,11 @@ export class BusStationRepository extends Repository<BusStation> {
             .where('bus_station.station_name = :stationName', { stationName })
             .getMany();
     }
+
+    async findBusStations(searchTerm: string): Promise<BusStation[]> {
+        return await this.createQueryBuilder('busStation')
+            .where('busStation.stationName LIKE :searchTerm', { searchTerm: `${searchTerm}%` })
+            .getMany();
+    }
 }
 
