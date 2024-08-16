@@ -80,8 +80,8 @@ initializeDatabase()
         // const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
         // await BusImportService.importBusData(busFilePath);
 
-        const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
-        await BusUpdateService.updateBusSequence(busFilePath);
+        //const busFilePath = path.resolve(__dirname, "../src/util/bus_sequence.csv");
+        //await BusUpdateService.updateBusSequence(busFilePath);
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {
