@@ -147,6 +147,11 @@ export class TrafficController{
         return SuccessResponseDto.of(result);
     }
 
+    /**
+     * 단어 단위로 입력 시 연관 검색어 조회 함수
+     * @param searchTerm 입력 단어
+     * @returns 
+     */
     @Get('/related-search')
     async bringStationRelatedSearch(@QueryParam('searchTerm') searchTerm: string) {
         const result = await this.trafficSearchService.bringStationRelatedSearch(searchTerm);
@@ -154,4 +159,31 @@ export class TrafficController{
         return SuccessResponseDto.of(result);
     }
 
+    /**
+     * 연관 검색어를 이용해 사용자가 지하철 역 선택 시 지하철 역 이름으로 해당 역 정보 제공 함수
+     * @param subwayName 지하철 역 이름
+     * @returns 
+     */
+    @Get('/time-information/subway')
+    async bringSubwayStationInfo(
+        @QueryParam('subwayName') subwayName: string){
+        const result = await this.trafficSearchService.bringSubwayStationInfo(subwayName);
+        console.log('지하철 역 정보 가져오기 성공')
+        return SuccessResponseDto.of(result);
+    }
+
+    /**
+     * 연관 검색어를 이용해 사용자가 버스 정류장 선텍 시 버스 정류장 이름과 아이디로 해당 정류장 정보 제공 함수
+     * @param stationName 
+     * @param busStationId 
+     * @returns 
+     */
+    @Get('/time-information/bus')
+    async bringBusStationInfo(
+        @QueryParam('stationName') stationName: string,
+        @QueryParam('busStationId') busStationId: number){
+        const result = await this.trafficSearchService.bringBusStationInfo(stationName, busStationId);
+        console.log('버스 정류장 정보 가져오기 성공')
+        return SuccessResponseDto.of(result);
+    }
 }

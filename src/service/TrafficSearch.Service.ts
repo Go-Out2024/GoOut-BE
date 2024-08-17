@@ -37,12 +37,12 @@ export class TrafficSearchService {
             if (busStations.length > 0) {
                 result.busStations = await Promise.all(
                     busStations.map(async (station) => {
-                        const buses = await this.busRepository.findByStationId(station.id);
+                        const buses = await this.busRepository.findBussByStationId(station.id);
                         const busArrivalInfo = await Promise.all(
                             buses.map(async (bus) => {
                                 // bus 객체에서 올바른 속성명을 사용하여 API 호출
-                                const busRouteId = bus.bus_bus_id;  
-                                const ord = bus.bus_sequence;       
+                                const busRouteId = bus.busId;  
+                                const ord = bus.sequence;       
                                 if (busRouteId === undefined || ord === undefined) {
                                     console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
                                     return null;  // 또는 적절한 기본값 반환
@@ -72,12 +72,12 @@ export class TrafficSearchService {
             }
             result.busStations = await Promise.all(
                 busStations.map(async (station) => {
-                    const buses = await this.busRepository.findByStationId(station.id);
+                    const buses = await this.busRepository.findBussByStationId(station.id);
                     const busArrivalInfo = await Promise.all(
                         buses.map(async (bus) => {
                             // bus 객체에서 올바른 속성명을 사용하여 API 호출
-                            const busRouteId = bus.bus_bus_id;  
-                            const ord = bus.bus_sequence;       
+                            const busRouteId = bus.busId;  
+                            const ord = bus.sequence;       
                             if (busRouteId === undefined || ord === undefined) {
                                 console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
                                 return null;  // 또는 적절한 기본값 반환
@@ -99,6 +99,37 @@ export class TrafficSearchService {
     return result;
 }
 
+    /**
+     * 지하철 역 이름으로 해당 역 도착 정보 조회 
+     * @param subwayName 지하철 역 이름
+     * @returns 
+     */
+    async bringSubwayStationInfo(subwayName: string) {
+        return await this.bringSubwayArrivalInfo(subwayName);
+    }
+
+    /**
+     * 버스 정류장 아이디로 지나가는 버스들에 대한 정보 조회
+     * @param stationName 버스 정류장 이름
+     * @param busStationId 버스 정류장 아이디
+     * @returns 
+     */
+    async bringBusStationInfo(stationName: string, busStationId: number) {
+        const buses = await this.busRepository.findBussByStationId(busStationId);
+        const busArrivalInfo = await Promise.all(
+            buses.map(async (bus) => {
+                // bus 객체에서 올바른 속성명을 사용하여 API 호출
+                const busRouteId = bus.busId;  
+                const ord = bus.sequence;       
+                if (busRouteId === undefined || ord === undefined) {
+                    console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
+                    return null;  // 또는 적절한 기본값 반환
+                }
+                return this.bringBusArrivalInfo(busStationId, busRouteId, ord);
+            })
+        )
+        return { stationName, busStationId, busArrivalInfo};
+    }
     /**
      * 사용자가 입력 단어로 연관 역 또는 정류장 이름 조회 함수
      * @param searchTerm 입력 단어
@@ -178,9 +209,6 @@ export class TrafficSearchService {
     
             // XML 데이터를 JSON으로 파싱
             const parsedData = await xml2js.parseStringPromise(data, { explicitArray: false });
-            
-            // 데이터 구조 확인
-            console.log('Parsed XML Data:', parsedData);
 
             // 필요한 데이터 추출
             const itemList = parsedData.ServiceResult.msgBody.itemList;
