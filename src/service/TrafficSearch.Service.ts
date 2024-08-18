@@ -22,34 +22,22 @@ export class TrafficSearchService {
      * 역 또는 정류장 이름으로 해당 역 또는 정류장 도착정보 조회 함수
      * @param stationName 역 또는 정류장 이름
      */
+    // 역 또는 정류장 이름으로 해당 역 또는 정류장 도착정보 조회 함수
     async bringStationInformation(stationName: string) {
         let result: any = {};
         if (stationName.endsWith('역')) {
-            //'역'으로 끝나는 경우
-            const subwayName = stationName.slice(0, -1); // '역' 뺴고 조회 -> DB에 그렇게 저장되어 있기 때문에
+            const subwayName = stationName.slice(0, -1); // '역' 제거
             const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
             if (subwayStation) {
                 const subwayArrivalInfo = await this.bringSubwayArrivalInfo(subwayName);
                 result.subwayArrivalInfo = subwayArrivalInfo;
             }
-            //'역'을 포함해 버스 정류장 조회
             const busStations = await this.busStationRepository.findByStationName(stationName);
             if (busStations.length > 0) {
                 result.busStations = await Promise.all(
                     busStations.map(async (station) => {
-                        const buses = await this.busRepository.findBussByStationId(station.id);
-                        const busArrivalInfo = await Promise.all(
-                            buses.map(async (bus) => {
-                                // bus 객체에서 올바른 속성명을 사용하여 API 호출
-                                const busRouteId = bus.busId;  
-                                const ord = bus.sequence;       
-                                if (busRouteId === undefined || ord === undefined) {
-                                    console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
-                                    return null;  // 또는 적절한 기본값 반환
-                                }
-                                return this.bringBusArrivalInfo(station.id, busRouteId, ord);
-                            })
-                        );
+                        // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
+                        const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum);
                         return {
                             station: {
                                 id: station.id,
@@ -59,32 +47,19 @@ export class TrafficSearchService {
                         };
                     })
                 );
-        }
+            }
             if (!subwayStation && !result.busStations) {
                 throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
-              }
-        }
-        else {
-            //'역'이 아닌 경우, 버스 정류장만 조회
+            }
+        } else {
             const busStations = await this.busStationRepository.findByStationName(stationName);
             if (busStations.length === 0) {
                 throw new Error('해당 버스 정류장이 존재하지 않습니다.');
             }
             result.busStations = await Promise.all(
                 busStations.map(async (station) => {
-                    const buses = await this.busRepository.findBussByStationId(station.id);
-                    const busArrivalInfo = await Promise.all(
-                        buses.map(async (bus) => {
-                            // bus 객체에서 올바른 속성명을 사용하여 API 호출
-                            const busRouteId = bus.busId;  
-                            const ord = bus.sequence;       
-                            if (busRouteId === undefined || ord === undefined) {
-                                console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
-                                return null;  // 또는 적절한 기본값 반환
-                            }
-                            return this.bringBusArrivalInfo(station.id, busRouteId, ord);
-                        })
-                    );
+                    // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
+                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum);
                     return {
                         station: {
                             id: station.id,
@@ -94,11 +69,9 @@ export class TrafficSearchService {
                     };
                 })
             );
+        }
+        return result;
     }
-    
-    return result;
-}
-
     /**
      * 지하철 역 이름으로 해당 역 도착 정보 조회 
      * @param subwayName 지하철 역 이름
@@ -107,27 +80,15 @@ export class TrafficSearchService {
     async bringSubwayStationInfo(subwayName: string) {
         return await this.bringSubwayArrivalInfo(subwayName);
     }
-
     /**
-     * 버스 정류장 아이디로 지나가는 버스들에 대한 정보 조회
+     * 버스 정류장 아이디로 버스 정류장 고유번호 조회 후 api 요청 함수
      * @param stationName 버스 정류장 이름
      * @param busStationId 버스 정류장 아이디
      * @returns 
      */
     async bringBusStationInfo(stationName: string, busStationId: number) {
-        const buses = await this.busRepository.findBussByStationId(busStationId);
-        const busArrivalInfo = await Promise.all(
-            buses.map(async (bus) => {
-                // bus 객체에서 올바른 속성명을 사용하여 API 호출
-                const busRouteId = bus.busId;  
-                const ord = bus.sequence;       
-                if (busRouteId === undefined || ord === undefined) {
-                    console.error('버스 아이디 또는 순번이 존재하지 않습니다.', { busRouteId, ord });
-                    return null;  // 또는 적절한 기본값 반환
-                }
-                return this.bringBusArrivalInfo(busStationId, busRouteId, ord);
-            })
-        )
+        const stationNum = await this.busStationRepository.findStationNumByStationId(busStationId);       
+        const busArrivalInfo = await this.bringBusArrivalInfo(stationNum);
         return { stationName, busStationId, busArrivalInfo};
     }
     /**
@@ -194,40 +155,48 @@ export class TrafficSearchService {
     }
 
     /**
-     * 버스 정류장 아이디, 버스 노선 아이디, 버스 순번으로 해당 정류장을 지나는 모든 버스에 대한 이름과 두 번째 도착 정보까지 조회
-     * @param stId 버스 정류장 아이디
-     * @param busRouteId 버스 노선 아이디
-     * @param ord 버스 순번
+     * 버스 정류장 고유번호를 이용한 api 요청 후 데이터 추출 함수
+     * @param stationNum 정류장 고유번호
      * @returns 
      */
-    private async bringBusArrivalInfo(stId: number, busRouteId: number, ord: number){
-        const busApiUrl = `http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRoute?serviceKey=${this.busApiKey}&stId=${stId}&busRouteId=${busRouteId}&ord=${ord}`;
-        console.log(busApiUrl);
+    private async bringBusArrivalInfo(stationNum: number) {
+        // stationNum이 4자리라면 앞에 '0'을 붙여 5자리로 변환합니다.
+        const formattedStationNum = stationNum.toString().padStart(5, '0');
+        const busApiUrl = `http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?serviceKey=${this.busApiKey}&arsId=${formattedStationNum}`;
         try {
             const response = await axios.get(busApiUrl);
             const data = response.data;
-    
             // XML 데이터를 JSON으로 파싱
             const parsedData = await xml2js.parseStringPromise(data, { explicitArray: false });
-
             // 필요한 데이터 추출
             const itemList = parsedData.ServiceResult.msgBody.itemList;
             if (!itemList) {
-                throw new Error('Item list not found in response');
+                throw new Error('도착 예정 정보를 찾을 수 없습니다.');
             }
-
-            return {
-                busRouteAbrv: itemList.busRouteAbrv || '정보 없음',
-                arrmsg1: itemList.arrmsg1 || '정보 없음',
-                arrmsg2: itemList.arrmsg2 || '정보 없음'
-            };
-        }  catch (error) {
+            // itemList가 배열일 경우 다수의 버스 정보를 반환
+            if (Array.isArray(itemList)) {
+                return itemList.map(item => ({
+                    nxtStn: item.nxtStn || '정보 없음', 
+                    busRouteAbrv: item.busRouteAbrv || '정보 없음',
+                    arrmsg1: item.arrmsg1 || '정보 없음',
+                    arrmsg2: item.arrmsg2 || '정보 없음'
+                }));
+            } else {
+                // 단일 객체일 경우
+                return [{
+                    nxtStn: itemList.nxtStn || '정보 없음',
+                    busRouteAbrv: itemList.busRouteAbrv || '정보 없음',
+                    arrmsg1: itemList.arrmsg1 || '정보 없음',
+                    arrmsg2: itemList.arrmsg2 || '정보 없음'
+                }];
+            }
+        } catch (error) {
             console.error('버스 도착 예정 정보 요청 오류:', error);
-            return {
+            return [{
                 busRouteAbrv: '정보 없음',
                 arrmsg1: '정보 없음',
                 arrmsg2: '정보 없음'
-            };
+            }];
         }
     }
 }
