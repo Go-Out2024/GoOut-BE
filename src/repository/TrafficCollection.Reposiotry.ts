@@ -154,30 +154,5 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
                 "transportations.stationName",
             ])
             .getOne();
-    }
-
-    /**
-     * 유저 아이디와 컬렉션 아이디, 반대로 변경된 상태로 해당 컬렉션 정보 조회
-     * @param userId 유저 아이디
-     * @param collectionId 컬렉션 아이디
-     * @param newStatus 반대로 변경된 상태
-     * @returns 
-     */
-    async findChangeTrafficRoute(userId: number, collectionId: number, newStatus: string) {
-        return await this.createQueryBuilder("trafficCollection")
-            .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
-            .leftJoinAndSelect("trafficCollectionDetails.transportations", "transportations")
-            .where("trafficCollection.user_id = :userId", { userId })
-            .andWhere("trafficCollection.id = :collectionId", { collectionId })
-            .andWhere("trafficCollectionDetails.status = :newStatus", { newStatus })
-            .select([
-                "trafficCollection.id",
-                "trafficCollection.name",
-                "trafficCollectionDetails.status",
-                "transportations.stationName"
-            ])
-            .getOne();
-    }
-    
-
+    }    
 }
