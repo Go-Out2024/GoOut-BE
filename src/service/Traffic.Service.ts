@@ -12,6 +12,9 @@ import { TransportationNumberRepository } from "../repository/TransportationNumb
 import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
 import { BusStationRepository } from "../repository/BusStation.Repository.js";
 import { BusRepository } from "../repository/Bus.Repository.js";
+import { envs } from "../config/environment.js";
+import axios from 'axios';
+import xml2js from 'xml2js';
 
 @Service()
 export class TrafficService {
@@ -119,9 +122,30 @@ export class TrafficService {
      * @returns 
      */
     async bringMainTrafficCollection(userId: number) {
+        let result: any = {};
         const currentHour = new Date().getHours();
         const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
-        return await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        result.collection = collection;
+        const details = collection.trafficCollectionDetails.find(detail => detail.status === status);
+        const arrivalTransportation = details.transportations.find(transportation => transportation.route === 'departure');
+        const numbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
+        if (arrivalTransportation.transportationName === 'Subway') {
+            const subwayArrivalInfo = await this.bringSubwayArrivalInfo(arrivalTransportation.stationName, numbers);
+            result.subwayArrivalInfo = subwayArrivalInfo;
+        } else if (arrivalTransportation.transportationName === 'Bus') {
+            const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
+                return await Promise.all(
+                busStations.map(async (station) => {
+                    // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
+                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
+                    return {
+                        busArrivalInfo,
+                    };
+                })
+            );
+        }
+        return result
     }
 
     /**
@@ -162,6 +186,73 @@ export class TrafficService {
         }
         if (collectionUpdate.getGoHome()) {
             await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
+        }
+    }
+
+    private subwayApiKey: string = envs.apikey.subwayapikey;
+    private busApiKey: string = envs.apikey.busapikey;
+    // Subway의 경우
+    private async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
+        const subwayApiUrl = `http://swopenAPI.seoul.go.kr/api/subway/${this.subwayApiKey}/json/realtimeStationArrival/0/5/${encodeURIComponent(stationName)}`;
+        try {
+            const response = await axios.get(subwayApiUrl);
+            const data = response.data;
+
+            if (data.RESULT && data.RESULT.code !== 'INFO-000') {
+                throw new Error(`Error from API: ${data.RESULT.message}`);
+            }
+
+            const arrivalInfo = data.realtimeArrivalList
+                .filter(info => numbers.includes(info.subwayId))
+                .map(info => ({
+                    stationName: info.statnNm,
+                    line: info.subwayId,
+                    direction: info.trainLineNm,
+                    firstArrivalMessage: info.arvlMsg2,
+                    secondArrivalMessage: info.arvlMsg3,
+                    destination: info.bstatnNm
+                }));
+
+            return arrivalInfo;
+        } catch (error) {
+            console.error('Failed to fetch subway arrival info:', error.message);
+            throw new Error('지하철 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
+        }
+    }
+    /**
+     * 정류소 고유번호를 이용하여 api 요청 후 받은 데이터 중 버스 번호가 numbers와 동일한 버스 실시간 도착 데이터만 추출
+     * @param stationNum 정류소 고유번호
+     * @param numbers 버스 번호들
+     * @returns 
+     */
+    private async bringBusArrivalInfo(stationNum: number, numbers: string[]) {
+        const formattedStationNum = stationNum.toString().padStart(5, '0');
+        const busApiUrl = `http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?serviceKey=${this.busApiKey}&arsId=${formattedStationNum}`;
+        try {
+            const response = await axios.get(busApiUrl);
+            const data = response.data;
+
+            const parsedData = await xml2js.parseStringPromise(data, { explicitArray: false });
+
+            const itemList = parsedData.ServiceResult.msgBody.itemList;
+            if (!itemList) {
+                throw new Error('Item list not found in response');
+            }
+
+            const busArrivalInfo = Array.isArray(itemList) ? itemList : [itemList];
+
+            return busArrivalInfo
+                .filter(item => numbers.includes(item.busRouteAbrv))
+                .map(item => ({
+                    nxtStn: item.nxtStn || '정보 없음', 
+                    busRouteAbrv: item.busRouteAbrv || '정보 없음',
+                    arrmsg1: item.arrmsg1 || '정보 없음',
+                    arrmsg2: item.arrmsg2 || '정보 없음'
+                }));
+            
+        } catch (error) {
+            console.error('버스 도착 예정 정보 요청 오류:', error);
+            throw new Error('버스 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
         }
     }
 }
