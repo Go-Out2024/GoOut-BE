@@ -135,7 +135,7 @@ export class TrafficService {
             result.subwayArrivalInfo = subwayArrivalInfo;
         } else if (arrivalTransportation.transportationName === 'Bus') {
             const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
-                return await Promise.all(
+                result.busStations =  await Promise.all(
                 busStations.map(async (station) => {
                     const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
                     return {
@@ -166,7 +166,7 @@ export class TrafficService {
             result.subwayArrivalInfo = subwayArrivalInfo;
         } else if (arrivalTransportation.transportationName === 'Bus') {
             const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
-                return await Promise.all(
+            result.busStations = await Promise.all(
                 busStations.map(async (station) => {
                     const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
                     return {
