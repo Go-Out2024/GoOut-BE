@@ -130,7 +130,7 @@ export class TrafficController{
     @Get('/collection/change')
     @UseBefore(compareAuthToken)
     async changeTrafficRoute(@Body() collectionChange:CollectionChange, @Req() req: Request) {
-        const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getCollectionId(), collectionChange.getStatus());
+        const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getStatus());
         console.log("교통 컬렉션 루트 전환 완료");
         return SuccessResponseDto.of(newCollection);
     }

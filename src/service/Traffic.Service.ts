@@ -137,7 +137,6 @@ export class TrafficService {
             const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
                 return await Promise.all(
                 busStations.map(async (station) => {
-                    // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
                     const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
                     return {
                         busArrivalInfo,
@@ -151,14 +150,32 @@ export class TrafficService {
     /**
      * 유저 아이디와 컬렉션 아이디, 컬렉션 상태를 조회해 반대 상태의 정보 조회
      * @param userId 유저 아이디
-     * @param collectionId 컬렉션 아이디
      * @param currentStatus 컬렉션의 상태(goToWokrt or goHome)
      * @returns 
      */
-    async changeTrafficRoute(userId: number, collectionId: number, currentStatus: 'goToWork' | 'goHome') {
-        const user = await this.userRepository.findUserById(userId);
+    async changeTrafficRoute(userId: number, currentStatus: 'goToWork' | 'goHome') {
+        let result: any = {};
         const newStatus = currentStatus === 'goToWork' ? 'goHome' : 'goToWork';
-        return await this.trafficCollectionRepository.findChangeTrafficRoute(userId, collectionId, newStatus);
+        const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, newStatus);
+        result.collection = collection;
+        const details = collection.trafficCollectionDetails.find(detail => detail.status === newStatus);
+        const arrivalTransportation = details.transportations.find(transportation => transportation.route === 'departure');
+        const numbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
+        if (arrivalTransportation.transportationName === 'Subway') {
+            const subwayArrivalInfo = await this.bringSubwayArrivalInfo(arrivalTransportation.stationName, numbers);
+            result.subwayArrivalInfo = subwayArrivalInfo;
+        } else if (arrivalTransportation.transportationName === 'Bus') {
+            const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
+                return await Promise.all(
+                busStations.map(async (station) => {
+                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
+                    return {
+                        busArrivalInfo,
+                    };
+                })
+            );
+        }
+        return result
     }
 
     /**
