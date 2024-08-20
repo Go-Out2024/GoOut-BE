@@ -76,6 +76,7 @@ initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
 
+
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {
             await settingRecommendMusic()

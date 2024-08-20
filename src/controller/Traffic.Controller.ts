@@ -6,10 +6,11 @@ import { Request } from 'express'
 import { TrafficService } from "../service/Traffic.Service.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { CollectionErase } from "../dto/request/CollectionErase.js";
-import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
 import { CollectionBring } from "../dto/request/CollectionBring.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 import { CollectionChange } from "../dto/request/CollectionChange.js";
+import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
+import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate.js";
 
 @Service()
 @JsonController('/traffic')
@@ -50,17 +51,32 @@ export class TrafficController{
     }
 
     /**
-     * 교통 컬렉션 수정 함수
+     * 교통 컬렉션 이름 수정 함수
      * @param collectionUpdate 교통 컬렉션 수정 dto
      * @param req 
      * @returns 
      */
     @HttpCode(200)
     @UseBefore(compareAuthToken)
-    @Patch('/collection')
-    async modifyTrafficCollection(@Body() collectionUpdate: CollectionUpdate, @Req() req: Request) {
-        await this.trafficService.modifyTrafficCollection(collectionUpdate, req.decoded.id);
-        console.log("교통 컬렉션 수정 완료");
+    @Patch('/collection/name')
+    async modifyTrafficCollectionName(@Body() collectionNameUpdate: CollectionNameUpdate, @Req() req: Request) {
+        await this.trafficService.modifyTrafficCollectionName(collectionNameUpdate, req.decoded.id);
+        console.log("교통 컬렉션 이름 수정 완료");
+        return SuccessResponseDto.of();
+    }
+
+    /**
+     * 교통 컬렉션 상세정보 수정 함수
+     * @param collectionUpdate 교통 컬렉션 수정 dto
+     * @param req 
+     * @returns 
+     */
+    @HttpCode(200)
+    @UseBefore(compareAuthToken)
+    @Patch('/collection/detail')
+    async modifyTrafficCollectionDetail(@Body() collectionDetailUpdate: CollectionDetailUpdate, @Req() req: Request) {
+        await this.trafficService.modifyTrafficCollectionDetail(collectionDetailUpdate, req.decoded.id);
+        console.log("교통 컬렉션 상세 정보들 수정 완료");
         return SuccessResponseDto.of();
     }
 
