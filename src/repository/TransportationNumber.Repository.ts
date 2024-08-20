@@ -28,13 +28,10 @@ export class TransportationNumberRepository extends Repository<TransportationNum
      * @param transportationId 교통수단 아이디
      * @returns 
      */
-    async findTransportationNumbers(transportationId: number): Promise<string[]> {
-        const numbers = await this.createQueryBuilder("transportationNumber")
+    async findTransportationNumbers(transportationId: number): Promise<TransportationNumber[]> {
+        return await this.createQueryBuilder("transportationNumber")
             .where("transportationNumber.transportation_id = :transportationId", { transportationId })
             .select("transportationNumber.numbers")
             .getMany();
-    
-        // numbers 속성만 추출하여 문자열 배열로 변환
-        return numbers.map(number => number.numbers);
     }
 }

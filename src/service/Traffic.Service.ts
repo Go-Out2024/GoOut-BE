@@ -129,20 +129,12 @@ export class TrafficService {
         result.collection = collection;
         const details = collection.trafficCollectionDetails.find(detail => detail.status === status);
         const arrivalTransportation = details.transportations.find(transportation => transportation.route === 'departure');
-        const numbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
+        const numbers = transportationNumbers.map(numberEntity => numberEntity.numbers);
         if (arrivalTransportation.transportationName === 'Subway') {
-            const subwayArrivalInfo = await this.bringSubwayArrivalInfo(arrivalTransportation.stationName, numbers);
-            result.subwayArrivalInfo = subwayArrivalInfo;
+            result.subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(arrivalTransportation, numbers);
         } else if (arrivalTransportation.transportationName === 'Bus') {
-            const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
-                result.busStations =  await Promise.all(
-                busStations.map(async (station) => {
-                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
-                    return {
-                        busArrivalInfo,
-                    };
-                })
-            );
+            result.busStations = await this.bringMainBusStationsInfo(arrivalTransportation, numbers);
         }
         return result
     }
@@ -159,23 +151,43 @@ export class TrafficService {
         const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, newStatus);
         result.collection = collection;
         const details = collection.trafficCollectionDetails.find(detail => detail.status === newStatus);
-        const arrivalTransportation = details.transportations.find(transportation => transportation.route === 'departure');
-        const numbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
-        if (arrivalTransportation.transportationName === 'Subway') {
-            const subwayArrivalInfo = await this.bringSubwayArrivalInfo(arrivalTransportation.stationName, numbers);
-            result.subwayArrivalInfo = subwayArrivalInfo;
-        } else if (arrivalTransportation.transportationName === 'Bus') {
-            const busStations = await this.busStationRepository.findByStationName(arrivalTransportation.stationName);
-            result.busStations = await Promise.all(
-                busStations.map(async (station) => {
-                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
-                    return {
-                        busArrivalInfo,
-                    };
-                })
-            );
+        const departureTransportation = details.transportations.find(transportation => transportation.route === 'departure');
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.id);
+        const numbers = transportationNumbers.map(numberEntity => numberEntity.numbers);
+        if (departureTransportation.transportationName === 'Subway') {
+            result.subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+        } else if (departureTransportation.transportationName === 'Bus') {
+            result.busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
         }
         return result
+    }
+    
+    /**
+     * 타입이 지하철일 때 사용자가 등록해놓은 출발역과 호선의 실시간 도착 정보 조회 함수
+     * @param departureTransportation 출발 교통수단
+     * @param numbers 지하철 호선 번호
+     * @returns 
+     */
+    private async bringMainSubwayArrivalInfo(departureTransportation: any, numbers: string[]): Promise<any> {
+        return await this.bringSubwayArrivalInfo(departureTransportation.stationName, numbers);
+    }
+
+    /**
+     * 타입이 버스일 때 사용자가 등록해놓은 출발역과 버스 번호들의 실시간 도착 정보 조회 함수
+     * @param departureTransportation 출발 교통수단
+     * @param numbers 버스 번호들
+     * @returns 
+     */
+    private async bringMainBusStationsInfo(departureTransportation: any, numbers: string[]): Promise<any[]> {
+        const busStations = await this.busStationRepository.findByStationName(departureTransportation.stationName);
+        return await Promise.all(
+            busStations.map(async (station) => {
+                const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
+                return {
+                    busArrivalInfo,
+                };
+            })
+        );
     }
 
     /**

@@ -22,56 +22,93 @@ export class TrafficSearchService {
      * 역 또는 정류장 이름으로 해당 역 또는 정류장 도착정보 조회 함수
      * @param stationName 역 또는 정류장 이름
      */
-    // 역 또는 정류장 이름으로 해당 역 또는 정류장 도착정보 조회 함수
     async bringStationInformation(stationName: string) {
         let result: any = {};
-        if (stationName.endsWith('역')) {
-            const subwayName = stationName.slice(0, -1); // '역' 제거
-            const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
-            if (subwayStation) {
-                const subwayArrivalInfo = await this.bringSubwayArrivalInfo(subwayName);
-                result.subwayArrivalInfo = subwayArrivalInfo;
-            }
-            const busStations = await this.busStationRepository.findByStationName(stationName);
-            if (busStations.length > 0) {
-                result.busStations = await Promise.all(
-                    busStations.map(async (station) => {
-                        // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
-                        const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum);
-                        return {
-                            station: {
-                                id: station.id,
-                                stationName: station.stationName,
-                            },
-                            busArrivalInfo,
-                        };
-                    })
-                );
-            }
-            if (!subwayStation && !result.busStations) {
-                throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
-            }
+        if (this.checkStationName(stationName)) {
+            result = await this.handleSubwayOrBusStation(stationName);
         } else {
-            const busStations = await this.busStationRepository.findByStationName(stationName);
-            if (busStations.length === 0) {
-                throw new Error('해당 버스 정류장이 존재하지 않습니다.');
-            }
-            result.busStations = await Promise.all(
-                busStations.map(async (station) => {
-                    // 새로운 API를 사용해 stationNum으로 버스 도착 정보를 조회
-                    const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum);
-                    return {
-                        station: {
-                            id: station.id,
-                            stationName: station.stationName,
-                        },
-                        busArrivalInfo,
-                    };
-                })
-            );
+            result = await this.handleBusStation(stationName);
         }
         return result;
     }
+
+    /**
+     * '역'으로 끝나는 지하철 역 또는 버스 정류장인지 확인 함수
+     * @param stationName 역 이름
+     * @returns 
+     */
+    private checkStationName(stationName: string): boolean {
+        return stationName.endsWith('역');
+    }
+
+    /**
+     * 역 이름으로 지하철 또는 버스 정류장 실시간 도착 정보 조회 함수
+     * @param stationName 역 이름
+     * @returns 
+     */
+    private async handleSubwayOrBusStation(stationName: string): Promise<any> {
+        const subwayName = this.removeStationSuffix(stationName);
+        const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
+        let result: any = {};
+        if (subwayStation) {
+            result.subwayArrivalInfo = await this.bringSubwayArrivalInfo(subwayName);
+        }
+        const busStations = await this.busStationRepository.findByStationName(stationName);
+        if (busStations.length > 0) {
+            result.busStations = await this.bringBusStationsInfo(busStations);
+        }
+        if (!subwayStation && !result.busStations) {
+            throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
+        }
+        return result;
+    }
+    
+    /**
+     * 역 이름으로 실시간 버스 도착 정보 조회 함수
+     * @param stationName 역 이름
+     * @returns 
+     */
+    private async handleBusStation(stationName: string): Promise<any> {
+        const busStations = await this.busStationRepository.findByStationName(stationName);
+        if (busStations.length === 0) {
+            throw new Error('해당 버스 정류장이 존재하지 않습니다.');
+        }
+        const result: any = {
+            busStations: await this.bringBusStationsInfo(busStations)
+        };
+        return result;
+    }
+    
+    /**
+     * '역'이라는 접미사를 제거하는 함수 --> 지하철 역 api 요청은 '역'을 빼고 요청해야 함.
+     * @param stationName 역 이름
+     * @returns 
+     */
+    private removeStationSuffix(stationName: string): string {
+        return stationName.slice(0, -1); // '역' 제거
+    }
+    
+    /**
+     * 여러 버스 정류장에 대한 정보를 비동기로 가져오는 함수
+     * @param busStations 버스 정류장들
+     * @returns 
+     */
+    private async bringBusStationsInfo(busStations: any[]): Promise<any[]> {
+        return await Promise.all(
+            busStations.map(async (station) => {
+                const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum);
+                return {
+                    station: {
+                        id: station.id,
+                        stationName: station.stationName,
+                    },
+                    busArrivalInfo,
+                };
+            })
+        );
+    }
+    
+
     /**
      * 지하철 역 이름으로 해당 역 도착 정보 조회 
      * @param subwayName 지하철 역 이름
@@ -80,6 +117,7 @@ export class TrafficSearchService {
     async bringSubwayStationInfo(subwayName: string) {
         return await this.bringSubwayArrivalInfo(subwayName);
     }
+
     /**
      * 버스 정류장 아이디로 버스 정류장 고유번호 조회 후 api 요청 함수
      * @param stationName 버스 정류장 이름
@@ -91,6 +129,7 @@ export class TrafficSearchService {
         const busArrivalInfo = await this.bringBusArrivalInfo(stationNum);
         return { stationName, busStationId, busArrivalInfo};
     }
+
     /**
      * 사용자가 입력 단어로 연관 역 또는 정류장 이름 조회 함수
      * @param searchTerm 입력 단어
