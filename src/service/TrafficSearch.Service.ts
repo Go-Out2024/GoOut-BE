@@ -3,9 +3,6 @@ import { InjectRepository } from "typeorm-typedi-extensions";
 import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
 import { BusStationRepository } from "../repository/BusStation.Repository.js";
 import { BusRepository } from "../repository/Bus.Repository.js";
-import { envs } from "../config/environment.js";
-import axios from 'axios';
-import xml2js from 'xml2js';
 import { StationResult, SubwayStationResult, BusStationResult } from "../dto/values/StationResult.js"
 import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
 import { BusStationInfo, BusArrivalInfo } from "../dto/values/BusArrivalInfo.js";
@@ -163,9 +160,7 @@ export class TrafficSearchService {
         }
         return result;
     }   
-
-    private subwayApiKey: string = envs.apikey.subwayapikey;
-    private busApiKey: string = envs.apikey.busapikey;
+    
     /**
      * 지하철 역 이름으로 지하철 실시간 도착 정보 요청 및 데이터 추출 함수
      * @param stationName 지하철 역 이름

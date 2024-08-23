@@ -12,9 +12,6 @@ import { TransportationNumberRepository } from "../repository/TransportationNumb
 import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
 import { BusStationRepository } from "../repository/BusStation.Repository.js";
 import { BusRepository } from "../repository/Bus.Repository.js";
-import { envs } from "../config/environment.js";
-import axios from 'axios';
-import xml2js from 'xml2js';
 import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult.js";
 import { Transportation } from "../entity/Transportation.js";
 import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
