@@ -24,6 +24,7 @@ import { settingRecommendMusic } from './util/scheduler.js';
 import { TrafficController } from './controller/Traffic.Controller.js';
 
 
+
 const require = createRequire(import.meta.url)
 require('dotenv').config();
 
@@ -74,6 +75,7 @@ useContainer(Container);
 initializeDatabase()
     .then(async () => {
         console.log('Database connected.');
+
 
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {

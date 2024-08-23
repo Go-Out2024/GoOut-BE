@@ -2,12 +2,10 @@ import { Type } from "class-transformer";
 import { IsNotEmpty, ValidateNested } from "class-validator";
 import { TransportationDetailDto } from "./TransportationDetailDto.js";
 
-export class CollectionUpdate {
+export class CollectionDetailUpdate {
     @IsNotEmpty()
     private collectionId: number;
 
-    @IsNotEmpty()
-    private name: string;
 
     @ValidateNested()
     @Type(() => TransportationDetailDto)
@@ -19,10 +17,6 @@ export class CollectionUpdate {
 
     public getCollectionId() {
         return this.collectionId;
-    }
-
-    public getName() {
-        return this.name;
     }
 
     public getGoToWork() {

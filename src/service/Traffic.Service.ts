@@ -2,7 +2,7 @@ import { Inject, Service } from "typedi";
 import { UserRepository } from "../repository/User.Repository.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
+import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate.js";
 import { TrafficCollectionRepository } from "../repository/TrafficCollection.Reposiotry.js";
 import { TrafficCollectionDetailRepository } from "../repository/TrafficCollectionDetail.Repository.js";
 import { TransportationDetailDto } from "../dto/request/TransportationDetailDto.js";
@@ -18,6 +18,8 @@ import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
 import { BusArrivalInfo, BusStationInfo, Station } from "../dto/values/BusArrivalInfo.js";
 import { SubwayApi } from "../util/publicData.js";
 import { BusApi } from "../util/publicData.js";
+import { CollectionChoice } from "../dto/request/CollectionChoice.js";
+import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
 
 @Service()
 export class TrafficService {
@@ -67,16 +69,23 @@ export class TrafficService {
     }
     
     /**
-     * 교통 컬렉션 수정 함수
+     * 교통 컬렉션 이름 수정 함수
+     * @param collectionUpdate 교통 컬렉션 수정 dto
+     * @param userId 
+     */
+    async modifyTrafficCollectionName(collectionNameUpdate: CollectionNameUpdate, userId: number) {
+        await this.trafficCollectionRepository.updateTrafficCollection(collectionNameUpdate, userId);
+    }
+    
+    /**
+     * 교통 컬렉션 상세정보 수정 함수
      * @param collectionUpdate 교통 컬렉션 수정 dto
      * @param userId 유저 아이디
      */
-    async modifyTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
-        const user = await this.userRepository.findUserById(userId);
-        const trafficCollection = await this.trafficCollectionRepository.findTrafficCollectionByCollectionIdAndUserId(collectionUpdate.getCollectionId(), userId);
+    async modifyTrafficCollectionDetail(collectionDetailUpdate: CollectionDetailUpdate, userId: number) {
+        const trafficCollection = await this.trafficCollectionRepository.findTrafficCollectionByCollectionIdAndUserId(collectionDetailUpdate.getCollectionId(), userId);
         await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.id);
-        await this.verifyUpdateTrafficCollectionStatus(collectionUpdate, trafficCollection);
-        await this.trafficCollectionRepository.updateTrafficCollection(collectionUpdate, userId);
+        await this.verifyUpdateTrafficCollectionStatus(collectionDetailUpdate, trafficCollection);
     }
 
     /**
@@ -221,12 +230,12 @@ export class TrafficService {
      * @param collectionInsert 컬렉션 등록 dto
      * @param trafficCollection 교통 컬렉션
      */
-    public async verifyUpdateTrafficCollectionStatus(collectionUpdate: CollectionUpdate, trafficCollection: TrafficCollection){
-        if (collectionUpdate.getGoToWork()) {
-            await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoToWork(), trafficCollection);
+    public async verifyUpdateTrafficCollectionStatus(collectionDetailUpdate: CollectionDetailUpdate, trafficCollection: TrafficCollection){
+        if (collectionDetailUpdate.getGoToWork()) {
+            await this.penetrateTrafficCollectionDetail(collectionDetailUpdate.getGoToWork(), trafficCollection);
         }
-        if (collectionUpdate.getGoHome()) {
-            await this.penetrateTrafficCollectionDetail(collectionUpdate.getGoHome(), trafficCollection);
+        if (collectionDetailUpdate.getGoHome()) {
+            await this.penetrateTrafficCollectionDetail(collectionDetailUpdate.getGoHome(), trafficCollection);
         }
     }
 

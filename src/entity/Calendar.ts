@@ -9,8 +9,9 @@ import { User } from "./User.js";
 export class Calendar extends BaseEntity{
 
 
-    constructor(content:string, period:number, kind:string, date:Date, userId:number){
+    constructor(id?:number, content?:string, period?:number, kind?:string, date?:Date, userId?:number){
         super()
+        this.setId(id);
         this.setContent(content);
         this.setPeriod(period);
         this.setKind(kind);
@@ -20,7 +21,11 @@ export class Calendar extends BaseEntity{
 
 
     public static createCalendar(content:string, period:number, kind:string, date:Date, userId:number){
-        return new Calendar(content, period, kind, date, userId);
+        return new Calendar(undefined, content, period, kind, date, userId);
+    }
+
+    public static createCalendarUpdate(calendarId:number, content:string, period:number, userId:number){
+        return new Calendar(calendarId,content,period,undefined,undefined,userId);
     }
 
     @PrimaryGeneratedColumn()
@@ -49,6 +54,10 @@ export class Calendar extends BaseEntity{
     @JoinColumn({ name: "user_id", referencedColumnName: "id" })
     user: Relation<User>;
 
+
+    private setId(id:number){
+        this.id=id;
+    }
 
     private setContent(content:string){
         this.content=content;

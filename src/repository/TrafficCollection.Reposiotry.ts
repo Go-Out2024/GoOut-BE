@@ -2,7 +2,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { TrafficCollection } from "../entity/TrafficCollection.js";
 import { CollectionInsert } from "../dto/request/CollectionInsert.js";
 import { User } from "../entity/User";
-import { CollectionUpdate } from "../dto/request/CollectionUpdate.js";
+import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
 
 @EntityRepository(TrafficCollection)
 export class TrafficCollectionRepository extends Repository<TrafficCollection> {
@@ -55,11 +55,11 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
      * @param collectionUpdate 교통 컬렉션 수정 dto
      * @param user 해당 유저
      */
-    async updateTrafficCollection(collectionUpdate: CollectionUpdate, userId: number) {
+    async updateTrafficCollection(collectionNameUpdate: CollectionNameUpdate, userId: number) {
         await this.createQueryBuilder()
         .update(TrafficCollection)
-        .set({ name: collectionUpdate.getName() })
-        .where("id = :collectionId", { collectionId: collectionUpdate.getCollectionId() })
+        .set({ name: collectionNameUpdate.getName() })
+        .where("id = :collectionId", { collectionId: collectionNameUpdate.getCollectionId() })
         .andWhere('user_Id = :userId', { userId })
         .execute()
     }

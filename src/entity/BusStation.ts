@@ -76,4 +76,5 @@ export class BusStation extends BaseEntity{
     public getYValue(){
         return this.yValue;
     }
+
 }
