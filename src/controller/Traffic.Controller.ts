@@ -174,8 +174,8 @@ export class TrafficController{
 
     /**
      * 연관 검색어를 이용해 사용자가 버스 정류장 선텍 시 버스 정류장 이름과 아이디로 해당 정류장 정보 제공 함수
-     * @param stationName 
-     * @param busStationId 
+     * @param stationName 정류장 이름
+     * @param busStationId 버스 정류장 아이디
      * @returns 
      */
     @Get('/time-information/bus')

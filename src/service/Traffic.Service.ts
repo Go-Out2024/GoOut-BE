@@ -15,6 +15,12 @@ import { BusRepository } from "../repository/Bus.Repository.js";
 import { envs } from "../config/environment.js";
 import axios from 'axios';
 import xml2js from 'xml2js';
+import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult.js";
+import { Transportation } from "../entity/Transportation.js";
+import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
+import { BusArrivalInfo, BusStationInfo, Station } from "../dto/values/BusArrivalInfo.js";
+import { SubwayApi } from "../util/publicData.js";
+import { BusApi } from "../util/publicData.js";
 
 @Service()
 export class TrafficService {
@@ -28,6 +34,8 @@ export class TrafficService {
         @InjectRepository(SubwayStationRepository) private subwayStationRepository: SubwayStationRepository,
         @InjectRepository(BusStationRepository) private busStationRepository: BusStationRepository,
         @InjectRepository(BusRepository) private busRepository: BusRepository,
+        private subwayApi: SubwayApi,
+        private busApi: BusApi
     ) {}
 
     /**
@@ -122,23 +130,26 @@ export class TrafficService {
      * @returns 
      */
     async bringMainTrafficCollection(userId: number) {
-        let result: any = {};
         const currentHour = new Date().getHours();
         const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
         const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
-        result.collection = collection;
-        const details = collection.trafficCollectionDetails.find(detail => detail.status === status);
-        const arrivalTransportation = details.transportations.find(transportation => transportation.route === 'departure');
-        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(arrivalTransportation.id);
-        const numbers = transportationNumbers.map(numberEntity => numberEntity.numbers);
-        if (arrivalTransportation.transportationName === 'Subway') {
-            result.subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(arrivalTransportation, numbers);
-        } else if (arrivalTransportation.transportationName === 'Bus') {
-            result.busStations = await this.bringMainBusStationsInfo(arrivalTransportation, numbers);
+        const details = collection.trafficCollectionDetails.find(transportationdetail => transportationdetail.getStatus() === status);
+        const departureTransportation = details.transportations.find(transportation => transportation.getRoute() === 'departure');
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
+        const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
+        let result: StationResult;
+        if (departureTransportation.transportationName === 'Subway') {
+            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
+        } else if (departureTransportation.transportationName === 'Bus') {
+            const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
+            result = StationResult.of(undefined, BusStationResult.of(busStations));
         }
-        return result
+        return {
+            collection,
+            result
+        }
     }
-
     /**
      * 유저 아이디와 컬렉션 아이디, 컬렉션 상태를 조회해 반대 상태의 정보 조회
      * @param userId 유저 아이디
@@ -146,20 +157,24 @@ export class TrafficService {
      * @returns 
      */
     async changeTrafficRoute(userId: number, currentStatus: 'goToWork' | 'goHome') {
-        let result: any = {};
         const newStatus = currentStatus === 'goToWork' ? 'goHome' : 'goToWork';
         const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, newStatus);
-        result.collection = collection;
-        const details = collection.trafficCollectionDetails.find(detail => detail.status === newStatus);
-        const departureTransportation = details.transportations.find(transportation => transportation.route === 'departure');
-        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.id);
-        const numbers = transportationNumbers.map(numberEntity => numberEntity.numbers);
+        const details = collection.trafficCollectionDetails.find(transportationdetail => transportationdetail.getStatus() === newStatus);
+        const departureTransportation = details.transportations.find(transportation => transportation.getRoute() === 'departure');
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
+        const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
+        let result: StationResult;
         if (departureTransportation.transportationName === 'Subway') {
-            result.subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
         } else if (departureTransportation.transportationName === 'Bus') {
-            result.busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
+            const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
+            result = StationResult.of(undefined, BusStationResult.of(busStations));
         }
-        return result
+        return {
+            collection,
+            result
+        }
     }
     
     /**
@@ -168,8 +183,11 @@ export class TrafficService {
      * @param numbers 지하철 호선 번호
      * @returns 
      */
-    private async bringMainSubwayArrivalInfo(departureTransportation: any, numbers: string[]): Promise<any> {
-        return await this.bringSubwayArrivalInfo(departureTransportation.stationName, numbers);
+    private async bringMainSubwayArrivalInfo(departureTransportation: Transportation, numbers: string[]): Promise<SubwayArrivalInfo[]> {
+        const subwayArrivalInfo = await this.bringSubwayArrivalInfo(departureTransportation.getStationName(), numbers);
+        return subwayArrivalInfo.map((info: SubwayArrivalInfo) => 
+            SubwayArrivalInfo.of(info)
+        );
     }
 
     /**
@@ -178,18 +196,15 @@ export class TrafficService {
      * @param numbers 버스 번호들
      * @returns 
      */
-    private async bringMainBusStationsInfo(departureTransportation: any, numbers: string[]): Promise<any[]> {
-        const busStations = await this.busStationRepository.findByStationName(departureTransportation.stationName);
+    private async bringMainBusStationsInfo(departureTransportation: Transportation, numbers: string[]): Promise<BusStationInfo[]> {
+        const busStations = await this.busStationRepository.findByStationName(departureTransportation.getStationName());
         return await Promise.all(
             busStations.map(async (station) => {
                 const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
-                return {
-                    busArrivalInfo,
-                };
+                return BusStationInfo.of(undefined, busArrivalInfo);
             })
         );
     }
-
     /**
      * 교통 컬렉션 등록 시 교통 컬렉션 상태 검증 함수
      * @param collectionInsert 컬렉션 등록 dto
@@ -218,70 +233,29 @@ export class TrafficService {
         }
     }
 
-    private subwayApiKey: string = envs.apikey.subwayapikey;
-    private busApiKey: string = envs.apikey.busapikey;
-    // Subway의 경우
-    private async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
-        const subwayApiUrl = `http://swopenAPI.seoul.go.kr/api/subway/${this.subwayApiKey}/json/realtimeStationArrival/0/5/${encodeURIComponent(stationName)}`;
-        try {
-            const response = await axios.get(subwayApiUrl);
-            const data = response.data;
-
-            if (data.RESULT && data.RESULT.code !== 'INFO-000') {
-                throw new Error(`Error from API: ${data.RESULT.message}`);
-            }
-
-            const arrivalInfo = data.realtimeArrivalList
-                .filter(info => numbers.includes(info.subwayId))
-                .map(info => ({
-                    stationName: info.statnNm,
-                    line: info.subwayId,
-                    direction: info.trainLineNm,
-                    firstArrivalMessage: info.arvlMsg2,
-                    secondArrivalMessage: info.arvlMsg3,
-                    destination: info.bstatnNm
-                }));
-
-            return arrivalInfo;
-        } catch (error) {
-            console.error('Failed to fetch subway arrival info:', error.message);
-            throw new Error('지하철 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
-        }
+    /**
+     * 역 이름을 이용하여 api 요청 후 받은 데이터 중 버스 호선과 number가 동일한 지하철 실시간 도착 데이터만 추출
+     * @param stationName 역 이름
+     * @param numbers 호선 번호
+     * @returns 
+     */
+    async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
+        const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
+        return arrivalList
+            .filter(info => numbers.includes(info.subwayId))
+            .map(info => SubwayArrivalInfo.fromData(info));
     }
+
     /**
      * 정류소 고유번호를 이용하여 api 요청 후 받은 데이터 중 버스 번호가 numbers와 동일한 버스 실시간 도착 데이터만 추출
      * @param stationNum 정류소 고유번호
      * @param numbers 버스 번호들
      * @returns 
      */
-    private async bringBusArrivalInfo(stationNum: number, numbers: string[]) {
-        const formattedStationNum = stationNum.toString().padStart(5, '0');
-        const busApiUrl = `http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?serviceKey=${this.busApiKey}&arsId=${formattedStationNum}`;
-        try {
-            const response = await axios.get(busApiUrl);
-            const data = response.data;
-
-            const parsedData = await xml2js.parseStringPromise(data, { explicitArray: false });
-
-            const itemList = parsedData.ServiceResult.msgBody.itemList;
-            if (!itemList) {
-                throw new Error('Item list not found in response');
-            }
-
-            const busArrivalInfo = Array.isArray(itemList) ? itemList : [itemList];
-
-            return busArrivalInfo
-                .filter(item => numbers.includes(item.busRouteAbrv))
-                .map(item => ({
-                    nxtStn: item.nxtStn || '정보 없음', 
-                    busRouteAbrv: item.busRouteAbrv || '정보 없음',
-                    arrmsg1: item.arrmsg1 || '정보 없음',
-                    arrmsg2: item.arrmsg2 || '정보 없음'
-                }));
-            
-        } catch (error) {
-            console.error('버스 도착 예정 정보 요청 오류:', error);
-            throw new Error('버스 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
-        }
+    async bringBusArrivalInfo(stationNum: number, numbers: string[]) {
+        const busArrivalList = await this.busApi.bringBusArrivalInfo(stationNum);
+        return busArrivalList
+            .filter(item => numbers.includes(item.busRouteAbrv))
+            .map(item => BusArrivalInfo.fromData(item));
     }
 }
