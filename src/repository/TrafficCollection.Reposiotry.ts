@@ -94,13 +94,15 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
         return await this.createQueryBuilder("trafficCollection")
             .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
             .leftJoinAndSelect("trafficCollectionDetails.transportations", "transportations")
+            .leftJoinAndSelect("transportations.transportationNumbers", "transportationNumbers")
             .where("trafficCollection.user_id = :userId", { userId })
             .andWhere("trafficCollection.id = :collectionId", { collectionId })
             .select([
                 "trafficCollection.id",
                 "trafficCollection.name",
                 "trafficCollectionDetails.status",
-                "transportations.stationName"
+                "transportations.stationName",
+                "transportationNumbers.numbers"
             ])
             .getOne();
     }
