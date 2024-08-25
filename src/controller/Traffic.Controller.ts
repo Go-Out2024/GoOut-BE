@@ -9,6 +9,7 @@ import { CollectionErase } from "../dto/request/CollectionErase.js";
 import { CollectionBring } from "../dto/request/CollectionBring.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 import { CollectionChange } from "../dto/request/CollectionChange.js";
+import { TrafficSearchService } from "../service/TrafficSearch.Service.js";
 import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
 import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate.js";
 
@@ -17,7 +18,8 @@ import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate.js
 export class TrafficController{
 
     constructor(
-        private readonly trafficService: TrafficService
+        private readonly trafficService: TrafficService,
+        private readonly trafficSearchService: TrafficSearchService
     ){}
 
     /**
@@ -144,9 +146,60 @@ export class TrafficController{
     @Get('/collection/change')
     @UseBefore(compareAuthToken)
     async changeTrafficRoute(@Body() collectionChange:CollectionChange, @Req() req: Request) {
-        const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getCollectionId(), collectionChange.getStatus());
+        const newCollection = await this.trafficService.changeTrafficRoute(req.decoded.id, collectionChange.getStatus());
         console.log("교통 컬렉션 루트 전환 완료");
         return SuccessResponseDto.of(newCollection);
     }
 
+    /**
+     * 역 또는 정류장 이름에 대한 도착시간 정보 조회
+     * @param stationName 역 또는 정류장 이름
+     * @returns 
+     */
+    @Get('/time-information')
+    async bringStationInformation(@QueryParam('stationName') stationName: string) {
+        const result = await this.trafficSearchService.bringStationInformation(stationName);
+        console.log("해당 역 또는 정류장 정보 가져오기 성공");
+        return SuccessResponseDto.of(result);
+    }
+
+    /**
+     * 단어 단위로 입력 시 연관 검색어 조회 함수
+     * @param searchTerm 입력 단어
+     * @returns 
+     */
+    @Get('/related-search')
+    async bringStationRelatedSearch(@QueryParam('searchTerm') searchTerm: string) {
+        const result = await this.trafficSearchService.bringStationRelatedSearch(searchTerm);
+        console.log("해당 단어에 대한 연관 검색어 조회 성공");
+        return SuccessResponseDto.of(result);
+    }
+
+    /**
+     * 연관 검색어를 이용해 사용자가 지하철 역 선택 시 지하철 역 이름으로 해당 역 정보 제공 함수
+     * @param subwayName 지하철 역 이름
+     * @returns 
+     */
+    @Get('/time-information/subway')
+    async bringSubwayStationInfo(
+        @QueryParam('subwayName') subwayName: string){
+        const result = await this.trafficSearchService.bringSubwayStationInfo(subwayName);
+        console.log('지하철 역 정보 가져오기 성공')
+        return SuccessResponseDto.of(result);
+    }
+
+    /**
+     * 연관 검색어를 이용해 사용자가 버스 정류장 선텍 시 버스 정류장 이름과 아이디로 해당 정류장 정보 제공 함수
+     * @param stationName 정류장 이름
+     * @param busStationId 버스 정류장 아이디
+     * @returns 
+     */
+    @Get('/time-information/bus')
+    async bringBusStationInfo(
+        @QueryParam('stationName') stationName: string,
+        @QueryParam('busStationId') busStationId: number){
+        const result = await this.trafficSearchService.bringBusStationInfo(stationName, busStationId);
+        console.log('버스 정류장 정보 가져오기 성공')
+        return SuccessResponseDto.of(result);
+    }
 }

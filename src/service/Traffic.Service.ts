@@ -9,6 +9,15 @@ import { TransportationDetailDto } from "../dto/request/TransportationDetailDto.
 import { TrafficCollection } from "../entity/TrafficCollection.js";
 import {TransportationRepository } from "../repository/Transportation.Repository.js";
 import { TransportationNumberRepository } from "../repository/TransportationNumber.Repository.js";
+import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
+import { BusStationRepository } from "../repository/BusStation.Repository.js";
+import { BusRepository } from "../repository/Bus.Repository.js";
+import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult.js";
+import { Transportation } from "../entity/Transportation.js";
+import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
+import { BusArrivalInfo, BusStationInfo, Station } from "../dto/values/BusArrivalInfo.js";
+import { SubwayApi } from "../util/publicData.js";
+import { BusApi } from "../util/publicData.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
 
@@ -21,6 +30,11 @@ export class TrafficService {
         @InjectRepository(TrafficCollectionDetailRepository) private trafficCollectionDetailRepository: TrafficCollectionDetailRepository,
         @InjectRepository(TransportationRepository) private transportationRepository: TransportationRepository,
         @InjectRepository(TransportationNumberRepository) private transportationNumberRepository: TransportationNumberRepository,
+        @InjectRepository(SubwayStationRepository) private subwayStationRepository: SubwayStationRepository,
+        @InjectRepository(BusStationRepository) private busStationRepository: BusStationRepository,
+        @InjectRepository(BusRepository) private busRepository: BusRepository,
+        private subwayApi: SubwayApi,
+        private busApi: BusApi
     ) {}
 
     /**
@@ -124,22 +138,79 @@ export class TrafficService {
     async bringMainTrafficCollection(userId: number) {
         const currentHour = new Date().getHours();
         const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
-        return await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        const details = collection.trafficCollectionDetails.find(transportationdetail => transportationdetail.getStatus() === status);
+        const departureTransportation = details.transportations.find(transportation => transportation.getRoute() === 'departure');
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
+        const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
+        let result: StationResult;
+        if (departureTransportation.transportationName === 'Subway') {
+            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
+        } else if (departureTransportation.transportationName === 'Bus') {
+            const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
+            result = StationResult.of(undefined, BusStationResult.of(busStations));
+        }
+        return {
+            collection,
+            result
+        }
     }
-
     /**
      * 유저 아이디와 컬렉션 아이디, 컬렉션 상태를 조회해 반대 상태의 정보 조회
      * @param userId 유저 아이디
-     * @param collectionId 컬렉션 아이디
      * @param currentStatus 컬렉션의 상태(goToWokrt or goHome)
      * @returns 
      */
-    async changeTrafficRoute(userId: number, collectionId: number, currentStatus: 'goToWork' | 'goHome') {
-        const user = await this.userRepository.findUserById(userId);
+    async changeTrafficRoute(userId: number, currentStatus: 'goToWork' | 'goHome') {
         const newStatus = currentStatus === 'goToWork' ? 'goHome' : 'goToWork';
-        return await this.trafficCollectionRepository.findChangeTrafficRoute(userId, collectionId, newStatus);
+        const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, newStatus);
+        const details = collection.trafficCollectionDetails.find(transportationdetail => transportationdetail.getStatus() === newStatus);
+        const departureTransportation = details.transportations.find(transportation => transportation.getRoute() === 'departure');
+        const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
+        const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
+        let result: StationResult;
+        if (departureTransportation.transportationName === 'Subway') {
+            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
+        } else if (departureTransportation.transportationName === 'Bus') {
+            const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
+            result = StationResult.of(undefined, BusStationResult.of(busStations));
+        }
+        return {
+            collection,
+            result
+        }
+    }
+    
+    /**
+     * 타입이 지하철일 때 사용자가 등록해놓은 출발역과 호선의 실시간 도착 정보 조회 함수
+     * @param departureTransportation 출발 교통수단
+     * @param numbers 지하철 호선 번호
+     * @returns 
+     */
+    private async bringMainSubwayArrivalInfo(departureTransportation: Transportation, numbers: string[]): Promise<SubwayArrivalInfo[]> {
+        const subwayArrivalInfo = await this.bringSubwayArrivalInfo(departureTransportation.getStationName(), numbers);
+        return subwayArrivalInfo.map((info: SubwayArrivalInfo) => 
+            SubwayArrivalInfo.of(info)
+        );
     }
 
+    /**
+     * 타입이 버스일 때 사용자가 등록해놓은 출발역과 버스 번호들의 실시간 도착 정보 조회 함수
+     * @param departureTransportation 출발 교통수단
+     * @param numbers 버스 번호들
+     * @returns 
+     */
+    private async bringMainBusStationsInfo(departureTransportation: Transportation, numbers: string[]): Promise<BusStationInfo[]> {
+        const busStations = await this.busStationRepository.findByStationName(departureTransportation.getStationName());
+        return await Promise.all(
+            busStations.map(async (station) => {
+                const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
+                return BusStationInfo.of(undefined, busArrivalInfo);
+            })
+        );
+    }
     /**
      * 교통 컬렉션 등록 시 교통 컬렉션 상태 검증 함수
      * @param collectionInsert 컬렉션 등록 dto
@@ -166,5 +237,31 @@ export class TrafficService {
         if (collectionDetailUpdate.getGoHome()) {
             await this.penetrateTrafficCollectionDetail(collectionDetailUpdate.getGoHome(), trafficCollection);
         }
+    }
+
+    /**
+     * 역 이름을 이용하여 api 요청 후 받은 데이터 중 버스 호선과 number가 동일한 지하철 실시간 도착 데이터만 추출
+     * @param stationName 역 이름
+     * @param numbers 호선 번호
+     * @returns 
+     */
+    async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
+        const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
+        return arrivalList
+            .filter(info => numbers.includes(info.subwayId))
+            .map(info => SubwayArrivalInfo.fromData(info));
+    }
+
+    /**
+     * 정류소 고유번호를 이용하여 api 요청 후 받은 데이터 중 버스 번호가 numbers와 동일한 버스 실시간 도착 데이터만 추출
+     * @param stationNum 정류소 고유번호
+     * @param numbers 버스 번호들
+     * @returns 
+     */
+    async bringBusArrivalInfo(stationNum: number, numbers: string[]) {
+        const busArrivalList = await this.busApi.bringBusArrivalInfo(stationNum);
+        return busArrivalList
+            .filter(item => numbers.includes(item.busRouteAbrv))
+            .map(item => BusArrivalInfo.fromData(item));
     }
 }

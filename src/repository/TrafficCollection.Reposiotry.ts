@@ -94,13 +94,15 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
         return await this.createQueryBuilder("trafficCollection")
             .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
             .leftJoinAndSelect("trafficCollectionDetails.transportations", "transportations")
+            .leftJoinAndSelect("transportations.transportationNumbers", "transportationNumbers")
             .where("trafficCollection.user_id = :userId", { userId })
             .andWhere("trafficCollection.id = :collectionId", { collectionId })
             .select([
                 "trafficCollection.id",
                 "trafficCollection.name",
                 "trafficCollectionDetails.status",
-                "transportations.stationName"
+                "transportations.stationName",
+                "transportationNumbers.numbers"
             ])
             .getOne();
     }
@@ -131,48 +133,28 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
     }
 
     /**
-     * 유저 아이디와 choice값이 true인 컬렉션의 시간에 따른 status값을 조회하여 해당 컬렉션의 정보 조회
+     * 유저 아이디와 choice값이 true인 컬렉션의 시간에 따른 status값을 조회하여 해당 컬렉션의 상세정보들 조회
      * @param userId 유저 아이디
      * @param status 상태(goToWork or goHome)
      * @returns 
      */
     async findMainTrafficCollection(userId: number, status: string) {
         return await this.createQueryBuilder("trafficCollection")
-        .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
-        .leftJoinAndSelect("trafficCollectionDetails.transportations", 'transportations')
-        .where("trafficCollection.user_id = :userId", { userId })
-        .andWhere("trafficCollection.choice = true")
-        .andWhere("trafficCollectionDetails.status = :status", { status })
-        .select([
-            "trafficCollection.id",
-            "trafficCollection.name",
-            "trafficCollectionDetails.status",
-            "transportations.stationName"
-        ])
-        .getOne()
-
-    }
-
-    /**
-     * 유저 아이디와 컬렉션 아이디, 반대로 변경된 상태로 해당 컬렉션 정보 조회
-     * @param userId 유저 아이디
-     * @param collectionId 컬렉션 아이디
-     * @param newStatus 반대로 변경된 상태
-     * @returns 
-     */
-    async findChangeTrafficRoute(userId: number, collectionId: number, newStatus: string) {
-        return await this.createQueryBuilder("trafficCollection")
             .leftJoinAndSelect("trafficCollection.trafficCollectionDetails", "trafficCollectionDetails")
             .leftJoinAndSelect("trafficCollectionDetails.transportations", "transportations")
             .where("trafficCollection.user_id = :userId", { userId })
-            .andWhere("trafficCollection.id = :collectionId", { collectionId })
-            .andWhere("trafficCollectionDetails.status = :newStatus", { newStatus })
+            .andWhere("trafficCollection.choice = true")
+            .andWhere("trafficCollectionDetails.status = :status", { status })
             .select([
                 "trafficCollection.id",
                 "trafficCollection.name",
+                "trafficCollectionDetails.id",
                 "trafficCollectionDetails.status",
-                "transportations.stationName"
+                "transportations.id",
+                "transportations.route",
+                "transportations.transportationName",
+                "transportations.stationName",
             ])
             .getOne();
-    }
+    }    
 }

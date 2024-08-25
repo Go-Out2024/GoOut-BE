@@ -20,6 +20,10 @@ export class Bus extends BaseEntity{
     @Column({ type: 'int', name: 'sequence', nullable: false })
     sequence: number;
 
+    @Column({ type: 'int', name: 'bus_station_id', nullable: false })
+    busStationId: number;
+
+
     @ManyToOne(() => BusStation, busStation => busStation.buss, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
