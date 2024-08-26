@@ -4,7 +4,7 @@ import { YouTubeSchedule } from './YouTubeSchedule.js';
 import { RedisService } from "../service/Redis.Service.js";
 import { YouTubeApi } from "./YouTubeApi.js";
 import { Alarm } from '../repository/Alarm.js';
-import { Connection } from 'typeorm';
+import { createConnection, getConnection, Connection } from 'typeorm';
 
 export const settingRecommendMusic = async () => {
 
@@ -28,12 +28,9 @@ export const handleAlarm = async () => {
     //'*/10 * * * * *'
        '*/1 * * * *'
         , async function () {       // UTC시간 기준 9시간 차이로 새벽 12시 의미 
-            let connection: Connection;
-            console.log(new Alarm(connection).findDataForAlarm());
+            const connection = getConnection();
+            console.log(await new Alarm(connection).findDataForAlarm());
 
-
-
-     
     });
     console.log("알림 스케줄링 완료")
 }
