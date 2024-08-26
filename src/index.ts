@@ -20,7 +20,7 @@ import { FamousSayingController } from './controller/FamousSaying.Controller.js'
 import { WeatherController } from './controller/Weather.Controller.js';
 import { CalendarController } from './controller/Calendar.Controller.js';
 import { MusicController } from './controller/Music.Controller.js';
-import { settingRecommendMusic } from './util/scheduler.js';
+import { handleAlarm, settingRecommendMusic } from './util/scheduler.js';
 import { TrafficController } from './controller/Traffic.Controller.js';
 
 
@@ -80,6 +80,7 @@ initializeDatabase()
         const httpServer: Server = createServer(app);
         httpServer.listen(envs.port, async () => {
             await settingRecommendMusic()
+            await handleAlarm();
             app.emit('started');
           
         });
