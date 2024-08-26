@@ -63,24 +63,6 @@ export class UserRepository extends Repository<User> {
             .execute();
     }
 
-    // public async findDataForAlarm(){
-    //     return this.query(
-    //         `
-    //         select *
-    //         from user as u 
-    //         inner join traffic_collection as tc on tc.user_id = u.user_id and tc.choice = 1
-    //         inner join traffic_collection_detail as tcd on tcd.traffic_collection_id = tc.traffic_collection_id 
-    //             and tcd.status = 
-    //                 case 
-    //                     when CURRENT_TIME < '14:00:00' then 'goToWork'
-    //                     else 'goHome'
-    //                 end
-    //         where u.alarm = 1 and CURRENT_TIME between u.alarm_start and u.alarm_end
-    //         `
-    //     )
-    // }
-
-
 
 
  }
