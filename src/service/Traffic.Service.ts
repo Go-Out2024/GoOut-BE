@@ -247,6 +247,10 @@ export class TrafficService {
      */
     async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
+        // arrivalList가 undefined 또는 null인 경우 예외를 발생시킴 --> 막차 이후
+        if (!arrivalList || arrivalList.length === 0) {
+            throw new Error('해당 역의 열차 운행이 종료되었습니다.');
+        }
         return arrivalList
             .filter(info => numbers.includes(info.subwayId))
             .map(info => SubwayArrivalInfo.fromData(info));
