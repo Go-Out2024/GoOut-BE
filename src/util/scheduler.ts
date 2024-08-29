@@ -31,6 +31,7 @@ export const handleAlarm = async () => {
         , async function () {       // UTC시간 기준 9시간 차이로 새벽 12시 의미 
  
             const datas : any[] = await Container.get(AlarmRepository).findDataForAlarm();
+            console.log(datas)
             const alarmService = Container.get(Alarm);
             const data = await alarmService.handleAlarm(datas);
             console.log(data)

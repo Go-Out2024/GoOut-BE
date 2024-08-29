@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { TrafficSearchService } from "../service/TrafficSearch.Service.js";
+import { TrafficService } from "../service/Traffic.Service.js";
 
 
 @Service()
@@ -7,14 +7,14 @@ export class Alarm{
 
    
 
-    constructor(private readonly trafficSearchService:TrafficSearchService){}
+    constructor(private readonly trafficService:TrafficService){}
 
 
 
     public async handleAlarm(datas:any[]){
         // 정보를 조회
         return datas.map(async (data:any)=>{
-            return this.trafficSearchService.bringStationInformation(data.station_name) ;
+            return this.trafficService.bringMainTrafficCollection(data.user_id) ;
         }); 
         // 정보 중 지하철은 10분전, 버스는 5전역 전이라면 데이터를 필터링
 
