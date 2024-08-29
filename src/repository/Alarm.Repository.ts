@@ -1,7 +1,10 @@
 
+import { Service } from 'typedi';
 import { Connection } from 'typeorm';
 
-export class Alarm {
+
+@Service()
+export class AlarmRepository{
     private connection: Connection;
 
     constructor(connection: Connection) {
