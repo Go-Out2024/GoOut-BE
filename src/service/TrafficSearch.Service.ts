@@ -10,6 +10,9 @@ import { Station } from "../dto/values/BusArrivalInfo.js";
 import { BusStation } from "../entity/BusStation.js";
 import { SubwayApi } from "../util/publicData.js";
 import { BusApi } from "../util/publicData.js";
+import { checkData } from "../util/checker.js";
+import { ErrorResponseDto } from "../response/ErrorResponseDto.js";
+import { ErrorCode } from "../exception/ErrorCode.js";
 
 @Service()
 export class TrafficSearchService {
@@ -54,9 +57,20 @@ export class TrafficSearchService {
         const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
         let subwayStationResult: SubwayStationResult | undefined;
         let busStationResult: BusStationResult | undefined;
+        let subwayErrorMessage: string | undefined;
+
+        // 지하철 정보 조회 시 발생하는 에러를 잡아내기 위해 try-catch 사용
         if (subwayStation) {
-            const subwayArrivalInfo = await this.bringSubwayArrivalInfo(subwayName);
-            subwayStationResult = SubwayStationResult.of(subwayArrivalInfo);
+            try {
+                const subwayArrivalInfo = await this.bringSubwayArrivalInfo(subwayName);
+                subwayStationResult = SubwayStationResult.of(subwayArrivalInfo);
+            } catch (error) {
+                if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
+                    subwayErrorMessage = error.getMessage();
+                } else {
+                    throw error; // 다른 에러는 그대로 던짐
+                }
+            }
         }
         const busStations = await this.busStationRepository.findByStationName(stationName);
         if (busStations.length > 0) {
@@ -66,7 +80,7 @@ export class TrafficSearchService {
         if (!subwayStationResult && !busStationResult) {
             throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
         }
-        return StationResult.of(subwayStationResult, busStationResult);
+        return StationResult.of(subwayStationResult, busStationResult, subwayErrorMessage);
     }
     
     /**
@@ -81,7 +95,7 @@ export class TrafficSearchService {
         }
         const busStationsInfo = await this.bringBusStationsInfo(busStations);
         const busStationResult = BusStationResult.of(busStationsInfo);
-        return StationResult.of(undefined, busStationResult);
+        return StationResult.of(undefined, busStationResult, undefined);
     }
     
     /**
@@ -168,12 +182,19 @@ export class TrafficSearchService {
      */
     private async bringSubwayArrivalInfo(stationName: string): Promise<SubwayArrivalInfo[]> {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
-        // arrivalList가 undefined 또는 null인 경우 예외를 발생시킴 --> 막차 이후
-        if (!arrivalList || arrivalList.length === 0) {
-            throw new Error('해당 역의 열차 운행이 종료되었습니다.');
-        }
+        this.verifyarrivalList(arrivalList);
         return arrivalList
             .map(info => SubwayArrivalInfo.fromData(info));
+    }
+
+    /**
+     * 검색 역의 열차정보가 없을 때 예외 처리 함수
+     * @param arrivalList 열차 정보
+     */
+    public verifyarrivalList(arrivalList) {
+        if (!checkData(arrivalList)) {
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
+        }
     }
 
     /**

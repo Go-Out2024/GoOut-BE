@@ -20,6 +20,9 @@ import { SubwayApi } from "../util/publicData.js";
 import { BusApi } from "../util/publicData.js";
 import { CollectionChoice } from "../dto/request/CollectionChoice.js";
 import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
+import { checkData } from "../util/checker.js";
+import { ErrorResponseDto } from "../response/ErrorResponseDto.js";
+import { ErrorCode } from "../exception/ErrorCode.js";
 
 @Service()
 export class TrafficService {
@@ -146,10 +149,10 @@ export class TrafficService {
         let result: StationResult;
         if (departureTransportation.transportationName === 'Subway') {
             const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
-            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
         } else if (departureTransportation.transportationName === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
-            result = StationResult.of(undefined, BusStationResult.of(busStations));
+            result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
         }
         return {
             collection,
@@ -172,10 +175,10 @@ export class TrafficService {
         let result: StationResult;
         if (departureTransportation.transportationName === 'Subway') {
             const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
-            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined);
+            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
         } else if (departureTransportation.transportationName === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
-            result = StationResult.of(undefined, BusStationResult.of(busStations));
+            result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
         }
         return {
             collection,
@@ -247,10 +250,7 @@ export class TrafficService {
      */
     async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
-        // arrivalList가 undefined 또는 null인 경우 예외를 발생시킴 --> 막차 이후
-        if (!arrivalList || arrivalList.length === 0) {
-            throw new Error('해당 역의 열차 운행이 종료되었습니다.');
-        }
+        this.verifyarrivalList(arrivalList);
         return arrivalList
             .filter(info => numbers.includes(info.subwayId))
             .map(info => SubwayArrivalInfo.fromData(info));
@@ -268,4 +268,15 @@ export class TrafficService {
             .filter(item => numbers.includes(item.busRouteAbrv))
             .map(item => BusArrivalInfo.fromData(item));
     }
+
+    /**
+     * 검색 역의 열차정보가 없을 때 예외처리 함수
+     * @param arrivalList 열차정보
+     */
+    public verifyarrivalList(arrivalList: any) {
+        if (!checkData(arrivalList)) {
+            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
+        }
+    }
+
 }
