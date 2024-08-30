@@ -18,8 +18,6 @@ export class SubwayApi {
             if (data.RESULT && data.RESULT.code !== 'INFO-000') {
                 throw new Error(`Error from API: ${data.RESULT.message}`);
             }
-            console.log(data)
-
             return data.realtimeArrivalList; // 필터링은 호출하는 서비스 함수에서 수행
         } catch (error) {
             console.error('Failed to fetch subway arrival info:', error.message);
