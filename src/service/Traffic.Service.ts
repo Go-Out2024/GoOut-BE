@@ -148,8 +148,16 @@ export class TrafficService {
         const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
         let result: StationResult;
         if (departureTransportation.transportationName === 'Subway') {
-            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
-            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
+            try {
+                const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+                result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
+            } catch (error) {
+                if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
+                   result = StationResult.of(undefined, undefined, error.getMessage());
+                } else {
+                    throw error; // 다른 에러는 그대로 던짐
+                }
+            }
         } else if (departureTransportation.transportationName === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
             result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
@@ -174,8 +182,16 @@ export class TrafficService {
         const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
         let result: StationResult;
         if (departureTransportation.transportationName === 'Subway') {
-            const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
-            result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
+            try {
+                const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
+                result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
+            } catch (error) {
+                if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
+                   result = StationResult.of(undefined, undefined, error.getMessage());
+                } else {
+                    throw error; // 다른 에러는 그대로 던짐
+                }
+            }
         } else if (departureTransportation.transportationName === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
             result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
