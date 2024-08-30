@@ -22,22 +22,14 @@ export const settingRecommendMusic = async () => {
 
 
 export const handleAlarm = async () => {
-
     await schedule.scheduleJob(
-
      //   '0 0 0 1 * *'
     //'*/10 * * * * *'
        '*/1 * * * *'
         , async function () {       // UTC시간 기준 9시간 차이로 새벽 12시 의미 
- 
             const datas : any[] = await Container.get(AlarmRepository).findDataForAlarm();
-            console.log(datas)
             const alarmService = Container.get(Alarm);
-            const data = await alarmService.handleAlarm(datas);
-            console.log(data)
-
-
-
+            await alarmService.handleAlarm(datas);
     });
     console.log("알림 스케줄링 완료")
 }
