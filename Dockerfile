@@ -1,18 +1,18 @@
-FROM node:18.6.0
-# 작업 디렉토리 지정
+FROM node:18.6.0-alpine as builder
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+
 WORKDIR /app
-# npm install 을 위해서 dependency 와 환경변수 추가
-COPY package.json ./
-COPY .env ./
-# 모듈 설치
+COPY package.json /app
 RUN npm install
 RUN npm install pm2 -g
-
-# 나머지 코드들 작업 디렉토리에 복사
 COPY ./ ./
-
-
-
 ENV CHOKIDAR_USEPOLLING=true
-# 컨테이너가 올라가면 서버 기동
+
+FROM node:18.6.0-alpine
+WORKDIR /app
+COPY --from=builder /app /app
+RUN npm run build
+
 CMD ["npm", "run", "start"]
