@@ -38,8 +38,10 @@ export class Alarm{
      * @returns 
      */
     private checkTransportationTime(time:string[]){
-        const pattern = /\[\s*5\s*\]번째|10분/;
-        return time.some(t => pattern.test(t));
+        if(time !== undefined){
+            const pattern = /\[\s*5\s*\]번째|10분/;
+            return time.some(t => pattern.test(t));
+        }
     }
 
     /**
@@ -48,10 +50,13 @@ export class Alarm{
      * @returns 
      */
     private extractTransportationArrivalInfo(stationResult:StationResult){
-        if(stationResult.getSubwayStation()===undefined){
+        if(stationResult.getSubwayStation()===undefined && stationResult.getBusStations()===undefined){
+            return;
+        }else if(stationResult.getSubwayStation()===undefined){
             return this.extractBusArrivalInfo(stationResult.getBusStations());
+        }else if(stationResult.getBusStations()===undefined){
+            return this.extractSubwayArrivalInfo(stationResult.getSubwayStation());
         }
-        return this.extractSubwayArrivalInfo(stationResult.getSubwayStation());
     }
 
     /**
