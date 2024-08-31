@@ -5,6 +5,7 @@ export class SubwayArrivalInfo {
     private firstArrivalMessage: string;
     private secondArrivalMessage: string;
     private destination: string;
+    private estimatedTime: string;
 
     constructor(
         stationName: string,
@@ -12,7 +13,8 @@ export class SubwayArrivalInfo {
         direction: string,
         firstArrivalMessage: string,
         secondArrivalMessage: string,
-        destination: string
+        destination: string,
+        estimatedTime: string
     ) {
         this.setStationName(stationName);
         this.setLine(line);
@@ -20,6 +22,7 @@ export class SubwayArrivalInfo {
         this.setFirstArrivalMessage(firstArrivalMessage);
         this.setSecondArrivalMessage(secondArrivalMessage);
         this.setDestination(destination);
+        this.setEstimatedTime(estimatedTime);
     }
 
     public static of(
@@ -31,18 +34,33 @@ export class SubwayArrivalInfo {
             subwayArrivalInfo.direction,
             subwayArrivalInfo.firstArrivalMessage,
             subwayArrivalInfo.secondArrivalMessage,
-            subwayArrivalInfo.destination
+            subwayArrivalInfo.destination,
+            subwayArrivalInfo.estimatedTime
         )
     }
     
-    public static fromData(info: { statnNm: string; subwayId: number; trainLineNm: string; arvlMsg2: string; arvlMsg3: string; bstatnNm: string; }): SubwayArrivalInfo {
+    public static fromData(info: { 
+        statnNm: string; 
+        subwayId: number; 
+        trainLineNm: string; 
+        arvlMsg2: string; 
+        arvlMsg3: string; 
+        bstatnNm: string;
+        barvlDt: number; }): SubwayArrivalInfo {
+
+        // 초 단위를 '분', '초' 형식으로 변환
+        const minutes = Math.floor(info.barvlDt / 60);
+        const seconds = info.barvlDt % 60;
+        const estimatedTime = `${minutes}분 ${seconds}초`;
+        
         return new SubwayArrivalInfo(
             info.statnNm,
             info.subwayId,
             info.trainLineNm,
             info.arvlMsg2,
             info.arvlMsg3,
-            info.bstatnNm
+            info.bstatnNm,
+            estimatedTime
         );
     }
 
@@ -68,5 +86,9 @@ export class SubwayArrivalInfo {
 
     public setDestination(destination: string) {
         this.destination = destination;
+    }
+    
+    public setEstimatedTime(estimatedTime: string) {
+        this.estimatedTime = estimatedTime;
     }
 }

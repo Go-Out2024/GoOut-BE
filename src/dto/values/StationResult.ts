@@ -36,14 +36,16 @@ export class BusStationResult {
 export class StationResult {
     private subwayStation: SubwayStationResult;
     private busStations: BusStationResult;
+    private subwayErrorMessage: string
 
-    constructor(subwayStation: SubwayStationResult, busStations: BusStationResult) {
+    constructor(subwayStation: SubwayStationResult, busStations: BusStationResult, subwayErrorMessage: string) {
         this.setSubwayStation(subwayStation);
         this.setBusStations(busStations);
+        this.setSubwayErrorMessage(subwayErrorMessage)
     }
 
-    public static of(subwayStation: SubwayStationResult, busStations: BusStationResult): StationResult {
-        return new StationResult(subwayStation, busStations);
+    public static of(subwayStation: SubwayStationResult, busStations: BusStationResult, subwayErrorMessage: string): StationResult {
+        return new StationResult(subwayStation, busStations, subwayErrorMessage);
     }
 
     public setSubwayStation(subwayStation: SubwayStationResult): void {
@@ -52,5 +54,9 @@ export class StationResult {
 
     public setBusStations(busStations: BusStationResult): void {
         this.busStations = busStations;
+    }
+
+    private setSubwayErrorMessage(subwayErrorMessage: string): void {
+        this.subwayErrorMessage = subwayErrorMessage;
     }
 }
