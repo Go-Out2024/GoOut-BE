@@ -42,6 +42,10 @@ export class BusStationInfo {
     public setBusArrivalInfo(busArrivalInfo: BusArrivalInfo[]) {
         this.busArrivalInfo = busArrivalInfo;
     }
+
+    public getBusArrivalInfo(){
+        return this.busArrivalInfo
+    }
 }
 
 
@@ -98,5 +102,9 @@ export class BusArrivalInfo {
 
     public setArrmsg2(arrmsg2: string) {
         this.arrmsg2 = arrmsg2;
+    }
+
+    public getArrmsg1(){
+        return this.arrmsg1;
     }
 }

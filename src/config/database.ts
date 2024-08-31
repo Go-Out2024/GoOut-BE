@@ -1,6 +1,6 @@
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import {  createConnection, useContainer} from 'typeorm';
+import {  Connection, createConnection, useContainer} from 'typeorm';
 import {
     BaseEntity,
     BeforeInsert,
@@ -46,6 +46,8 @@ export async function initializeDatabase() {
             entities: [path.join(__dirname, '../entity/*.{js,ts}')],
             namingStrategy: new SnakeNamingStrategy(),
         });
+
+        Container.set(Connection, connection); 
         return connection;
     } catch (err) {
         console.error("데이터베이스 초기화 중 오류 발생", err);

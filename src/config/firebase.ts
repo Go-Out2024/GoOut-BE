@@ -6,4 +6,4 @@ const googleService = require('../../firebase-admin.json');
 
 export const firebase = firebaseAdmin.initializeApp({
 	credential : firebaseAdmin.credential.cert(googleService)
-    });
+});

@@ -87,8 +87,17 @@ export class SubwayArrivalInfo {
     public setDestination(destination: string) {
         this.destination = destination;
     }
+
+    public getFirstArrivalMessage(){
+        return this.firstArrivalMessage;
+    }
+
+    public getSecondArrivalMessage(){
+        return this.secondArrivalMessage;
+
     
     public setEstimatedTime(estimatedTime: string) {
         this.estimatedTime = estimatedTime;
+
     }
 }

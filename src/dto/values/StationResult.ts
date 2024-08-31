@@ -1,5 +1,5 @@
-import { BusStationInfo } from "./BusArrivalInfo";
-import { SubwayArrivalInfo } from "./SubwayArrivalInfo";
+import { BusStationInfo } from "./BusArrivalInfo.js";
+import { SubwayArrivalInfo } from "./SubwayArrivalInfo.js";
 
 export class SubwayStationResult {
     private subwayArrivalInfo: SubwayArrivalInfo[];
@@ -14,6 +14,10 @@ export class SubwayStationResult {
 
     public setSubwayArrivalInfo(subwayArrivalInfo: SubwayArrivalInfo[]): void {
         this.subwayArrivalInfo = subwayArrivalInfo;
+    }
+
+    public getSubwayArrivalInfo(){
+        return this.subwayArrivalInfo;
     }
 }
 
@@ -30,6 +34,10 @@ export class BusStationResult {
 
     public setBusStationsInfo(busStationsInfo: BusStationInfo[]): void {
         this.busStationsInfo = busStationsInfo;
+    }
+
+    public getBusStationsInfo(){
+        return this.busStationsInfo
     }
 }
 
@@ -56,7 +64,16 @@ export class StationResult {
         this.busStations = busStations;
     }
 
+
+    public getBusStations(){
+        return this.busStations
+    }
+
+    public getSubwayStation(){
+        return this.subwayStation
+
     private setSubwayErrorMessage(subwayErrorMessage: string): void {
         this.subwayErrorMessage = subwayErrorMessage;
+
     }
 }

@@ -181,6 +181,7 @@ export class TrafficSearchService {
      * @returns 
      */
     private async bringSubwayArrivalInfo(stationName: string): Promise<SubwayArrivalInfo[]> {
+        const arrivalList : any[] = await this.subwayApi.bringSubwayArrivalInfo(stationName);
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
         this.verifyarrivalList(arrivalList);
         return arrivalList
