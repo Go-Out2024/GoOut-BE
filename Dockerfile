@@ -13,6 +13,5 @@ ENV CHOKIDAR_USEPOLLING=true
 FROM node:18.6.0-alpine
 WORKDIR /app
 COPY --from=builder /app /app
-RUN npm run build
 
 CMD ["npm", "run", "start"]
