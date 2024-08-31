@@ -12,15 +12,15 @@ import {
     Delete
 } from 'routing-controllers';
 import { Service, Token } from 'typedi';
-import { SuccessResponseDto } from '../response/SuccessResponseDto.js';
-import { compareAuthToken } from '../middleware/jwtMiddleware.js';
+import { SuccessResponseDto } from '../response/SuccessResponseDto';
+import { compareAuthToken } from '../middleware/jwtMiddleware';
 import { Request } from 'express';
-import { UserService } from '../service/User.Service.js';
-import { UserNumber } from '../dto/UserNumber.js';
-import { UserEmail } from '../dto/UserEmail.js';
-import { FirebaseTokenDto } from '../dto/request/FirebaseTokenDto.js';
-import { AlarmStatus } from '../dto/request/AlarmStatus.js';
-import { AlarmTime } from '../dto/request/AlarmTime.js';
+import { UserService } from '../service/User.Service';
+import { UserNumber } from '../dto/UserNumber';
+import { UserEmail } from '../dto/UserEmail';
+import { FirebaseTokenDto } from '../dto/request/FirebaseTokenDto';
+import { AlarmStatus } from '../dto/request/AlarmStatus';
+import { AlarmTime } from '../dto/request/AlarmTime';
 
 
 

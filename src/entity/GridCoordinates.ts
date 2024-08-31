@@ -1,4 +1,4 @@
-import { BaseEntity } from "./base/BaseEntity.js";
+import { BaseEntity } from "./base/BaseEntity";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('grid_coordinates')

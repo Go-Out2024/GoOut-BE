@@ -1,7 +1,7 @@
 import { JsonController, Post, Body, Res, HttpCode, Req, Delete, Get } from "routing-controllers";
 import { Service } from "typedi";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { FamousSayingService } from "../service/FamousSaying.Service.js";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { FamousSayingService } from "../service/FamousSaying.Service";
 
 
 @Service()

@@ -1,10 +1,10 @@
 
 import schedule from 'node-schedule';
-import { YouTubeSchedule } from './YouTubeSchedule.js';
-import { RedisService } from "../service/Redis.Service.js";
-import { YouTubeApi } from "./YouTubeApi.js";
-import { AlarmRepository } from '../repository/Alarm.Repository.js';
-import { Alarm } from './Alarm.js';
+import { YouTubeSchedule } from './YouTubeSchedule';
+import { RedisService } from "../service/Redis.Service";
+import { YouTubeApi } from "./YouTubeApi";
+import { AlarmRepository } from '../repository/Alarm.Repository';
+import { Alarm } from './Alarm';
 import {Container} from 'typedi';
 
 export const settingRecommendMusic = async () => {

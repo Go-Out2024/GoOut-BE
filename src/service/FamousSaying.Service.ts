@@ -1,6 +1,6 @@
 import { Service } from "typedi";
-import { getFamousSaying,  getFamousSayingRandomNumber, getWriter } from "../util/enum/FamousSaying.js";
-import { FamousSaying } from "../dto/response/FamousSaying.js";
+import { getFamousSaying,  getFamousSayingRandomNumber, getWriter } from "../util/enum/FamousSaying";
+import { FamousSaying } from "../dto/response/FamousSaying";
 
 
 

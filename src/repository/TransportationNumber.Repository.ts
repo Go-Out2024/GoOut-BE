@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
-import { TransportationNumber } from "../entity/TransportationNumber.js";
-import { Transportation } from "../entity/Transportation.js";
+import { TransportationNumber } from "../entity/TransportationNumber";
+import { Transportation } from "../entity/Transportation";
 
 @EntityRepository(TransportationNumber)
 export class TransportationNumberRepository extends Repository<TransportationNumber> {

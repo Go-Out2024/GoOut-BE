@@ -1,8 +1,8 @@
 import { Body, HttpCode, JsonController, Post } from "routing-controllers";
 import { Service } from "typedi";
-import { PushNoticeRequest } from "../dto/request/PushNoticeRequest.js";
-import {pushNotice} from "../util/firebaseMessage.js";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
+import { PushNoticeRequest } from "../dto/request/PushNoticeRequest";
+import {pushNotice} from "../util/firebaseMessage";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
 
 
 @Service()

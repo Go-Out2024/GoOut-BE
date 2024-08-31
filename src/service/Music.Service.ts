@@ -1,8 +1,7 @@
 
 import { Service } from 'typedi';
-import { InjectRepository } from 'typeorm-typedi-extensions';
-import { RedisService } from './Redis.Service.js';
-import { Music } from '../dto/response/Music.js';
+import { RedisService } from './Redis.Service';
+import { Music } from '../dto/response/Music';
 
 
 @Service()

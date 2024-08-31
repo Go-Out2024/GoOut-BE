@@ -1,18 +1,14 @@
 import { Inject, Service } from 'typedi';
 import axios from 'axios';
-import { getRepository } from 'typeorm';
-import { BusStation } from '../entity/BusStation.js';
-import { SubwayStation } from '../entity/SubwayStation.js';
-import { GridCoordinates } from '../entity/GridCoordinates.js';
-import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
-import { ErrorCode } from '../exception/ErrorCode.js';
-import { GridCoordinatesRepository } from '../repository/GridCoordinates.Repository.js';
+import { ErrorResponseDto } from '../response/ErrorResponseDto';
+import { ErrorCode } from '../exception/ErrorCode';
+import { GridCoordinatesRepository } from '../repository/GridCoordinates.Repository';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { envs } from '../config/environment.js';
-import { BusStationRepository } from '../repository/BusStation.Repository.js';
-import { SubwayStationRepository } from '../repository/SubwayStation.Repository.js';
-import { checkData } from '../util/checker.js';
-import { formatWeatherData } from '../util/weatherData.js';
+import { envs } from '../config/environment';
+import { BusStationRepository } from '../repository/BusStation.Repository';
+import { SubwayStationRepository } from '../repository/SubwayStation.Repository';
+import { checkData } from '../util/checker';
+import { formatWeatherData } from '../util/weatherData';
 
 @Service()
 export class WeatherService {

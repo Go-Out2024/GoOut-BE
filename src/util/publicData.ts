@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { envs } from '../config/environment.js';
+import { envs } from '../config/environment';
 import { Service } from "typedi";
 import xml2js from 'xml2js'
 

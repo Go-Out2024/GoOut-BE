@@ -1,14 +1,11 @@
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { UserRepository } from '../repository/User.Repository.js';
+import { UserRepository } from '../repository/User.Repository';
 import jwt from 'jsonwebtoken'
-import {RedisService} from './Redis.Service.js'
-import { KakaoApiService } from './KakaoApi.Service.js';
+import {RedisService} from './Redis.Service'
+import { KakaoApiService } from './KakaoApi.Service';
+import { FirebaseTokenRepository } from '../repository/FirebaseToken.Repository';
 
-import { createRequire } from 'module'
-import { FirebaseTokenRepository } from '../repository/FirebaseToken.Repository.js';
-const require = createRequire(import.meta.url)
-require('dotenv').config();
 
 
 @Service()

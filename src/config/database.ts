@@ -7,12 +7,11 @@ import {
     BeforeUpdate,
 } from 'typeorm';
 import {  validateOrReject } from 'class-validator';
-import { envs } from './environment.js';
+import { envs } from './environment';
 import {Container} from 'typedi';
 import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+
 
 /**
  * Before insert/update validation data

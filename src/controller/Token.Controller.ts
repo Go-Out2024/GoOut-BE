@@ -1,10 +1,9 @@
 import { JsonController, Post, Body, Res, Req, HttpCode } from "routing-controllers";
 import { Response, Request } from "express";
 import { Service } from "typedi";
-import { TokenService } from "../service/Token.Service.js";
-import { Http } from "winston/lib/winston/transports";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { ErrorHandler } from "../exception/ErrorHandler.js";
+import { TokenService } from "../service/Token.Service";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { ErrorHandler } from "../exception/ErrorHandler";
 
 @Service()
 @JsonController('/auth')

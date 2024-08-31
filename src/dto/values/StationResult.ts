@@ -1,5 +1,5 @@
-import { BusStationInfo } from "./BusArrivalInfo.js";
-import { SubwayArrivalInfo } from "./SubwayArrivalInfo.js";
+import { BusStationInfo } from "./BusArrivalInfo";
+import { SubwayArrivalInfo } from "./SubwayArrivalInfo";
 
 export class SubwayStationResult {
     private subwayArrivalInfo: SubwayArrivalInfo[];

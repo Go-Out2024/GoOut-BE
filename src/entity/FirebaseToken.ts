@@ -1,4 +1,4 @@
-import { BaseEntity } from "./base/BaseEntity.js"
+import { BaseEntity } from "./base/BaseEntity"
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -6,7 +6,7 @@ import {
     ManyToOne,
     Index,
 } from "typeorm"
-import { User } from "./User.js"
+import { User } from "./User"
 import { Relation } from "typeorm"
 import { JoinColumn } from "typeorm"
 

@@ -1,7 +1,7 @@
 import { Service } from "typedi";
-import { TrafficService } from "../service/Traffic.Service.js";
-import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult.js";
-import { pushNotice } from "./firebaseMessage.js";
+import { TrafficService } from "../service/Traffic.Service";
+import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult";
+import { pushNotice } from "./firebaseMessage";
 
 
 @Service()

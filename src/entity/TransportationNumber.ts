@@ -1,5 +1,5 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
-import { Transportation } from "./Transportation.js";
+import { Transportation } from "./Transportation";
 
 @Entity("transportation_number")
 @Index("idx_transportation_number_transportation", ["transportation"])

@@ -1,6 +1,5 @@
 import { Column, Entity,  PrimaryColumn, } from "typeorm";
-import { BaseEntity } from "./base/BaseEntity.js";
-import { BusStation } from "./BusStation.js";
+import { BaseEntity } from "./base/BaseEntity";
 
 
 

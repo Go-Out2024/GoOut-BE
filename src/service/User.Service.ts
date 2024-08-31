@@ -1,11 +1,11 @@
 
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { UserRepository } from '../repository/User.Repository.js';
-import { User } from '../entity/User.js';
-import { UserNumber } from '../dto/UserNumber.js';
-import { UserEmail } from '../dto/UserEmail.js';
-import { FirebaseTokenRepository } from '../repository/FirebaseToken.Repository.js';
+import { UserRepository } from '../repository/User.Repository';
+import { User } from '../entity/User';
+import { UserNumber } from '../dto/UserNumber';
+import { UserEmail } from '../dto/UserEmail';
+import { FirebaseTokenRepository } from '../repository/FirebaseToken.Repository';
 
 
 @Service()

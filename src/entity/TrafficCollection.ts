@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
-import { BaseEntity } from "./base/BaseEntity.js";
-import { User } from "./User.js";
-import { TrafficCollectionDetail } from "./TrafficCollectionDetail.js";
+import { BaseEntity } from "./base/BaseEntity";
+import { User } from "./User";
+import { TrafficCollectionDetail } from "./TrafficCollectionDetail";
 
 @Entity('traffic_collection')
 @Index("idx_traffic_collection_user", ["user"])

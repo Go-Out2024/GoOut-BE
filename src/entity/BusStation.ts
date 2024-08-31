@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
-import { BaseEntity } from "./base/BaseEntity.js";
-import { Bus } from "./Bus.js";
+import { BaseEntity } from "./base/BaseEntity";
+import { Bus } from "./Bus";
 
 @Entity('bus_station')
 export class BusStation extends BaseEntity{

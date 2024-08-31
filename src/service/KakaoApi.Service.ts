@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Service } from 'typedi';
-import { envs } from '../config/environment.js';
+import { envs } from '../config/environment';
 
 
 @Service()

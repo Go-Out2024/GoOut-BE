@@ -1,7 +1,7 @@
 import { Service } from "typedi";
-import { RedisService } from "../service/Redis.Service.js";
-import { YouTubeApi } from "./YouTubeApi.js";
-import { musicRecommend } from './openAi.js';
+import { RedisService } from "../service/Redis.Service";
+import { YouTubeApi } from "./YouTubeApi";
+import { musicRecommend } from './openAi';
 
 @Service()
 export class YouTubeSchedule{

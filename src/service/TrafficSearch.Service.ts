@@ -1,18 +1,18 @@
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { SubwayStationRepository } from "../repository/SubwayStation.Repository.js";
-import { BusStationRepository } from "../repository/BusStation.Repository.js";
-import { BusRepository } from "../repository/Bus.Repository.js";
-import { StationResult, SubwayStationResult, BusStationResult } from "../dto/values/StationResult.js"
-import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo.js";
-import { BusStationInfo, BusArrivalInfo } from "../dto/values/BusArrivalInfo.js";
-import { Station } from "../dto/values/BusArrivalInfo.js";
-import { BusStation } from "../entity/BusStation.js";
-import { SubwayApi } from "../util/publicData.js";
-import { BusApi } from "../util/publicData.js";
-import { checkData } from "../util/checker.js";
-import { ErrorResponseDto } from "../response/ErrorResponseDto.js";
-import { ErrorCode } from "../exception/ErrorCode.js";
+import { SubwayStationRepository } from "../repository/SubwayStation.Repository";
+import { BusStationRepository } from "../repository/BusStation.Repository";
+import { BusRepository } from "../repository/Bus.Repository";
+import { StationResult, SubwayStationResult, BusStationResult } from "../dto/values/StationResult"
+import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo";
+import { BusStationInfo, BusArrivalInfo } from "../dto/values/BusArrivalInfo";
+import { Station } from "../dto/values/BusArrivalInfo";
+import { BusStation } from "../entity/BusStation";
+import { SubwayApi } from "../util/publicData";
+import { BusApi } from "../util/publicData";
+import { checkData } from "../util/checker";
+import { ErrorResponseDto } from "../response/ErrorResponseDto";
+import { ErrorCode } from "../exception/ErrorCode";
 
 @Service()
 export class TrafficSearchService {

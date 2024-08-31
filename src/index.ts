@@ -3,34 +3,22 @@ import express from 'express';
 import {Container} from 'typedi';
 import { createServer, Server } from 'http';
 import { useContainer, createExpressServer } from 'routing-controllers';
-import { initializeDatabase } from './config/database.js';
-import { envs } from './config/environment.js';
-import {ErrorHandler} from './exception/ErrorHandler.js'
-import { generateAuthToken } from './middleware/jwtMiddleware.js';
+import { initializeDatabase } from './config/database';
+import { envs } from './config/environment';
+import {ErrorHandler} from './exception/ErrorHandler'
+import { generateAuthToken } from './middleware/jwtMiddleware';
 import  compression from 'compression';
-import { UserController } from './controller/User.Controller.js';
-import { AuthController } from './controller/Auth.Controller.js';
-import { createRequire } from 'module'
-import { TokenController } from './controller/Token.Controller.js';
-import { FirebaseController } from './controller/Firebase.Controller.js';
-import { KakaoController } from './controller/Kakao.Controller.js';
-import * as path from 'path';
-import {fileURLToPath} from 'url';
-import { FamousSayingController } from './controller/FamousSaying.Controller.js';
-import { WeatherController } from './controller/Weather.Controller.js';
-import { CalendarController } from './controller/Calendar.Controller.js';
-import { MusicController } from './controller/Music.Controller.js';
-import { handleAlarm, settingRecommendMusic } from './util/scheduler.js';
-import { TrafficController } from './controller/Traffic.Controller.js';
-
-
-
-const require = createRequire(import.meta.url)
-require('dotenv').config();
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { UserController } from './controller/User.Controller';
+import { AuthController } from './controller/Auth.Controller';
+import { TokenController } from './controller/Token.Controller';
+import { FirebaseController } from './controller/Firebase.Controller';
+import { KakaoController } from './controller/Kakao.Controller';
+import { FamousSayingController } from './controller/FamousSaying.Controller';
+import { WeatherController } from './controller/Weather.Controller';
+import { CalendarController } from './controller/Calendar.Controller';
+import { MusicController } from './controller/Music.Controller';
+import { handleAlarm, settingRecommendMusic } from './util/scheduler';
+import { TrafficController } from './controller/Traffic.Controller';
 
 
 export const app: express.Application = createExpressServer({

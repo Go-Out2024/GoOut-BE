@@ -1,8 +1,6 @@
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-require('dotenv').config();
+
 import { Service } from 'typedi';
-import { redisClient } from "../config/redis.js";
+import { redisClient } from "../config/redis";
 import { promisify } from 'util';
 
 const getAsync = promisify(redisClient.get).bind(redisClient);

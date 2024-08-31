@@ -1,7 +1,7 @@
 import { Body, Get, HttpCode, JsonController, Post, QueryParam, Req } from "routing-controllers";
 import { Service } from "typedi";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { WeatherService } from "../service/Weather.Service.js";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { WeatherService } from "../service/Weather.Service";
 
 @Service()
 @JsonController('/weather')

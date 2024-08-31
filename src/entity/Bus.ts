@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Relation } from "typeorm";
-import { BaseEntity } from "./base/BaseEntity.js";
-import { BusStation } from "./BusStation.js";
+import { BaseEntity } from "./base/BaseEntity";
+import { BusStation } from "./BusStation";
 
 
 

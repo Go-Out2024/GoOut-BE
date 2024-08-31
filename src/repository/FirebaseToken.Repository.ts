@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { FirebaseToken } from '../entity/FirebaseToken.js';
-import { User } from '../entity/User.js';
+import { FirebaseToken } from '../entity/FirebaseToken';
+import { User } from '../entity/User';
 
 @EntityRepository(FirebaseToken)
 export class FirebaseTokenRepository extends Repository<FirebaseToken> {

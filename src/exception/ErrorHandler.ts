@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Service } from 'typedi';
 import { Middleware, ExpressErrorMiddlewareInterface, BadRequestError, InternalServerError } from 'routing-controllers';
-import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
+import { ErrorResponseDto } from '../response/ErrorResponseDto';
 
 @Service()
 @Middleware({ type: 'after' })

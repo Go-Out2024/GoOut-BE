@@ -1,12 +1,10 @@
 import { JsonController, Post, Body, Res, HttpCode, Req, Delete } from "routing-controllers";
 import { Request, Response, response } from "express";
 import { Service } from "typedi";
-import { AuthService } from "../service/Auth.Service.js";
-import { ErrorResponseDto } from "../response/ErrorResponseDto.js";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { ErrorHandler } from "../exception/ErrorHandler.js";
-import { refreshToken } from "firebase-admin/app";
-import { LogoutDto } from "../dto/request/LogoutDto.js";
+import { AuthService } from "../service/Auth.Service";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { ErrorHandler } from "../exception/ErrorHandler";
+import { LogoutDto } from "../dto/request/LogoutDto";
 
 
 @Service()

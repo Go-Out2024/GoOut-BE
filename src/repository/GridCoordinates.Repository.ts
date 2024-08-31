@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { GridCoordinates } from '../entity/GridCoordinates.js';
+import { GridCoordinates } from '../entity/GridCoordinates';
 
 @EntityRepository(GridCoordinates)
 export class GridCoordinatesRepository extends Repository<GridCoordinates> {

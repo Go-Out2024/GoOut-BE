@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsNotEmpty, ValidateNested } from "class-validator";
-import { StationDto } from "./StationDto.js";
+import { StationDto } from "./StationDto";
 
 export class TransportationDetailDto {
     @IsNotEmpty()

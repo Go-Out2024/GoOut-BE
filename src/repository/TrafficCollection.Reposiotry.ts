@@ -1,8 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
-import { TrafficCollection } from "../entity/TrafficCollection.js";
-import { CollectionInsert } from "../dto/request/CollectionInsert.js";
-import { User } from "../entity/User";
-import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
+import { TrafficCollection } from "../entity/TrafficCollection";
+import { CollectionInsert } from "../dto/request/CollectionInsert";
+import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate";
 
 @EntityRepository(TrafficCollection)
 export class TrafficCollectionRepository extends Repository<TrafficCollection> {

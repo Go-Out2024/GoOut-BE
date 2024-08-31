@@ -1,17 +1,17 @@
 import { Body, Delete, Get, HttpCode, JsonController, Param, Patch, Post, QueryParam, QueryParams, Req, UseBefore } from "routing-controllers";
 import { Service } from "typedi";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { compareAuthToken } from "../middleware/jwtMiddleware.js";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { compareAuthToken } from "../middleware/jwtMiddleware";
 import { Request } from 'express'
-import { TrafficService } from "../service/Traffic.Service.js";
-import { CollectionInsert } from "../dto/request/CollectionInsert.js";
-import { CollectionErase } from "../dto/request/CollectionErase.js";
-import { CollectionBring } from "../dto/request/CollectionBring.js";
-import { CollectionChoice } from "../dto/request/CollectionChoice.js";
-import { CollectionChange } from "../dto/request/CollectionChange.js";
-import { TrafficSearchService } from "../service/TrafficSearch.Service.js";
-import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate.js";
-import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate.js";
+import { TrafficService } from "../service/Traffic.Service";
+import { CollectionInsert } from "../dto/request/CollectionInsert";
+import { CollectionErase } from "../dto/request/CollectionErase";
+import { CollectionBring } from "../dto/request/CollectionBring";
+import { CollectionChoice } from "../dto/request/CollectionChoice";
+import { CollectionChange } from "../dto/request/CollectionChange";
+import { TrafficSearchService } from "../service/TrafficSearch.Service";
+import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate";
+import { CollectionDetailUpdate } from "../dto/request/CollectionDetailUpdate";
 
 @Service()
 @JsonController('/traffic')

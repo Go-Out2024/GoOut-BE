@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { response } from 'express';
+
 import { Service } from 'typedi';
-import { checkData } from '../util/checker.js';
-import { ErrorResponseDto } from '../response/ErrorResponseDto.js';
-import { ErrorCode } from '../exception/ErrorCode.js';
-import { getProductCategoryByCondition } from '../util/enum/EateryCategory.js';
-import { KakaoApiService } from './KakaoApi.Service.js';
-import { KakaoEatery } from '../dto/response/KakaoEatery.js';
+import { checkData } from '../util/checker';
+import { ErrorResponseDto } from '../response/ErrorResponseDto';
+import { ErrorCode } from '../exception/ErrorCode';
+import { getProductCategoryByCondition } from '../util/enum/EateryCategory';
+import { KakaoApiService } from './KakaoApi.Service';
+import { KakaoEatery } from '../dto/response/KakaoEatery';
 
 
 @Service()

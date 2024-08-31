@@ -1,4 +1,4 @@
-import { BaseEntity } from "./base/BaseEntity.js"
+import { BaseEntity } from "./base/BaseEntity"
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -9,10 +9,10 @@ import {
     Index,
 } from "typeorm"
 import { InternalServerError } from "routing-controllers";
-import { FirebaseToken } from "./FirebaseToken.js"
+import { FirebaseToken } from "./FirebaseToken"
 import { Relation } from "typeorm";
-import { Calendar } from "./Calendar.js";
-import { TrafficCollection } from "./TrafficCollection.js";
+import { Calendar } from "./Calendar";
+import { TrafficCollection } from "./TrafficCollection";
 
 @Entity("user")
 export class User extends BaseEntity {

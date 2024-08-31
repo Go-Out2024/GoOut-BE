@@ -2,9 +2,9 @@
 
 import { Body, Get, HttpCode, JsonController, Post, QueryParam, Req } from "routing-controllers";
 import { Service } from "typedi";
-import { SuccessResponseDto } from "../response/SuccessResponseDto.js";
-import { KakaoService } from "../service/Kakao.Service.js";
-import { KakaoEatery } from "../dto/response/KakaoEatery.js";
+import { SuccessResponseDto } from "../response/SuccessResponseDto";
+import { KakaoService } from "../service/Kakao.Service";
+import { KakaoEatery } from "../dto/response/KakaoEatery";
 
 
 @Service()

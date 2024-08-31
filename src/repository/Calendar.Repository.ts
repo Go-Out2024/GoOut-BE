@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Calendar } from '../entity/Calendar.js';
-import { CalendarInsert } from '../dto/request/CalendarInsert.js';
-import { getPeriodValue } from '../util/enum/Period.js';
+import { Calendar } from '../entity/Calendar';
+import { CalendarInsert } from '../dto/request/CalendarInsert';
+import { getPeriodValue } from '../util/enum/Period';
 
 @EntityRepository(Calendar)
 export class CalendarRepository extends Repository<Calendar> {
