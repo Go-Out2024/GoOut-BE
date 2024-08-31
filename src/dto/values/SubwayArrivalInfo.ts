@@ -95,6 +95,8 @@ export class SubwayArrivalInfo {
     public getSecondArrivalMessage(){
         return this.secondArrivalMessage;
 
+    }
+
     
     public setEstimatedTime(estimatedTime: string) {
         this.estimatedTime = estimatedTime;

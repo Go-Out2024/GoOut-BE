@@ -72,6 +72,8 @@ export class StationResult {
     public getSubwayStation(){
         return this.subwayStation
 
+    }
+
     private setSubwayErrorMessage(subwayErrorMessage: string): void {
         this.subwayErrorMessage = subwayErrorMessage;
 
