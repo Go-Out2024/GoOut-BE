@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "tsc && pm2-runtime dist/src/index.js -i 0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --logHeapUsage --coverage"
   },
   "author": "lee",
   "license": "MIT",
@@ -21,7 +21,13 @@
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
     "typeorm-model-generator": "^0.4.6",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^3.0.7",
+    "mocha": "^10.6.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.3"
   },
   "dependencies": {
     "class-transformer": "^0.3.1",
@@ -49,6 +55,7 @@
     "typeorm-typedi-extensions": "^0.4.1",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "puppeteer": "^22.13.1"
   }
 }
