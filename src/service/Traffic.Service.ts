@@ -139,8 +139,13 @@ export class TrafficService {
      */
     async bringMainTrafficCollection(userId: number) {
         const currentHour = new Date().getHours();
-        const status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
-        const collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        let status = currentHour >= 14 || currentHour < 2 ? 'goHome' : 'goToWork';
+        let collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        // 만약 조회된 데이터가 없고 status가 'goHome'인 경우, 'goToWork' 데이터를 조회
+        if (!collection && status === 'goHome') {
+            status = 'goToWork';
+            collection = await this.trafficCollectionRepository.findMainTrafficCollection(userId, status);
+        }
         const details = collection.trafficCollectionDetails.find(transportationdetail => transportationdetail.getStatus() === status);
         const departureTransportation = details.transportations.find(transportation => transportation.getRoute() === 'departure');
         const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
@@ -166,6 +171,7 @@ export class TrafficService {
             result
         }
     }
+
     /**
      * 유저 아이디와 컬렉션 아이디, 컬렉션 상태를 조회해 반대 상태의 정보 조회
      * @param userId 유저 아이디
