@@ -100,6 +100,8 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
                 "trafficCollection.id",
                 "trafficCollection.name",
                 "trafficCollectionDetails.status",
+                "transportations.route",
+                "transportations.transportationName",
                 "transportations.stationName",
                 "transportationNumbers.numbers"
             ])

@@ -47,7 +47,9 @@ export class SubwayArrivalInfo {
         arvlMsg3: string; 
         bstatnNm: string;
         barvlDt: number; }): SubwayArrivalInfo {
-
+        
+        // (~행 - ~방면)에서 (~방면)으로 변환
+        const direction = info.trainLineNm.split(' - ')[1];
         // 초 단위를 '분', '초' 형식으로 변환
         const minutes = Math.floor(info.barvlDt / 60);
         const seconds = info.barvlDt % 60;
@@ -56,7 +58,7 @@ export class SubwayArrivalInfo {
         return new SubwayArrivalInfo(
             info.statnNm,
             info.subwayId,
-            info.trainLineNm,
+            direction,
             info.arvlMsg2,
             info.arvlMsg3,
             info.bstatnNm,
