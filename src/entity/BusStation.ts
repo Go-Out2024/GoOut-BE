@@ -15,7 +15,7 @@ export class BusStation extends BaseEntity{
     }
 
 
-    public static createCalendar(id:number, staionName:string, stationNum:number, xValue:number, yValue:number){
+    public static createBusStation(id:number, staionName:string, stationNum:number, xValue:number, yValue:number){
         return new BusStation(id, staionName, stationNum, xValue, yValue);
     }
 

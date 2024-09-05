@@ -66,28 +66,32 @@ export class SubwayArrivalInfo {
         );
     }
 
-    public setStationName(stationName: string) {
+    private setStationName(stationName: string) {
         this.stationName = stationName;
     }
 
-    public setLine(line: number) {
+    private setLine(line: number) {
         this.line = line;
     }
 
-    public setDirection(direction: string) {
+    private setDirection(direction: string) {
         this.direction = direction;
     }
 
-    public setFirstArrivalMessage(firstArrivalMessage: string) {
+    private setFirstArrivalMessage(firstArrivalMessage: string) {
         this.firstArrivalMessage = firstArrivalMessage;
     }
 
-    public setSecondArrivalMessage(secondArrivalMessage: string) {
+    private setSecondArrivalMessage(secondArrivalMessage: string) {
         this.secondArrivalMessage = secondArrivalMessage;
     }
 
-    public setDestination(destination: string) {
+    private setDestination(destination: string) {
         this.destination = destination;
+    }
+
+    private setEstimatedTime(estimatedTime: string) {
+        this.estimatedTime = estimatedTime;
     }
 
     public getFirstArrivalMessage(){
@@ -96,12 +100,6 @@ export class SubwayArrivalInfo {
 
     public getSecondArrivalMessage(){
         return this.secondArrivalMessage;
-
-    }
-
-    
-    public setEstimatedTime(estimatedTime: string) {
-        this.estimatedTime = estimatedTime;
 
     }
 }

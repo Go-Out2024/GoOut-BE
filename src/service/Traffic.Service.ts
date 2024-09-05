@@ -86,7 +86,7 @@ export class TrafficService {
      */
     async modifyTrafficCollectionDetail(collectionDetailUpdate: CollectionDetailUpdate, userId: number) {
         const trafficCollection = await this.trafficCollectionRepository.findTrafficCollectionByCollectionIdAndUserId(collectionDetailUpdate.getCollectionId(), userId);
-        await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.id);
+        await this.trafficCollectionDetailRepository.deleteTrafficCollectionDetailsByCollectionId(trafficCollection.getId());
         await this.verifyUpdateTrafficCollectionStatus(collectionDetailUpdate, trafficCollection);
     }
 
@@ -102,9 +102,9 @@ export class TrafficService {
         collections.forEach(collection => {
             collection.trafficCollectionDetails = collection.trafficCollectionDetails.filter(detail => {
                 if (currentHour >= 14 || currentHour < 2) {
-                    return detail.status === "goHome";
+                    return detail.getStatus() === "goHome";
                 } else {
-                    return detail.status === "goToWork";
+                    return detail.getStatus() === "goToWork";
                 }
             });
         });
@@ -151,7 +151,7 @@ export class TrafficService {
         const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
         const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
         let result: StationResult;
-        if (departureTransportation.transportationName === 'Subway') {
+        if (departureTransportation.getTransportationName() === 'Subway') {
             try {
                 const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
                 result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
@@ -162,7 +162,7 @@ export class TrafficService {
                     throw error; // 다른 에러는 그대로 던짐
                 }
             }
-        } else if (departureTransportation.transportationName === 'Bus') {
+        } else if (departureTransportation.getTransportationName() === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
             result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
         }
@@ -186,7 +186,7 @@ export class TrafficService {
         const transportationNumbers = await this.transportationNumberRepository.findTransportationNumbers(departureTransportation.getId());
         const numbers = transportationNumbers.map(transportationNumber => transportationNumber.getNumbers());
         let result: StationResult;
-        if (departureTransportation.transportationName === 'Subway') {
+        if (departureTransportation.getTransportationName() === 'Subway') {
             try {
                 const subwayArrivalInfo = await this.bringMainSubwayArrivalInfo(departureTransportation, numbers);
                 result = StationResult.of(SubwayStationResult.of(subwayArrivalInfo), undefined, undefined);
@@ -197,7 +197,7 @@ export class TrafficService {
                     throw error; // 다른 에러는 그대로 던짐
                 }
             }
-        } else if (departureTransportation.transportationName === 'Bus') {
+        } else if (departureTransportation.getTransportationName() === 'Bus') {
             const busStations = await this.bringMainBusStationsInfo(departureTransportation, numbers);
             result = StationResult.of(undefined, BusStationResult.of(busStations), undefined);
         }
@@ -230,7 +230,7 @@ export class TrafficService {
         const busStations = await this.busStationRepository.findByStationName(departureTransportation.getStationName());
         return await Promise.all(
             busStations.map(async (station) => {
-                const busArrivalInfo = await this.bringBusArrivalInfo(station.stationNum, numbers);
+                const busArrivalInfo = await this.bringBusArrivalInfo(station.getStationNum(), numbers);
                 return BusStationInfo.of(undefined, busArrivalInfo);
             })
         );
