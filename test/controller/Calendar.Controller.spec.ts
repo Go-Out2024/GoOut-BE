@@ -15,7 +15,7 @@ declare module 'express-serve-static-core' {
 
 jest.mock('../../src/service/Calendar.Service');
 
-describe('Calendar Controller test', ()=>{
+describe('Calendar Controller Test', ()=>{
 
     beforeAll(async()=>{
     })
