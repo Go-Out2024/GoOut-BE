@@ -20,10 +20,10 @@
         "./node_modules/@types", //? 설정 안할시 기본적으로 ./node_modules/@types
          "./custom_typings"
       ],
-      "types": ["node", "express"],
+      "types": ["node", "express","jest"],
     
     },
-    "include": [  "src/**/*",],
+    "include": [  "src/**/*", "jest.config.cjs",],
     "exclude": ["node_modules", "dist"],
     "files":["./src/types/types.d.ts"]
    
