@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1725504592422" clover="3.2.0">
-  <project timestamp="1725504592422" name="All files">
-    <metrics statements="1050" coveredstatements="48" conditionals="128" coveredconditionals="2" methods="240" coveredmethods="3" elements="1418" coveredelements="53" complexity="0" loc="1050" ncloc="1050" packages="7" files="49" classes="49"/>
+<coverage generated="1725505107568" clover="3.2.0">
+  <project timestamp="1725505107568" name="All files">
+    <metrics statements="1050" coveredstatements="50" conditionals="128" coveredconditionals="2" methods="240" coveredmethods="5" elements="1418" coveredelements="57" complexity="0" loc="1050" ncloc="1050" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="213" coveredstatements="18" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="2"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -317,10 +317,10 @@
       </file>
       <file name="Calendar.Repository.ts" path="D:\GoodMorning-Be\src\repository\Calendar.Repository.ts">
         <metrics statements="12" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
@@ -416,7 +416,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="431" coveredstatements="11" conditionals="77" coveredconditionals="0" methods="107" coveredmethods="0"/>
+      <metrics statements="431" coveredstatements="13" conditionals="77" coveredconditionals="0" methods="107" coveredmethods="2"/>
       <file name="Auth.Service.ts" path="D:\GoodMorning-Be\src\service\Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -453,20 +453,20 @@
         <line num="56" count="0" type="stmt"/>
       </file>
       <file name="Calendar.Service.ts" path="D:\GoodMorning-Be\src\service\Calendar.Service.ts">
-        <metrics statements="63" coveredstatements="11" conditionals="13" coveredconditionals="0" methods="22" coveredmethods="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
+        <metrics statements="63" coveredstatements="13" conditionals="13" coveredconditionals="0" methods="22" coveredmethods="2"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
@@ -954,7 +954,7 @@
       </file>
       <file name="checker.ts" path="D:\GoodMorning-Be\src\util\checker.ts">
         <metrics statements="5" coveredstatements="1" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="8" count="1" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="11" count="0" type="stmt"/>
@@ -1204,15 +1204,15 @@
       </file>
       <file name="Period.ts" path="D:\GoodMorning-Be\src\util\enum\Period.ts">
         <metrics statements="14" coveredstatements="8" conditionals="3" coveredconditionals="2" methods="3" coveredmethods="1"/>
-        <line num="3" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
+        <line num="3" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="cond" truecount="0" falsecount="1"/>
