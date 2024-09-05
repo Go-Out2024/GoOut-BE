@@ -14,7 +14,7 @@ export class CalendarInsert {
 
 }
 
-class CalendarInsertContent{
+export class CalendarInsertContent{
     @IsNotEmpty()
     private content:string;
 
