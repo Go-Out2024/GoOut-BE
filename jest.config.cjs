@@ -4,11 +4,11 @@ module.exports = {
     setupFiles: ['reflect-metadata'],
     testMatch: [
     //  '**/test/**/*.test.ts',
-      '**/test/controller/**/*.spec.ts',
-      '**/test/service/**/*.spec.ts',
-      '**/test/repository/**/*.spec.ts',
-      '**/test/util/**/*.spec.ts',
-      '**/test/middleware/**/*.spec.ts'
+      '**/test/Unit Test/controller/**/*.spec.ts',
+      '**/test/Unit Test/service/**/*.spec.ts',
+      '**/test/Unit Test/repository/**/*.spec.ts',
+      '**/test/Unit Test/util/**/*.spec.ts',
+      '**/test/Unit Test/middleware/**/*.spec.ts'
     ],
     collectCoverageFrom: [
       'src/controller/**/*.ts',

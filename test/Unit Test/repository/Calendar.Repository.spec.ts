@@ -1,11 +1,11 @@
 
-import { CalendarRepository } from '../../src/repository/Calendar.Repository';
-import { Calendar } from '../../src/entity/Calendar';
+import { CalendarRepository } from '../../../src/repository/Calendar.Repository';
+import { Calendar } from '../../../src/entity/Calendar';
 import { mockDeep, mockReset} from 'jest-mock-extended';
 import { Repository, SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
-import { CalendarInsert, CalendarInsertContent } from '../../src/dto/request/CalendarInsert';
-import { getPeriodValue } from '../../src/util/enum/Period';
-//jest.mock('../../src/repository/Calendar.Repository');
+import { CalendarInsert, CalendarInsertContent } from '../../../src/dto/request/CalendarInsert';
+import { getPeriodValue } from '../../../src/util/enum/Period';
+
 
 describe('Calendar Repository Test', ()=>{
 

@@ -1,13 +1,10 @@
 
-import {CalendarController} from '../../src/controller/Calendar.Controller'
-import { CalendarService } from '../../src/service/Calendar.Service';
-import { CalendarInsert } from '../../src/dto/request/CalendarInsert';
-import { Request} from 'express';
-import { SuccessResponseDto } from '../../src/response/SuccessResponseDto';
-import { CalendarRepository } from '../../src/repository/Calendar.Repository';
+import { CalendarService } from '../../../src/service/Calendar.Service';
+import { CalendarInsert } from '../../../src/dto/request/CalendarInsert';
+import { CalendarRepository } from '../../../src/repository/Calendar.Repository';
 
 
-jest.mock('../../src/repository/Calendar.Repository');
+jest.mock('../../../src/repository/Calendar.Repository');
 
 describe('Calendar Service Test', ()=>{
 

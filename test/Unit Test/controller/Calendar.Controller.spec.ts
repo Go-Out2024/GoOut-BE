@@ -1,9 +1,9 @@
 
-import {CalendarController} from '../../src/controller/Calendar.Controller'
-import { CalendarService } from '../../src/service/Calendar.Service';
-import { CalendarInsert } from '../../src/dto/request/CalendarInsert';
+import {CalendarController} from '../../../src/controller/Calendar.Controller'
+import { CalendarService } from '../../../src/service/Calendar.Service';
+import { CalendarInsert } from '../../../src/dto/request/CalendarInsert';
 import { Request} from 'express';
-import { SuccessResponseDto } from '../../src/response/SuccessResponseDto';
+import { SuccessResponseDto } from '../../../src/response/SuccessResponseDto';
 
 
 
@@ -13,7 +13,7 @@ declare module 'express-serve-static-core' {
     }
 }
 
-jest.mock('../../src/service/Calendar.Service');
+jest.mock('../../../src/service/Calendar.Service');
 
 describe('Calendar Controller Test', ()=>{
 
