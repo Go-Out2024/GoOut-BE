@@ -4,13 +4,11 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { CalendarRepository } from '../repository/Calendar.Repository';
 import { CalendarInsert } from '../dto/request/CalendarInsert';
 import { Calendar } from '../entity/Calendar';
-import { checkData } from '../util/checker';
-import { ErrorResponseDto } from '../response/ErrorResponseDto';
-import { ErrorCode } from '../exception/ErrorCode';
 import { CalendarUpdate } from '../dto/request/CalendarUpdate';
 import { CalendarDataCheck } from '../dto/response/CalendarDataCheck';
 import { CalendarData, CalendarDatas } from '../dto/response/CalendarData';
 import { getPeriodKey } from '../util/enum/Period';
+import { verifyCalendars } from '../util/verify';
 
 
 
@@ -35,7 +33,7 @@ export class CalendarService {
      */
     async eraseScheduleOrProduct(userId:number, calendarIds:number[]) {
         const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendars(calendarDatas, calendarIds.length);
+        verifyCalendars(calendarDatas, calendarIds.length);
         await this.calendarRepository.deleteCalendar(calendarIds, userId);
     }
 
@@ -87,7 +85,7 @@ export class CalendarService {
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
         const calendarIds = this.extractCalendarId(calendarUpdate);
         const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
+        verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
         const mappedCalendarUpdateStatus = this.mappingCalendarUpdateStatus(calendarUpdate, userId);
         await this.calendarRepository.updateCalendar(mappedCalendarUpdateStatus);
     }
@@ -184,25 +182,7 @@ export class CalendarService {
     }
 
 
-    /**
-     * 캘린더 데이터 검증 함수
-     * @param calendar 검증할 캘린더 엔티티 데이터
-     */
-    public verifyCalendar(calendar:Calendar){
-        if(!checkData(calendar))
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
-    }
 
-
-    /**
-     * 캘린더 데이터와 유저가 요청한 length를 통해 길이가 같지 않을 경우 에러처리를 한다.
-     * @param calendars 캘린더 엔티티 데이터
-     * @param length 유저 요청 길이
-     */
-    public verifyCalendars(calendars:Calendar[], length:number){
-        if(!(calendars.length === length))
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
-    }
 
     
 

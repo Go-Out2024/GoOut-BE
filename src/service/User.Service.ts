@@ -6,6 +6,7 @@ import { User } from '../entity/User';
 import { UserNumber } from '../dto/UserNumber';
 import { UserEmail } from '../dto/UserEmail';
 import { FirebaseTokenRepository } from '../repository/FirebaseToken.Repository';
+import { verifyUser } from '../util/verify';
 
 
 @Service()
@@ -25,6 +26,7 @@ export class UserService {
         userId: number
     ): Promise<UserNumber>  {
         const userData : User = await this.userRepository.findUserById(userId);
+        verifyUser(userData);
         return UserNumber.of(userData);
     }
 
@@ -38,6 +40,7 @@ export class UserService {
         userId: number
     ): Promise<UserEmail>{
         const userData : User = await this.userRepository.findUserById(userId);
+        verifyUser(userData);
         return UserEmail.of(userData);
     }
 
@@ -56,6 +59,8 @@ export class UserService {
      * @param status 알림 상태 true -> 켜기, false -> 끄기
      */
     public async modifyAlarmOnOff(userId:number, status:boolean){
+        const user = await this.userRepository.findUserById(userId);
+        verifyUser(user);
         await this.userRepository.updateAlarmStatus(userId, status);
     }
 
@@ -66,10 +71,14 @@ export class UserService {
      * @param alarmEnd 알림 종료 시간
      */
     public async modifyAlarmTime(userId:number, alarmStart:string, alarmEnd:string){
+        const user = await this.userRepository.findUserById(userId);
+        verifyUser(user);
         await this.userRepository.updateAlarmTime(userId, alarmStart, alarmEnd);
     }
 
     public async eraseUser(userId:number){
+        const user = await this.userRepository.findUserById(userId);
+        verifyUser(user);
        await this.userRepository.deleteUser(userId);
     }
 

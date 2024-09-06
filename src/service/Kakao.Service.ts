@@ -1,11 +1,9 @@
 
 import { Service } from 'typedi';
-import { checkData } from '../util/checker';
-import { ErrorResponseDto } from '../response/ErrorResponseDto';
-import { ErrorCode } from '../exception/ErrorCode';
 import { getProductCategoryByCondition } from '../util/enum/EateryCategory';
 import { KakaoApiService } from './KakaoApi.Service';
 import { KakaoEatery } from '../dto/response/KakaoEatery';
+import { verifyEateryCategory } from '../util/verify';
 
 
 @Service()
@@ -23,21 +21,13 @@ export class KakaoService {
      * @returns     // 거리 -> distance, 이름 -> place_name, url -> place_url, phone -> 전화번호, road_address_name -> 주소
      */
     async bringKakaoEatery(x:string, y:string, category:string, radius:string) {
-        this.verifyEateryCategory(getProductCategoryByCondition(category));
+        verifyEateryCategory(getProductCategoryByCondition(category));
         const eateryData = await this.kakaoApiService.bringEateryData(x,y,getProductCategoryByCondition(category), radius);
         return this.mappingEateryData(eateryData);
   
     }
 
-    /**
-     * 카테고리 검증 함수
-     * @param data 확인할 데이터
-     */
-    public verifyEateryCategory(data:string){
-        if(!checkData(data)){
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_EATERY_CATEGORY);
-        }
-    }
+
 
     /**
      * 카카오 조회 데이터 매핑 함수
