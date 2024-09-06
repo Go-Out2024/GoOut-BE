@@ -4,26 +4,30 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { CalendarRepository } from '../repository/Calendar.Repository';
 import { CalendarInsert } from '../dto/request/CalendarInsert';
 import { Calendar } from '../entity/Calendar';
-import { checkData } from '../util/checker';
-import { ErrorResponseDto } from '../response/ErrorResponseDto';
-import { ErrorCode } from '../exception/ErrorCode';
 import { CalendarUpdate } from '../dto/request/CalendarUpdate';
 import { CalendarDataCheck } from '../dto/response/CalendarDataCheck';
 import { CalendarData, CalendarDatas } from '../dto/response/CalendarData';
 import { getPeriodKey } from '../util/enum/Period';
+import { verifyCalendars, verifyUser } from '../util/verify';
+import { UserRepository } from '../repository/User.Repository';
 
 
 
 @Service()
 export class CalendarService { 
 
-    constructor(@InjectRepository() private calendarRepository: CalendarRepository){}
+    constructor(
+        @InjectRepository() private calendarRepository: CalendarRepository,
+        @InjectRepository() private userRepository: UserRepository
+    ){}
 
     /**
      * 캘린저 준비물 or 일정 삽입 함수
      * @param calendarContents 캘린더 내용 정보
      */
     async penetrateScheduleOrProduct(calendarContents: CalendarInsert, userId:number) {
+        const user = await this.userRepository.findUserById(userId);
+        verifyUser(user);
         await this.calendarRepository.insertCalendarContents(calendarContents, userId);
     }
 
@@ -35,7 +39,7 @@ export class CalendarService {
      */
     async eraseScheduleOrProduct(userId:number, calendarIds:number[]) {
         const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendars(calendarDatas, calendarIds.length);
+        verifyCalendars(calendarDatas, calendarIds.length);
         await this.calendarRepository.deleteCalendar(calendarIds, userId);
     }
 
@@ -55,6 +59,11 @@ export class CalendarService {
     }
 
 
+    /**
+     * 캘린더 엔티티를 CalendarData로 매핑하는 함수
+     * @param calendars 캘린더 엔티티
+     * @returns 
+     */
     public mappingCalendarData(calendars: Calendar[]){
         return calendars.map((calendar)=>{
             return CalendarData.of(calendar.getId(), calendar.getContent(), calendar.getKind(), getPeriodKey(calendar.getPeriod()));
@@ -62,18 +71,20 @@ export class CalendarService {
     }
 
 
+    /**
+     * 각 캘린더 데이터 주기에 따라 기준 날짜의 배수 날짜인지 구분해주는 필터 함수
+     * @param calendars 다중 캘린더 엔티티 데이터
+     * @param date 기준 날짜
+     * @returns 
+     */
     public filterCalendarsByPeriodMultiple(calendars: Calendar[], date:string){
         const result = calendars.filter(calendar => {
             const startDate = new Date(calendar.getDate());
             const targetDate = new Date(date);
-            // 주기를 밀리초 단위로 변환 (일 단위)
             const frequencyInMs = calendar.getPeriod() * 24 * 60 * 60 * 1000;
-            // 시작 날짜와 조회 날짜의 시간 차이를 계산
             const timeDiff = targetDate.getTime() - startDate.getTime();
-            // 시간 차이가 주기의 배수인지 확인하여 해당 날짜에 물품이 있는지 판단
             return timeDiff >= 0 && timeDiff % frequencyInMs === 0;
         });
-        // 필터링된 물품 리스트 반환
         return result;
     }
 
@@ -87,7 +98,7 @@ export class CalendarService {
     async modifyScheduleOrProduct(calendarUpdate: CalendarUpdate, userId:number) {
         const calendarIds = this.extractCalendarId(calendarUpdate);
         const calendarDatas = await this.calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
-        this.verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
+        verifyCalendars(calendarDatas, calendarUpdate.getCalendarContent().length);
         const mappedCalendarUpdateStatus = this.mappingCalendarUpdateStatus(calendarUpdate, userId);
         await this.calendarRepository.updateCalendar(mappedCalendarUpdateStatus);
     }
@@ -148,28 +159,72 @@ export class CalendarService {
      * @param monthEndDate 종료 날짜
      * @returns 조건 충족 날짜
      */
-    public extractDates(calendars: Calendar[], monthStartDate:Date, monthEndDate:Date){
+    public extractDates(calendars: Calendar[], monthStartDate: Date, monthEndDate: Date): Set<number> {
         const uniqueDates = new Set<number>();
         calendars.forEach(calendar => {
-            const frequencyInMs = calendar.getPeriod() * 24 * 60 * 60 * 1000;
-            let currentDate = new Date(calendar.getDate());
-            if (calendar.getPeriod() === 0) {
-                if (currentDate >= monthStartDate && currentDate <= monthEndDate) {
-                    uniqueDates.add(currentDate.getTime());
-                }
-            } else {
-                while (currentDate <= monthEndDate) {
-                    if (currentDate >= monthStartDate && currentDate <= monthEndDate) {
-                        if (!uniqueDates.has(currentDate.getTime())) {
-                            uniqueDates.add(currentDate.getTime());
-                        }
-                    }
-                    currentDate = new Date(currentDate.getTime() + frequencyInMs);
-                }
-            }
+            this.processCalendarDates(calendar, monthStartDate, monthEndDate, uniqueDates);
         });
         return uniqueDates;
     }
+    
+
+    /**
+     * 캘린더 데이터 조건 충족 날짜 실행 함수
+     * @param calendars 캘린더 데이터
+     * @param monthStartDate 시작 날짜
+     * @param monthEndDate 종료 날짜
+     * @param uniqueDates 데이터를 담을 날짜
+     */
+    private processCalendarDates(calendar: Calendar, monthStartDate: Date, monthEndDate: Date, uniqueDates: Set<number>) {
+        const frequencyInMs = this.getFrequencyInMs(calendar);
+        let currentDate = new Date(calendar.getDate());
+        if (calendar.getPeriod() === 0) {
+            this.addSingleDateIfWithinRange(currentDate, monthStartDate, monthEndDate, uniqueDates);
+        } else {
+            this.addRecurringDates(currentDate, frequencyInMs, monthStartDate, monthEndDate, uniqueDates);
+        }
+    }
+    
+    /**
+     * 밀리 단위 변환 함수
+     * @param calendar 캘린더 엔티티
+     * @returns 
+     */
+    private getFrequencyInMs(calendar: Calendar): number {
+        return calendar.getPeriod() * 24 * 60 * 60 * 1000; 
+    }
+    
+    /**
+     * 주기가 없는 날짜 로직 처리 함수
+     * @param calendars 캘린더 데이터
+     * @param monthStartDate 시작 날짜
+     * @param monthEndDate 종료 날짜
+     * @param uniqueDates 데이터를 담을 날짜
+     */
+    private addSingleDateIfWithinRange(currentDate: Date, monthStartDate: Date, monthEndDate: Date, uniqueDates: Set<number>) {
+        if (currentDate >= monthStartDate && currentDate <= monthEndDate) {
+            uniqueDates.add(currentDate.getTime());
+        }
+    }
+    
+
+    /**
+     * 주기가 있는 날자 로직 처리 함수
+     * @param currentDate 현재 날짜
+     * @param calendars 캘린더 데이터
+     * @param monthStartDate 시작 날짜
+     * @param monthEndDate 종료 날짜
+     * @param uniqueDates 데이터를 담을 날짜
+     */
+    private addRecurringDates(currentDate: Date, frequencyInMs: number, monthStartDate: Date, monthEndDate: Date, uniqueDates: Set<number>) {
+        while (currentDate <= monthEndDate) {
+            if (currentDate >= monthStartDate && currentDate <= monthEndDate) {
+                uniqueDates.add(currentDate.getTime());
+            }
+            currentDate = new Date(currentDate.getTime() + frequencyInMs);
+        }
+    }
+    
 
     /**
      * 해당 달의 시작날짜와 종료 날짜 조회
@@ -184,25 +239,7 @@ export class CalendarService {
     }
 
 
-    /**
-     * 캘린더 데이터 검증 함수
-     * @param calendar 검증할 캘린더 엔티티 데이터
-     */
-    public verifyCalendar(calendar:Calendar){
-        if(!checkData(calendar))
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
-    }
 
-
-    /**
-     * 캘린더 데이터와 유저가 요청한 length를 통해 길이가 같지 않을 경우 에러처리를 한다.
-     * @param calendars 캘린더 엔티티 데이터
-     * @param length 유저 요청 길이
-     */
-    public verifyCalendars(calendars:Calendar[], length:number){
-        if(!(calendars.length === length))
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
-    }
 
     
 
