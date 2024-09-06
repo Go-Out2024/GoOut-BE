@@ -12,7 +12,7 @@ export class SubwayStationResult {
         return new SubwayStationResult(subwayArrivalInfo);
     }
 
-    public setSubwayArrivalInfo(subwayArrivalInfo: SubwayArrivalInfo[]): void {
+    private setSubwayArrivalInfo(subwayArrivalInfo: SubwayArrivalInfo[]): void {
         this.subwayArrivalInfo = subwayArrivalInfo;
     }
 
@@ -32,7 +32,7 @@ export class BusStationResult {
         return new BusStationResult(busStationsInfo);
     }
 
-    public setBusStationsInfo(busStationsInfo: BusStationInfo[]): void {
+    private setBusStationsInfo(busStationsInfo: BusStationInfo[]): void {
         this.busStationsInfo = busStationsInfo;
     }
 
@@ -56,11 +56,11 @@ export class StationResult {
         return new StationResult(subwayStation, busStations, subwayErrorMessage);
     }
 
-    public setSubwayStation(subwayStation: SubwayStationResult): void {
+    private setSubwayStation(subwayStation: SubwayStationResult): void {
         this.subwayStation = subwayStation;
     }
 
-    public setBusStations(busStations: BusStationResult): void {
+    private setBusStations(busStations: BusStationResult): void {
         this.busStations = busStations;
     }
 

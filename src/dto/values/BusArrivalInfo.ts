@@ -10,11 +10,11 @@ export class Station {
         this.setStationName(stationName);
     }
     
-    public setId(id: number) {
+    private setId(id: number) {
         this.id = id;
     }
 
-    public setStationName(stationName: string) {
+    private setStationName(stationName: string) {
         this.stationName = stationName;
     }
 }
@@ -35,11 +35,11 @@ export class BusStationInfo {
         return new BusStationInfo(station, busArrivalInfo);
     }
 
-    public setStation(station: Station) {
+    private setStation(station: Station) {
         this.station = station;
     }
 
-    public setBusArrivalInfo(busArrivalInfo: BusArrivalInfo[]) {
+    private setBusArrivalInfo(busArrivalInfo: BusArrivalInfo[]) {
         this.busArrivalInfo = busArrivalInfo;
     }
 
@@ -88,19 +88,19 @@ export class BusArrivalInfo {
         );
     }
 
-    public setNxtStn(nxtStn: string) {
+    private setNxtStn(nxtStn: string) {
         this.nxtStn = nxtStn;
     }
 
-    public setBusRouteAbrv(busRouteAbrv: string) {
+    private setBusRouteAbrv(busRouteAbrv: string) {
         this.busRouteAbrv = busRouteAbrv;
     }
 
-    public setArrmsg1(arrmsg1: string) {
+    private setArrmsg1(arrmsg1: string) {
         this.arrmsg1 = arrmsg1;
     }
 
-    public setArrmsg2(arrmsg2: string) {
+    private setArrmsg2(arrmsg2: string) {
         this.arrmsg2 = arrmsg2;
     }
 

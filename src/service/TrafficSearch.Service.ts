@@ -157,7 +157,7 @@ export class TrafficSearchService {
         if (subwayResults.length > 0) {
             result.push(
                 ...subwayResults.map(station => ({
-                    name: station.subwayName,
+                    name: station.getSubwayName(),
                     type: '지하철'
                 }))
             );
@@ -166,8 +166,8 @@ export class TrafficSearchService {
         if (busStationResults.length > 0) {
             result.push(
                 ...busStationResults.map(station => ({
-                    name: station.stationName,
-                    id: station.id,
+                    name: station.getStationName(),
+                    id: station.getId(),
                     type: '버스'
                 }))
             );
