@@ -76,6 +76,11 @@ export class UserService {
         await this.userRepository.updateAlarmTime(userId, alarmStart, alarmEnd);
     }
 
+
+    /**
+     * 유저 삭제 함수
+     * @param userId 유저 id
+     */
     public async eraseUser(userId:number){
         const user = await this.userRepository.findUserById(userId);
         verifyUser(user);
