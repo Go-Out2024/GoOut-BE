@@ -23,7 +23,7 @@ describe('Calendar Controller Test', ()=>{
     afterAll(async()=>{
     });
 
-    const calendarService = new CalendarService({} as any)as jest.Mocked<CalendarService>;
+    const calendarService = new CalendarService({} as any, {} as any)as jest.Mocked<CalendarService>;
     const calendarController = new CalendarController(calendarService);
 
     beforeEach(async () => {
