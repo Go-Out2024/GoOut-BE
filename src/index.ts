@@ -19,7 +19,7 @@ import { CalendarController } from './controller/Calendar.Controller';
 import { MusicController } from './controller/Music.Controller';
 import { handleAlarm, settingRecommendMusic } from './util/scheduler';
 import { TrafficController } from './controller/Traffic.Controller';
-
+import { connectToRedis } from './config/redis';
 
 export const app: express.Application = createExpressServer({
 
@@ -85,3 +85,6 @@ initializeDatabase()
         console.error(`Express running failure : ${e}`);
         console.log(e);
     });
+
+
+connectToRedis();
