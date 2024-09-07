@@ -7,6 +7,7 @@ import { User } from '../../../src/entity/User';
 import { FirebaseTokenDto } from '../../../src/dto/request/FirebaseTokenDto';
 import { AlarmStatus } from '../../../src/dto/request/AlarmStatus';
 import { AlarmTime } from '../../../src/dto/request/AlarmTime';
+import { UserEmail } from '../../../src/dto/UserEmail';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -40,9 +41,12 @@ describe('User Controller Test', ()=>{
     describe('bringUserNumber function test', ()=>{
 
         it('basic', async ()=>{
-            const response = await userService.bringUserNumber(req.decoded.id);
+            const bringUserNumberResponse = UserNumber.of({getNumber:jest.fn().mockReturnValue(12)} as unknown as User);
+            userService.bringUserNumber.mockResolvedValue(bringUserNumberResponse);
             const result = await userController.bringUserNumber(req);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(bringUserNumberResponse));
+            expect(userService.bringUserNumber).toHaveBeenCalledWith(req.decoded.id);
+
         });
     });
 
@@ -50,9 +54,11 @@ describe('User Controller Test', ()=>{
     describe('bringUserEmail function test', ()=>{
 
         it('basic', async ()=>{
-            const response = await userService.bringUserEmail(req.decoded.id);
+            const bringUserEmailResponse = UserEmail.of({getEmail:jest.fn().mockReturnValue('11@naver.com')} as unknown as User)
+            userService.bringUserEmail.mockResolvedValue(bringUserEmailResponse)
             const result = await userController.bringUserEmail(req);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(bringUserEmailResponse));
+            expect(userService.bringUserEmail).toHaveBeenCalledWith(req.decoded.id);
         });
     });
 
@@ -61,9 +67,11 @@ describe('User Controller Test', ()=>{
         const penetrateFirebaseTokenRequest = { getToken: jest.fn().mockReturnValue('sdf')} as unknown as FirebaseTokenDto;
 
         it('basic', async ()=>{
-            const response = await userService.penetrateFirebaseToken(req.decoded.id, penetrateFirebaseTokenRequest.getToken());
+            userService.penetrateFirebaseToken.mockResolvedValue(undefined);
             const result = await userController.penetrateFirebaseToken(req, penetrateFirebaseTokenRequest);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(undefined));
+            expect(userService.penetrateFirebaseToken).toHaveBeenCalledWith(req.decoded.id, penetrateFirebaseTokenRequest.getToken())
+
         });
     });
 
@@ -73,9 +81,10 @@ describe('User Controller Test', ()=>{
         const alarmStatus = { getStatus: jest.fn().mockReturnValue(true)} as unknown as AlarmStatus;
 
         it('basic', async ()=>{
-            const response = await userService.modifyAlarmOnOff(req.decoded.id, alarmStatus.getStatus());
+            userService.modifyAlarmOnOff.mockResolvedValue(undefined);
             const result = await userController.modifyAlarmOnOff(req, alarmStatus);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(undefined));
+            expect(userService.modifyAlarmOnOff).toHaveBeenCalledWith(req.decoded.id, alarmStatus.getStatus())
         });
     });
 
@@ -87,9 +96,10 @@ describe('User Controller Test', ()=>{
         } as unknown as AlarmTime;
 
         it('basic', async ()=>{
-            const response = await userService.modifyAlarmTime(req.decoded.id, alarmTime.getAlarmStart(), alarmTime.getAlarmEnd());
+            userService.modifyAlarmTime.mockResolvedValue(undefined);
             const result = await userController.modifyAlarmTime(req, alarmTime);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(undefined));
+            expect(userService.modifyAlarmTime).toHaveBeenCalledWith(req.decoded.id, alarmTime.getAlarmStart(), alarmTime.getAlarmEnd());
         });
     });
 
@@ -97,9 +107,10 @@ describe('User Controller Test', ()=>{
     describe('eraseUser function test', ()=>{
 
         it('basic', async ()=>{
-            const response = await userService.eraseUser(req.decoded.id);
+            userService.eraseUser.mockResolvedValue(undefined)
             const result = await userController.eraseUser(req);
-            expect(result).toEqual(SuccessResponseDto.of(response));
+            expect(result).toEqual(SuccessResponseDto.of(undefined));
+            expect(userService.eraseUser).toHaveBeenCalledWith(req.decoded.id);
         });
     });
 });
