@@ -6,7 +6,6 @@ import { useContainer, createExpressServer } from 'routing-controllers';
 import { initializeDatabase } from './config/database';
 import { envs } from './config/environment';
 import {ErrorHandler} from './exception/ErrorHandler'
-import { generateAuthToken } from './middleware/jwtMiddleware';
 import  compression from 'compression';
 import { UserController } from './controller/User.Controller';
 import { AuthController } from './controller/Auth.Controller';
@@ -48,7 +47,6 @@ app.use(
     }),
 );
 
-console.log(generateAuthToken(1,"USER"))
 let isKeepAlive = true;
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!isKeepAlive) {      

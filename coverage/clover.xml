@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1725691613163" clover="3.2.0">
-  <project timestamp="1725691613163" name="All files">
-    <metrics statements="1071" coveredstatements="296" conditionals="128" coveredconditionals="6" methods="245" coveredmethods="29" elements="1444" coveredelements="331" complexity="0" loc="1071" ncloc="1071" packages="7" files="50" classes="50"/>
+<coverage generated="1725715586854" clover="3.2.0">
+  <project timestamp="1725715586854" name="All files">
+    <metrics statements="1067" coveredstatements="307" conditionals="127" coveredconditionals="13" methods="244" coveredmethods="32" elements="1438" coveredelements="352" complexity="0" loc="1067" ncloc="1067" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="213" coveredstatements="100" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="20"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -249,30 +249,26 @@
       </file>
     </package>
     <package name="middleware">
-      <metrics statements="21" coveredstatements="6" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <metrics statements="17" coveredstatements="17" conditionals="7" coveredconditionals="7" methods="3" coveredmethods="3"/>
       <file name="jwtMiddleware.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/middleware/jwtMiddleware.ts">
-        <metrics statements="21" coveredstatements="6" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="24" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="29" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="50" count="0" type="cond" truecount="0" falsecount="1"/>
+        <metrics statements="17" coveredstatements="17" conditionals="7" coveredconditionals="7" methods="3" coveredmethods="3"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="8" type="cond" truecount="3" falsecount="0"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="37" count="1" type="cond" truecount="1" falsecount="0"/>
       </file>
     </package>
     <package name="middleware.before">
