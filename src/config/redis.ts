@@ -8,7 +8,7 @@ const redisClient = redis.createClient({            // aws  및 로컬
     legacyMode: true
 });
 
-const connectToRedis = async () => {
+export const connectToRedis = async () => {
     try {
         redisClient.on('connect', () => {
             console.log('Connected to Redis');
@@ -24,6 +24,7 @@ const connectToRedis = async () => {
     }
 };
 
-connectToRedis();
 
 export { redisClient };
+
+
