@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "tsc && pm2-runtime dist/src/index.js -i 0",
-    "test": "jest --logHeapUsage"
+    "test": "jest --logHeapUsage "
   },
   "author": "lee",
   "license": "MIT",
