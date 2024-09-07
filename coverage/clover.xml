@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1725680838067" clover="3.2.0">
-  <project timestamp="1725680838067" name="All files">
-    <metrics statements="1071" coveredstatements="230" conditionals="128" coveredconditionals="4" methods="245" coveredmethods="19" elements="1444" coveredelements="253" complexity="0" loc="1071" ncloc="1071" packages="7" files="50" classes="50"/>
+<coverage generated="1725689708793" clover="3.2.0">
+  <project timestamp="1725689708793" name="All files">
+    <metrics statements="1071" coveredstatements="260" conditionals="128" coveredconditionals="4" methods="245" coveredmethods="22" elements="1444" coveredelements="286" complexity="0" loc="1071" ncloc="1071" packages="7" files="50" classes="50"/>
     <package name="controller">
-      <metrics statements="213" coveredstatements="59" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="11"/>
+      <metrics statements="213" coveredstatements="78" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="14"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
         <metrics statements="19" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -73,16 +73,16 @@
         <line num="17" count="1" type="stmt"/>
       </file>
       <file name="Firebase.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Firebase.Controller.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
       <file name="Kakao.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Kakao.Controller.ts">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -98,17 +98,17 @@
         <line num="36" count="0" type="stmt"/>
       </file>
       <file name="Music.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Music.Controller.ts">
-        <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
       </file>
       <file name="Token.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Token.Controller.ts">
         <metrics statements="15" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -416,7 +416,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="437" coveredstatements="27" conditionals="73" coveredconditionals="0" methods="108" coveredmethods="2"/>
+      <metrics statements="437" coveredstatements="36" conditionals="73" coveredconditionals="0" methods="108" coveredmethods="2"/>
       <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -562,22 +562,22 @@
         <line num="35" count="0" type="stmt"/>
       </file>
       <file name="Music.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Music.Service.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
       </file>
       <file name="Redis.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Redis.Service.ts">
-        <metrics statements="15" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <metrics statements="15" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
@@ -892,7 +892,7 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="175" coveredstatements="8" conditionals="37" coveredconditionals="0" methods="37" coveredmethods="0"/>
+      <metrics statements="175" coveredstatements="10" conditionals="37" coveredconditionals="0" methods="37" coveredmethods="0"/>
       <file name="Alarm.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/Alarm.ts">
         <metrics statements="25" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -967,9 +967,9 @@
         <line num="13" count="0" type="stmt"/>
       </file>
       <file name="firebaseMessage.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/firebaseMessage.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
