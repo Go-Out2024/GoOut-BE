@@ -13,6 +13,7 @@ import { BusApi } from "../util/publicData";
 import { checkData } from "../util/checker";
 import { ErrorResponseDto } from "../response/ErrorResponseDto";
 import { ErrorCode } from "../exception/ErrorCode";
+import { verifyarrivalList } from "../util/verify";
 
 @Service()
 export class TrafficSearchService {
@@ -182,19 +183,9 @@ export class TrafficSearchService {
      */
     private async bringSubwayArrivalInfo(stationName: string): Promise<SubwayArrivalInfo[]> {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
-        this.verifyarrivalList(arrivalList);
+        verifyarrivalList(arrivalList);
         return arrivalList
             .map(info => SubwayArrivalInfo.fromData(info));
-    }
-
-    /**
-     * 검색 역의 열차정보가 없을 때 예외 처리 함수
-     * @param arrivalList 열차 정보
-     */
-    public verifyarrivalList(arrivalList) {
-        if (!checkData(arrivalList)) {
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
-        }
     }
 
     /**

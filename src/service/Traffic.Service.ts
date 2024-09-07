@@ -22,6 +22,7 @@ import { CollectionNameUpdate } from "../dto/request/CollectionNameUpdate";
 import { checkData } from "../util/checker";
 import { ErrorResponseDto } from "../response/ErrorResponseDto";
 import { ErrorCode } from "../exception/ErrorCode";
+import { verifyarrivalList } from "../util/verify";
 
 @Service()
 export class TrafficService {
@@ -48,6 +49,7 @@ export class TrafficService {
         const trafficCollection = await this.trafficCollectionRepository.insertTrafficCollection(collectionInsert, userId);
         await this.verifyInsertTrafficCollectionStatus(collectionInsert, trafficCollection);
     }
+    
     /**
      * 교통 컬렉션 등록 함수(교통 컬렉션 상세 정보)
      * @param detailDto 교통 컬렉션 상세(상태) dto
@@ -271,7 +273,7 @@ export class TrafficService {
      */
     async bringSubwayArrivalInfo(stationName: string, numbers: string[]) {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
-        this.verifyarrivalList(arrivalList);
+        verifyarrivalList(arrivalList);
         return arrivalList
             .filter(info => numbers.includes(info.subwayId))
             .map(info => SubwayArrivalInfo.fromData(info));
@@ -289,15 +291,4 @@ export class TrafficService {
             .filter(item => numbers.includes(item.busRouteAbrv))
             .map(item => BusArrivalInfo.fromData(item));
     }
-
-    /**
-     * 검색 역의 열차정보가 없을 때 예외처리 함수
-     * @param arrivalList 열차정보
-     */
-    public verifyarrivalList(arrivalList: any) {
-        if (!checkData(arrivalList)) {
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
-        }
-    }
-
 }
