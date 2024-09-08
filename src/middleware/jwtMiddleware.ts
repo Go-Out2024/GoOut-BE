@@ -18,6 +18,7 @@ export const extractAuthToken = (req: Request) => {
 export const getAuthTokenBody = (req: Request, throwing :boolean) => {
 
     const token: string = extractAuthToken(req);
+   
     try {
         const payload = jwt.verify(token,"secret") ;
         return typeof payload === 'string' ? JSON.parse(payload as string) : payload;
@@ -26,7 +27,7 @@ export const getAuthTokenBody = (req: Request, throwing :boolean) => {
     }
 };
 
-export const compareAuthToken = (req:Request, next: NextFunction): void => {
+export const compareAuthToken = (req:Request, res: Response,next: NextFunction): void => {
     try {
         const tokenBody : ITokenBody= getAuthTokenBody(req, true);
         req.decoded = tokenBody;
@@ -34,7 +35,7 @@ export const compareAuthToken = (req:Request, next: NextFunction): void => {
     } catch (e) {
         throw new HttpError(401, 'INVALID_TOKEN');
     }      
-    if (next) next();
+    next();
 };
 
 

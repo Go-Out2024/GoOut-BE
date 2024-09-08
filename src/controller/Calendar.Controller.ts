@@ -92,6 +92,7 @@ export class CalendarController{
     @UseBefore(compareAuthToken)
     @Get()
     async bringScheduleOrProductChecking(@QueryParam('month') month:string, @Req() req: Request):Promise<SuccessResponseDto<CalendarDataCheck>> {
+        console.log(req.decoded.id)
         const result = await this.calendarService.bringScheduleOrProductChecking(req.decoded.id, month);
         console.log("달 별 캘린더 일정 or 준비물 존재 여부 조회 완료");
         return SuccessResponseDto.of(result);
