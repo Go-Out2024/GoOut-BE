@@ -1,4 +1,4 @@
-import { NextFunction, Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import {compareAuthToken, extractAuthToken, getAuthTokenBody} from '../../../src/middleware/jwtMiddleware';
 import jwt from 'jsonwebtoken';
 import { ITokenBody } from "../../../src/middleware/jwtMiddleware";
@@ -80,6 +80,7 @@ describe('jwtMiddleware 테스트', () => {
 
     describe('compareAuthToken 함수', () => {
         const req = { headers: { authorization: "Bearer token" } } as unknown as Request;
+        const res = {} as unknown as Response
         const mockTokenBody = { id: 1, role: "USER" } as unknown as ITokenBody;
 
         beforeEach(() => {
@@ -87,7 +88,7 @@ describe('jwtMiddleware 테스트', () => {
         });
 
         it('compareAuthToken 정상 테스트', () => {
-            compareAuthToken(req, next);
+            compareAuthToken(req, res, next);
             expect(req.decoded).toEqual(mockTokenBody);
             expect(next).toHaveBeenCalled();
         });
@@ -95,7 +96,7 @@ describe('jwtMiddleware 테스트', () => {
         it('compareAuthToken 에러 테스트 - getAuthTokenBody에서 에러 발생', () => {
             (mockJwt.verify as jest.Mock).mockImplementation(() => { throw new Error('JWT verification failed'); });
             expect(() => {
-                compareAuthToken(req, next);
+                compareAuthToken(req, res, next);
             }).toThrow(new HttpError(401, 'INVALID_TOKEN'));
             expect(next).not.toHaveBeenCalled();
         });
