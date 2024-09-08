@@ -9,6 +9,7 @@ import { BusStationRepository } from '../repository/BusStation.Repository';
 import { SubwayStationRepository } from '../repository/SubwayStation.Repository';
 import { checkData } from '../util/checker';
 import { formatWeatherData } from '../util/weatherData';
+import { verifyCoordinates } from '../util/verify';
 
 @Service()
 export class WeatherService {
@@ -34,7 +35,7 @@ export class WeatherService {
             coordinates = await this.subwayStationRepository.findCoordinatesBySubwayStationName(stationName);
         }
 
-        this.verifyCoordinates(coordinates);
+        verifyCoordinates(coordinates);
         return coordinates;
     }
 
@@ -102,15 +103,5 @@ export class WeatherService {
         const endWeather = await this.bringWeatherData(endName, endType, baseDate, baseTime);
 
         return { startWeather, endWeather };
-    }
-
-    /**
-     * 존재하지 않을 역 이름 요청했을 때 예외 처리 함수
-     * @param coordinates 
-     */
-    public verifyCoordinates(coordinates: any) {
-        if (!checkData(coordinates)) {
-            throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
-        }
     }
 }

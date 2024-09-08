@@ -1,6 +1,8 @@
 
 
+import { CollectionInsert } from "../dto/request/CollectionInsert";
 import { Calendar } from "../entity/Calendar";
+import { TrafficCollection } from "../entity/TrafficCollection";
 import { User } from "../entity/User";
 import { ErrorCode } from "../exception/ErrorCode";
 import { ErrorResponseDto } from "../response/ErrorResponseDto";
@@ -47,4 +49,24 @@ export const verifyCalendar = async(calendar:Calendar)=>{
 export const  verifyCalendars = async(calendars:Calendar[], length:number)=>{
     if(!(calendars.length === length))
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
+}
+
+/**
+* 검색 역의 열차정보가 없을 때 예외처리 함수
+* @param arrivalList 열차정보
+*/
+export const verifyarrivalList= async(arrivalList: any)=>{
+    if (!checkData(arrivalList)) {
+        throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
+    }
+}
+
+/**
+* 존재하지 않을 역 이름 요청했을 때 예외 처리 함수
+* @param coordinates 
+*/
+export const verifyCoordinates= async(coordinates: any)=>{
+    if (!checkData(coordinates)) {
+        throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
+    }
 }
