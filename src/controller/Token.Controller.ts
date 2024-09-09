@@ -16,16 +16,7 @@ async verifyRefreshToken(
     @Req() req: Request, 
     @Res() response: Response) {
     const refreshToken = req.headers.authorization?.split(' ')[1]; //Bearer token
-    if(!refreshToken) {
-        return response.status(401).send({message: "refreshToken이 필요합니다. "});
-    }
-
-    try {
-        const newTokens = await this.tokenService.verifyRefreshToken(refreshToken);
-        return response.send(SuccessResponseDto.of(newTokens));
-    } catch (error) {
-        return this.errorHandler.error(error, req, response, () => {});
-    }
+    const newTokens = await this.tokenService.verifyRefreshToken(refreshToken);
+    return response.send(SuccessResponseDto.of(newTokens));
 }
-
 }

@@ -33,9 +33,7 @@ export class TrafficService {
         @InjectRepository(TrafficCollectionDetailRepository) private trafficCollectionDetailRepository: TrafficCollectionDetailRepository,
         @InjectRepository(TransportationRepository) private transportationRepository: TransportationRepository,
         @InjectRepository(TransportationNumberRepository) private transportationNumberRepository: TransportationNumberRepository,
-        @InjectRepository(SubwayStationRepository) private subwayStationRepository: SubwayStationRepository,
         @InjectRepository(BusStationRepository) private busStationRepository: BusStationRepository,
-        @InjectRepository(BusRepository) private busRepository: BusRepository,
         private subwayApi: SubwayApi,
         private busApi: BusApi
     ) {}
