@@ -55,7 +55,6 @@ export class CalendarService {
         const calendars = await this.calendarRepository.findCalendarsByUserId(userId);
         const filteredCalendars = this.filterCalendarsByPeriodMultiple(calendars, date);
         return CalendarDatas.of(this.mappingCalendarData(filteredCalendars));
-  
     }
 
 
@@ -77,18 +76,40 @@ export class CalendarService {
      * @param date 기준 날짜
      * @returns 
      */
-    public filterCalendarsByPeriodMultiple(calendars: Calendar[], date:string){
-        const result = calendars.filter(calendar => {
+    public filterCalendarsByPeriodMultiple(calendars: Calendar[], date: string): Calendar[] {
+        const targetDate = new Date(date);
+        return calendars.filter(calendar => {
             const startDate = new Date(calendar.getDate());
-            const targetDate = new Date(date);
-            const frequencyInMs = calendar.getPeriod() * 24 * 60 * 60 * 1000;
-            const timeDiff = targetDate.getTime() - startDate.getTime();
-            return timeDiff >= 0 && timeDiff % frequencyInMs === 0;
+            const period = calendar.getPeriod();
+            if (period === 0) {
+                return this.isSameDay(startDate, targetDate);
+            } 
+            return this.isMultipleOfPeriod(startDate, targetDate, period); 
         });
-        return result;
     }
-
-
+    
+    /**
+     * 두 날짜를 비교해주는 함수
+     * @param relativeDate 비교하는 날짜
+     * @param targetDate 비교 당하는 날짜
+     * @returns 같을 경우 true, 아닐 경우 false
+     */
+    private isSameDay(relativeDate: Date, targetDate: Date): boolean {
+        return relativeDate.getTime() === targetDate.getTime();
+    }
+    
+    /**
+     * 시작 날짜와 주기에 따라 타켓 날짜의 배수인지 구분하는 함수
+     * @param startDate 시작 날짜
+     * @param targetDate 타켓 날짜
+     * @param period 주기
+     * @returns 
+     */
+    private isMultipleOfPeriod(startDate: Date, targetDate: Date, period: number): boolean {
+        const frequencyInMs = period * 24 * 60 * 60 * 1000;
+        const timeDiff = targetDate.getTime() - startDate.getTime();
+        return timeDiff >= 0 && timeDiff % frequencyInMs === 0;
+    }
 
     /**
      * 캘린더 수정 함수
