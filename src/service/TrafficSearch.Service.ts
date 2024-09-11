@@ -21,7 +21,6 @@ export class TrafficSearchService {
     constructor(
         @InjectRepository(SubwayStationRepository) private subwayStationRepository: SubwayStationRepository,
         @InjectRepository(BusStationRepository) private busStationRepository: BusStationRepository,
-        @InjectRepository(BusRepository) private busRepository: BusRepository,
         private subwayApi: SubwayApi,
         private busApi: BusApi
     ) {}
