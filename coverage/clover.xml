@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726046843636" clover="3.2.0">
-  <project timestamp="1726046843636" name="All files">
-    <metrics statements="1063" coveredstatements="330" conditionals="126" coveredconditionals="12" methods="243" coveredmethods="43" elements="1432" coveredelements="385" complexity="0" loc="1063" ncloc="1063" packages="7" files="50" classes="50"/>
+<coverage generated="1726052452247" clover="3.2.0">
+  <project timestamp="1726052452247" name="All files">
+    <metrics statements="1062" coveredstatements="340" conditionals="124" coveredconditionals="12" methods="243" coveredmethods="45" elements="1429" coveredelements="397" complexity="0" loc="1062" ncloc="1062" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="214" coveredstatements="101" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="20"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -413,7 +413,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="426" coveredstatements="60" conditionals="71" coveredconditionals="0" methods="105" coveredmethods="12"/>
+      <metrics statements="425" coveredstatements="70" conditionals="69" coveredconditionals="0" methods="105" coveredmethods="14"/>
       <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -545,22 +545,21 @@
         <line num="39" count="2" type="stmt"/>
       </file>
       <file name="KakaoApi.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/KakaoApi.Service.ts">
-        <metrics statements="15" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
       </file>
       <file name="Music.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Music.Service.ts">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -577,11 +576,11 @@
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
       </file>
       <file name="Token.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Token.Service.ts">
         <metrics statements="29" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
