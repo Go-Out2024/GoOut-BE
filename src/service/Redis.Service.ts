@@ -3,12 +3,11 @@ import { Service } from 'typedi';
 import { redisClient } from "../config/redis";
 import { promisify } from 'util';
 
-const getAsync = promisify(redisClient.get).bind(redisClient);
 
 @Service()
 export class RedisService {
 
-    public getAsync = promisify(redisClient.get).bind(redisClient);
+    private getAsync = promisify(redisClient.get).bind(redisClient);
 
     // async penetrateRefreshToken(token: string, userId: number) {
     //     await redisClient.set(String(userId), token)
@@ -30,7 +29,7 @@ export class RedisService {
         await redisClient.set(key, value);
     }
 
-    async getValue(key:string){
-        return getAsync(key);
+    async getValue(key: string) {
+        return this.getAsync(key);
     }
 }
