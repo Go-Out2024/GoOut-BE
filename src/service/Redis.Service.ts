@@ -15,7 +15,7 @@ export class RedisService {
     //     console.log('리프레시 토큰 저장 완료: ', token);
     // }
 
-    async deleteValue(key: number) {
+    async deleteValue(key: string) {
         await redisClient.del(key);
 
     }
