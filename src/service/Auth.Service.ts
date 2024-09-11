@@ -26,10 +26,9 @@ export class AuthService {
                 email:userInfo.email
         });
         }
-  
         const tokens = this.generateJwtTokens(user.id);
-        await this.redisService.penetrateRefreshToken(tokens.refreshToken, user.id);
-        await this.redisService.bringRefreshToken(user.id);
+        await this.redisService.setValue(tokens.refreshToken, String(user.id));
+        await this.redisService.getValue(String(user.id));
         return tokens;
     }
 
@@ -52,7 +51,7 @@ export class AuthService {
             throw new Error('User ID not found in token');
         }
     
-        await this.redisService.eraseRefreshToken(userId);
+        await this.redisService.deleteValue(userId);
         await this.firebaseTokenRepository.deleteTokensByUserId(userId, firebaseToken);
     }
 
