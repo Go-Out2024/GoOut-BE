@@ -41,20 +41,20 @@ describe('Auth Controller Test', () => {
 
     describe('login function test', () => {
         it('should successfully login and return tokens', async () => {
-            const mockTokens = { accessToken: {} as never, refreshToken: {} as never};
+            const mockTokens = { accessToken: "sfs"  as string, refreshToken: "sdfsdf" as string};
             authService.loginWithKakao.mockResolvedValue(mockTokens);
-            await authController.login(req as Request, res as Response);
+            const result = await authController.login(req as Request);
+            expect(result).toEqual(SuccessResponseDto.of(mockTokens));
             expect(authService.loginWithKakao).toHaveBeenCalledWith('Bearer mockAccessToken');
-            expect(res.send).toHaveBeenCalledWith(SuccessResponseDto.of(mockTokens));
         });
     });
 
     describe('logout function test', () => {
         it('should successfully logout', async () => {
             const logoutDto: LogoutDto = { refreshToken: 'refreshToken', firebaseToken: 'firebaseToken' };
-            await authController.logout(logoutDto, res as Response);
+            const result = await authController.logout(logoutDto);
+            expect(result).toEqual(SuccessResponseDto.of());
             expect(authService.logout).toHaveBeenCalledWith('refreshToken', 'firebaseToken');
-            expect(res.send).toHaveBeenCalledWith({ message: '로그아웃이 완료되었습니다.' });
         });
     });
 });

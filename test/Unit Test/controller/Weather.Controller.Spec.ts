@@ -1,6 +1,7 @@
 import { SuccessResponseDto } from '../../../src/response/SuccessResponseDto';
 import { WeatherController } from '../../../src/controller/Weather.Controller';
 import { WeatherService } from '../../../src/service/Weather.Service';
+import { HourlyWeatherDataDto } from '../../../src/dto/values/HourlyWeatherData';
 
 jest.mock('../../../src/service/Weather.Service');
 
@@ -36,8 +37,8 @@ describe('Weather Controller Test', () => {
                     dailyMinTemp: '15℃',
                     dailyMaxTemp: '25℃',
                     hourlyData: [
-                        { date: '20240909', time: '0800', skyStatus: '맑음', precipitationType: '없음', temperature: '20℃', hourlyPrecipitation: '0mm' },
-                    ]as never[],
+                        HourlyWeatherDataDto.of('20240909', '0800', '맑음', '없음', '20℃', '0mm'),
+                    ],
                 },
                 location: { level1: '서울특별시', level2: '강남구', level3: '역삼동' }
             };
@@ -46,8 +47,8 @@ describe('Weather Controller Test', () => {
                     dailyMinTemp: '18℃',
                     dailyMaxTemp: '28℃',
                     hourlyData: [
-                        { date: '20240909', time: '0800', skyStatus: '흐림', precipitationType: '비', temperature: '22℃', hourlyPrecipitation: '10mm' },
-                    ] as never[],
+                        HourlyWeatherDataDto.of('20240909', '0800', '맑음', '없음', '20℃', '0mm'),
+                    ],
                 },
                 location: { level1: '서울특별시', level2: '송파구', level3: '잠실동' }
             };

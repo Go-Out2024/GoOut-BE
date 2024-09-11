@@ -16,19 +16,17 @@ export class AuthController {
 @HttpCode(200)
 @Post('/login')
 async login(
-    @Req() req:Request, 
-    @Res() response: Response) {
+    @Req() req:Request) {
         const accessToken = req.headers.authorization;
         const tokens = await this.authService.loginWithKakao(accessToken);
-        return response.send(SuccessResponseDto.of(tokens));
+        return SuccessResponseDto.of(tokens);
 }
 
 @HttpCode(200)
 @Delete('/logout')
 async logout(
-    @Body() body: LogoutDto,
-    @Res() response: Response) {    
+    @Body() body: LogoutDto) {    
         await this.authService.logout(body.refreshToken, body.firebaseToken);
-        return response.send(({message: '로그아웃이 완료되었습니다.'}));
+        return SuccessResponseDto.of();
 }
 }

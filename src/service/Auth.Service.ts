@@ -17,7 +17,10 @@ export class AuthService {
         private redisService: RedisService
     ) {}
 
-    async loginWithKakao(accessToken: string) {
+    async loginWithKakao(accessToken: string):Promise< {
+        accessToken: string;
+        refreshToken: string;
+    }> {
         const userInfo = await this.kakaoApiservice.bringUserInfo(accessToken);
         let user = await this.userRepository.findByKakaoId(userInfo.kakaoId);
         if(!user) {
@@ -30,7 +33,7 @@ export class AuthService {
         const tokens = this.generateJwtTokens(user.id);
         await this.redisService.penetrateRefreshToken(tokens.refreshToken, user.id);
         await this.redisService.bringRefreshToken(user.id);
-        return tokens;
+        return tokens 
     }
 
     private generateJwtTokens(userId: number) {

@@ -13,10 +13,9 @@ export class TokenController {
 @HttpCode(200)
 @Post('/refresh-token')
 async verifyRefreshToken(
-    @Req() req: Request, 
-    @Res() response: Response) {
+    @Req() req: Request) {
     const refreshToken = req.headers.authorization?.split(' ')[1]; //Bearer token
     const newTokens = await this.tokenService.verifyRefreshToken(refreshToken);
-    return response.send(SuccessResponseDto.of(newTokens));
+    return SuccessResponseDto.of(newTokens);
 }
 }

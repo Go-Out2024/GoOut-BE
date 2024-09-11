@@ -43,9 +43,9 @@ describe('Token Controller Test', () => {
     it('basic', async () => {
       const mockNewTokens = { accessToken: {} as never, refreshToken: {} as string };
       tokenService.verifyRefreshToken.mockResolvedValue(mockNewTokens);
-      await tokenController.verifyRefreshToken(req as Request, res as Response);
+      const result = await tokenController.verifyRefreshToken(req as Request);
+      expect(result).toEqual(SuccessResponseDto.of(mockNewTokens));
       expect(tokenService.verifyRefreshToken).toHaveBeenCalledWith('mockRefreshToken');
-      expect(res.send).toHaveBeenCalledWith(SuccessResponseDto.of(mockNewTokens));
     });
   });
 });
