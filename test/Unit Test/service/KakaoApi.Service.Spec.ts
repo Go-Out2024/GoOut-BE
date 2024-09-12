@@ -91,7 +91,7 @@ describe('KakaoApi Service Test', ()=>{
             expect(result).toEqual(mockKakaoEaterySuccessResponse.data.documents);
             expect(mockedAxios.get).toHaveBeenCalledWith(`https://dapi.kakao.com/v2/local/search/category.json?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}`, {
                 headers: {
-                    Authorization: `KakaoAK undefined`}
+                    Authorization: `KakaoAK ${envs.kakao.key}`}
                 })
             });
   
