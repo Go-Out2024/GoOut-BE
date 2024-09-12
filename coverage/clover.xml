@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726115307594" clover="3.2.0">
-  <project timestamp="1726115307594" name="All files">
-    <metrics statements="1062" coveredstatements="268" conditionals="124" coveredconditionals="12" methods="243" coveredmethods="32" elements="1429" coveredelements="312" complexity="0" loc="1062" ncloc="1062" packages="7" files="50" classes="50"/>
+<coverage generated="1726115541255" clover="3.2.0">
+  <project timestamp="1726115541255" name="All files">
+    <metrics statements="1062" coveredstatements="271" conditionals="124" coveredconditionals="12" methods="243" coveredmethods="33" elements="1429" coveredelements="316" complexity="0" loc="1062" ncloc="1062" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="214" coveredstatements="39" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="7"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -413,7 +413,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="425" coveredstatements="60" conditionals="69" coveredconditionals="0" methods="105" coveredmethods="14"/>
+      <metrics statements="425" coveredstatements="63" conditionals="69" coveredconditionals="0" methods="105" coveredmethods="15"/>
       <file name="Auth.Service.ts" path="D:\GoodMorning-Be\src\service\Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -809,7 +809,7 @@
         <line num="199" count="0" type="stmt"/>
       </file>
       <file name="User.Service.ts" path="D:\GoodMorning-Be\src\service\User.Service.ts">
-        <metrics statements="29" coveredstatements="13" conditionals="1" coveredconditionals="0" methods="7" coveredmethods="2"/>
+        <metrics statements="29" coveredstatements="16" conditionals="1" coveredconditionals="0" methods="7" coveredmethods="3"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -818,14 +818,14 @@
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
         <line num="29" count="2" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="48" count="0" type="stmt"/>
         <line num="49" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="50" count="0" type="stmt"/>

@@ -6,6 +6,7 @@ import { User } from '../../../src/entity/User';
 import { UserNumber } from '../../../src/dto/UserNumber';
 import { ErrorResponseDto } from '../../../src/response/ErrorResponseDto';
 import { ErrorCode } from '../../../src/exception/ErrorCode';
+import { UserEmail } from '../../../src/dto/UserEmail';
 
 
 jest.mock('../../../src/repository/User.Repository');
@@ -24,7 +25,10 @@ describe('User Service Test', ()=>{
     const firebaseTokenRepository = new FirebaseTokenRepository() as jest.Mocked<FirebaseTokenRepository>;
     const mockVerifyUser = verifyUser as jest.Mock;
     let userService:UserService;
-    const user = { getNumber: jest.fn().mockReturnValue(2) } as unknown as User;
+    const user = { 
+        getNumber: jest.fn().mockReturnValue(2),
+        getEmail : jest.fn().mockReturnValue('email')
+    } as unknown as User;
     const userId = 1;
 
 
@@ -64,11 +68,32 @@ describe('User Service Test', ()=>{
     });
 
 
-    // describe('bringUserEmail function test', ()=>{
-    //     it('basic',  async () => {
+    describe('bringUserEmail function test', ()=>{
+        it('basic',  async () => {
+            const bringUserEmailResponse = UserEmail.of(user);
+            userRepository.findUserById.mockResolvedValue(user);
+            mockVerifyUser.mockReturnValue(null);
+
+            const result = await userService.bringUserEmail(userId);
+
+            expect(result).toEqual(bringUserEmailResponse);
+            expect(userRepository.findUserById).toHaveBeenCalledWith(userId);
+            expect(mockVerifyUser).toHaveBeenCalledWith(user);
         
-    //     });
-    // });
+        });
+
+        it('verifyUser error',  async () => {
+            userRepository.findUserById.mockResolvedValue(undefined);
+            mockVerifyUser.mockImplementation(()=>{
+                throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_USER)
+            })
+            await expect(userService.bringUserEmail(userId))
+            .rejects
+            .toEqual(ErrorResponseDto.of(ErrorCode.NOT_FOUND_USER));
+            expect(userRepository.findUserById).toHaveBeenCalledWith(userId);
+            expect(mockVerifyUser).toHaveBeenCalledWith(undefined);
+        });
+    });
 
     // describe('penetrateFirebaseToken function test', ()=>{
     //     it('basic',  async () => {
