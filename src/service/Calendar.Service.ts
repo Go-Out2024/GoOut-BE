@@ -10,6 +10,7 @@ import { CalendarData, CalendarDatas } from '../dto/response/CalendarData';
 import { getPeriodKey } from '../util/enum/Period';
 import { verifyCalendars, verifyUser } from '../util/verify';
 import { UserRepository } from '../repository/User.Repository';
+import { isSameDay } from '../util/checker';
 
 
 
@@ -82,21 +83,13 @@ export class CalendarService {
             const startDate = new Date(calendar.getDate());
             const period = calendar.getPeriod();
             if (period === 0) {
-                return this.isSameDay(startDate, targetDate);
+                return isSameDay(startDate, targetDate);
             } 
             return this.isMultipleOfPeriod(startDate, targetDate, period); 
         });
     }
     
-    /**
-     * 두 날짜를 비교해주는 함수
-     * @param relativeDate 비교하는 날짜
-     * @param targetDate 비교 당하는 날짜
-     * @returns 같을 경우 true, 아닐 경우 false
-     */
-    private isSameDay(relativeDate: Date, targetDate: Date): boolean {
-        return relativeDate.getTime() === targetDate.getTime();
-    }
+
     
     /**
      * 시작 날짜와 주기에 따라 타켓 날짜의 배수인지 구분하는 함수

@@ -10,6 +10,7 @@ import { ErrorResponseDto } from '../../../src/response/ErrorResponseDto';
 import { Calendar } from '../../../src/entity/Calendar';
 import { CalendarData, CalendarDatas } from '../../../src/dto/response/CalendarData';
 import { getPeriodKey } from '../../../src/util/enum/Period';
+import { isSameDay } from '../../../src/util/checker';
 
 
 jest.mock('../../../src/repository/Calendar.Repository');
@@ -19,6 +20,7 @@ jest.mock('../../../src/util/verify', ()=>({
     verifyCalendars: jest.fn()
 }));
 jest.mock('../../../src/util/enum/Period')
+jest.mock('../../../src/util/checker')
 
 describe('Calendar Service Test', ()=>{
 
@@ -138,8 +140,41 @@ describe('Calendar Service Test', ()=>{
             expect(getPeriodKey).toHaveBeenCalledWith('Period 1');
             expect(getPeriodKey).toHaveBeenCalledWith('Period 2');
         });  
-        });
     });
+
+    describe('filterCalendarsByPeriodMultiple test', ()=>{
+        const mockIsSameDay = isSameDay as jest.Mock;
+        it('isSameDay return', async ()=>{
+            const mockCalendar = { 
+                getDate: jest.fn().mockReturnValue('2024-09-10'), 
+                getPeriod: jest.fn().mockReturnValue(0) 
+            } as unknown as Calendar;
+            const calendars = [mockCalendar];
+            const date = '2024-09-10';
+            mockIsSameDay.mockReturnValue(true);
+            const result = calendarService.filterCalendarsByPeriodMultiple(calendars, date);
+            expect(result).toEqual([mockCalendar]); 
+            expect(mockIsSameDay).toHaveBeenCalledWith(new Date('2024-09-10'), new Date(date));  
+        });
+
+        it('MultipleOfPeriod return', async ()=>{
+            const mockCalendar = { 
+                getDate: jest.fn().mockReturnValue('2024-09-10'), 
+                getPeriod: jest.fn().mockReturnValue(2) 
+            } as unknown as Calendar;
+            const calendars = [mockCalendar];
+            const date = '2024-09-10';
+            const isMultipleOfPeriodSpyOn = jest.spyOn(calendarService as any, 'isMultipleOfPeriod').mockReturnValue(true);
+            const result = calendarService.filterCalendarsByPeriodMultiple(calendars, date);
+            expect(result).toEqual([mockCalendar]);  
+            expect(isMultipleOfPeriodSpyOn).toHaveBeenCalledWith(new Date('2024-09-10'), new Date(date),2);  
+        });
+    });  
+});
+
+
+
+
 
 
 
