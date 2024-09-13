@@ -11,6 +11,7 @@ import { Calendar } from '../../../src/entity/Calendar';
 import { CalendarData, CalendarDatas } from '../../../src/dto/response/CalendarData';
 import { getPeriodKey } from '../../../src/util/enum/Period';
 import { isSameDay } from '../../../src/util/checker';
+import { CalendarUpdate } from '../../../src/dto/request/CalendarUpdate';
 
 
 jest.mock('../../../src/repository/Calendar.Repository');
@@ -47,7 +48,7 @@ describe('Calendar Service Test', ()=>{
 
     const userId = 1;
 
-    describe('penetrateScheduleOrProduct function test', ()=>{
+    describe('penetrateScheduleOrProduct Function Test', ()=>{
 
         const calendarContents = new CalendarInsert();
         const user = {} as User;
@@ -77,7 +78,7 @@ describe('Calendar Service Test', ()=>{
     });
 
 
-    describe('eraseScheduleOrProduct function test', ()=>{
+    describe('eraseScheduleOrProduct Function Test', ()=>{
 
         const userId = 1;
         const calendarIds = [1,2,3];
@@ -106,7 +107,7 @@ describe('Calendar Service Test', ()=>{
         });
     });
 
-    describe('bringScheduleOrProduct function test', ()=>{
+    describe('bringScheduleOrProduct Function Test', ()=>{
         const date = "date";
         const calendarData = {} as CalendarData[]
         const bringScheduleOrProductResponse = CalendarDatas.of(calendarData)
@@ -122,7 +123,7 @@ describe('Calendar Service Test', ()=>{
         });
     });
 
-    describe('mappingCalendarDatafunction test', ()=>{
+    describe('mappingCalendarDatafunction Function Test', ()=>{
         it('basic', async ()=>{
             const calendars: Calendar[] = [
                 { getId: jest.fn().mockReturnValue(1), getContent: jest.fn().mockReturnValue('Content 1'), getKind: jest.fn().mockReturnValue('Kind 1'), getPeriod: jest.fn().mockReturnValue('Period 1') },
@@ -142,7 +143,7 @@ describe('Calendar Service Test', ()=>{
         });  
     });
 
-    describe('filterCalendarsByPeriodMultiple test', ()=>{
+    describe('filterCalendarsByPeriodMultiple Function Test', ()=>{
         const mockIsSameDay = isSameDay as jest.Mock;
         it('isSameDay return', async ()=>{
             const mockCalendar = { 
@@ -170,7 +171,91 @@ describe('Calendar Service Test', ()=>{
             expect(isMultipleOfPeriodSpyOn).toHaveBeenCalledWith(new Date('2024-09-10'), new Date(date),2);  
         });
     });  
+
+
+    describe('isMultipleOfPeriod Function Test', ()=>{
+
+        it('same period and date', () => {
+            const startDate = new Date('2024-09-01');
+            const targetDate = new Date('2024-09-08'); 
+            const period = 7;
+        
+            const result = calendarService['isMultipleOfPeriod'](startDate, targetDate, period);
+    
+            expect(result).toBe(true);
+        });
+        
+        it('not same period and date', () => {
+            const startDate = new Date('2024-09-01');
+            const targetDate = new Date('2024-09-06'); 
+            const period = 7;
+        
+            const result = calendarService['isMultipleOfPeriod'](startDate, targetDate, period);
+        
+            expect(result).toBe(false);
+        });
+        
+        it('before startDate', () => {
+            const startDate = new Date('2024-09-01');
+            const targetDate = new Date('2024-08-25');
+            const period = 7;
+        
+            const result = calendarService['isMultipleOfPeriod'](startDate, targetDate, period);
+        
+            expect(result).toBe(false);
+        });
+    });  
+
+
+    describe('modifyScheduleOrProduct Function Test', ()=>{
+        const calendarIds = [1,2,3];
+        const calendarDatas = {} as unknown as Calendar[];
+        const userId = 1;
+    
+
+        it('basic', async () => {
+            const calendarUpdate = {getCalendarContent:jest.fn().mockReturnValue([{},{}])} as unknown as CalendarUpdate;
+
+            const extractCalendarIdSpyOn = jest.spyOn(calendarService as any, 'extractCalendarId').mockReturnValue(calendarIds);
+            calendarRepository.findCalendarsByIdAndUserId.mockResolvedValue(calendarDatas);
+            const mappedCalendarUpdateStatusSpyOn = jest.spyOn(calendarService as any, 'mappingCalendarUpdateStatus').mockReturnValue(calendarDatas);
+            await calendarService.modifyScheduleOrProduct(calendarUpdate,userId);
+            expect(extractCalendarIdSpyOn).toHaveBeenCalledWith(calendarUpdate);
+            expect(calendarRepository.findCalendarsByIdAndUserId).toHaveBeenCalledWith(calendarIds, userId);
+            expect(verifyCalendars).toHaveBeenCalledWith(calendarDatas,calendarUpdate.getCalendarContent().length);
+            expect(mappedCalendarUpdateStatusSpyOn).toHaveBeenCalledWith(calendarUpdate, userId);
+            expect(calendarRepository.updateCalendar).toHaveBeenCalledWith(calendarDatas);
+        });
+        
+        it('verifyCalendars Error', async () => {
+            const calendarUpdate = {getCalendarContent:jest.fn().mockReturnValue([{},{}])} as unknown as CalendarUpdate;
+
+            const extractCalendarIdSpyOn = jest.spyOn(calendarService as any, 'extractCalendarId').mockReturnValue(calendarIds);
+            calendarRepository.findCalendarsByIdAndUserId.mockResolvedValue(undefined);
+            mockVerifyCalendars.mockImplementation(()=>{
+                throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR)
+            })
+            const mappedCalendarUpdateStatusSpyOn = jest.spyOn(calendarService as any, 'mappingCalendarUpdateStatus').mockReturnValue(calendarDatas);
+            await expect(calendarService.modifyScheduleOrProduct(calendarUpdate,userId))
+            .rejects
+            .toEqual(ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR));
+
+            expect(extractCalendarIdSpyOn).toHaveBeenCalledWith(calendarUpdate);
+            expect(calendarRepository.findCalendarsByIdAndUserId).toHaveBeenCalledWith(calendarIds, userId);
+            expect(verifyCalendars).toHaveBeenCalledWith(undefined,calendarUpdate.getCalendarContent().length);
+            expect(mappedCalendarUpdateStatusSpyOn).not.toHaveBeenCalledWith(calendarUpdate, userId);
+            expect(calendarRepository.updateCalendar).not.toHaveBeenCalledWith(calendarDatas);
+        });
+    });  
+
+
+
+
+
+
 });
+
+
 
 
 

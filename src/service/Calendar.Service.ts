@@ -117,7 +117,7 @@ export class CalendarService {
         await this.calendarRepository.updateCalendar(mappedCalendarUpdateStatus);
     }
 
-  
+
     /**
      * 업데이트할 캘린더 데이터를 엔티티 변환 함수
      * @param calendarUpdate 업데이트할 캘린더 데이터
@@ -251,11 +251,5 @@ export class CalendarService {
         const endDate = new Date(Date.UTC(year, monthIndex, 0)); 
         return [startDate, endDate];
     }
-
-
-
-
-    
-
 
 }
