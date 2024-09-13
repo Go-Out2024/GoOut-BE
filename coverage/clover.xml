@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726145840201" clover="3.2.0">
-  <project timestamp="1726145840201" name="All files">
-    <metrics statements="1061" coveredstatements="360" conditionals="123" coveredconditionals="12" methods="243" coveredmethods="52" elements="1427" coveredelements="424" complexity="0" loc="1061" ncloc="1061" packages="7" files="50" classes="50"/>
+<coverage generated="1726198120573" clover="3.2.0">
+  <project timestamp="1726198120573" name="All files">
+    <metrics statements="1061" coveredstatements="368" conditionals="123" coveredconditionals="12" methods="243" coveredmethods="56" elements="1427" coveredelements="436" complexity="0" loc="1061" ncloc="1061" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="214" coveredstatements="101" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="20"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -413,7 +413,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="424" coveredstatements="90" conditionals="68" coveredconditionals="0" methods="105" coveredmethods="21"/>
+      <metrics statements="424" coveredstatements="98" conditionals="68" coveredconditionals="0" methods="105" coveredmethods="25"/>
       <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -450,7 +450,7 @@
         <line num="55" count="0" type="stmt"/>
       </file>
       <file name="Calendar.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Calendar.Service.ts">
-        <metrics statements="68" coveredstatements="15" conditionals="11" coveredconditionals="0" methods="26" coveredmethods="2"/>
+        <metrics statements="68" coveredstatements="23" conditionals="11" coveredconditionals="0" methods="26" coveredmethods="6"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -461,19 +461,19 @@
         <line num="11" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
         <line num="17" count="2" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
@@ -1218,15 +1218,15 @@
       </file>
       <file name="Period.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/enum/Period.ts">
         <metrics statements="14" coveredstatements="9" conditionals="3" coveredconditionals="2" methods="3" coveredmethods="2"/>
-        <line num="3" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
+        <line num="3" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="cond" truecount="0" falsecount="1"/>

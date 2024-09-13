@@ -49,14 +49,10 @@ describe('Redis Service Test', ()=>{
     describe('getValue function test', ()=>{
         it('basic',  async () => {
             const getAsyncMock = jest.fn().mockResolvedValue(value);
-            redisService['getAsync'] = getAsyncMock;  // getAsync를 모킹
+            redisService['getAsync'] = getAsyncMock; 
 
             const result = await redisService.getValue(key);
-
-            // 반환 값이 예상되는 값인지 확인
             expect(result).toEqual(value);
-
-            // getAsync가 올바른 키로 호출되었는지 확인
             expect(getAsyncMock).toHaveBeenCalledWith(key);
         });
     });
