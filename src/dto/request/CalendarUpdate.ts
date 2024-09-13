@@ -26,7 +26,7 @@ export class CalendarUpdate {
 
 }
 
-class CalendarUpdateContent{
+export class CalendarUpdateContent{
 
     
     @IsNotEmpty()

@@ -11,7 +11,7 @@ import { Calendar } from '../../../src/entity/Calendar';
 import { CalendarData, CalendarDatas } from '../../../src/dto/response/CalendarData';
 import { getPeriodKey } from '../../../src/util/enum/Period';
 import { isSameDay } from '../../../src/util/checker';
-import { CalendarUpdate } from '../../../src/dto/request/CalendarUpdate';
+import { CalendarUpdate, CalendarUpdateContent } from '../../../src/dto/request/CalendarUpdate';
 
 
 jest.mock('../../../src/repository/Calendar.Repository');
@@ -211,7 +211,6 @@ describe('Calendar Service Test', ()=>{
         const calendarIds = [1,2,3];
         const calendarDatas = {} as unknown as Calendar[];
         const userId = 1;
-    
 
         it('basic', async () => {
             const calendarUpdate = {getCalendarContent:jest.fn().mockReturnValue([{},{}])} as unknown as CalendarUpdate;
@@ -245,6 +244,51 @@ describe('Calendar Service Test', ()=>{
             expect(verifyCalendars).toHaveBeenCalledWith(undefined,calendarUpdate.getCalendarContent().length);
             expect(mappedCalendarUpdateStatusSpyOn).not.toHaveBeenCalledWith(calendarUpdate, userId);
             expect(calendarRepository.updateCalendar).not.toHaveBeenCalledWith(calendarDatas);
+        });
+    });  
+
+    describe('mappingCalendarUpdateStatus Function Test', ()=>{
+
+        it('basic', async () => {
+            const calendarUpdateContent = {
+                getCalendarId: jest.fn().mockReturnValue(1),
+                getContent: jest.fn().mockReturnValue('Test Content'),
+                getPeriod: jest.fn().mockReturnValue(7),
+            } as unknown as CalendarUpdateContent;
+            const calendarUpdate = {
+                getCalendarContent: jest.fn().mockReturnValue([calendarUpdateContent])
+            } as unknown as CalendarUpdate;
+            const userId = 3;
+            const calendars = [Calendar.createCalendarUpdate(1,'Test Content',7, userId)]
+
+            const createCalendarUpdateSpy = jest.spyOn(Calendar, 'createCalendarUpdate');
+            const result = calendarService['mappingCalendarUpdateStatus'](calendarUpdate, userId);
+            expect(calendarUpdate.getCalendarContent).toHaveBeenCalled();
+            expect(calendarUpdateContent.getCalendarId).toHaveBeenCalled();
+            expect(calendarUpdateContent.getContent).toHaveBeenCalled();
+            expect(calendarUpdateContent.getPeriod).toHaveBeenCalled();
+            expect(createCalendarUpdateSpy).toHaveBeenCalledWith(1, 'Test Content', 7, userId);
+            expect(result).toEqual(calendars);
+
+        });
+    });  
+
+
+    describe('extractCalendarIdFunction Test', ()=>{
+
+        it('basic', async () => {
+            const calendarUpdateContent = {
+                getCalendarId: jest.fn().mockReturnValue(1),
+                getContent: jest.fn().mockReturnValue('Test Content'),
+                getPeriod: jest.fn().mockReturnValue(7),
+            } as unknown as CalendarUpdateContent;
+            const calendarUpdate = {
+                getCalendarContent: jest.fn().mockReturnValue([calendarUpdateContent])
+            } as unknown as CalendarUpdate;
+            const numbers = [1];
+
+            const result = calendarService['extractCalendarId'](calendarUpdate);
+            expect(result).toEqual(numbers);
         });
     });  
 
