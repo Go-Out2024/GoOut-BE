@@ -98,8 +98,10 @@ export class TrafficService {
     async bringTrafficCollectionsByUserId(userId: number, currentTime: Date) {
         const collections = await this.trafficCollectionRepository.findTrafficCollectionsByUserId(userId);
         const currentHour = currentTime.getHours();
-        // 필터링 로직 추가
         collections.forEach(collection => {
+            const onlyGoToWork = collection.trafficCollectionDetails.every(detail => detail.getStatus() === "goToWork");
+
+            if(!onlyGoToWork) {
             collection.trafficCollectionDetails = collection.trafficCollectionDetails.filter(detail => {
                 if (currentHour >= 14 || currentHour < 2) {
                     return detail.getStatus() === "goHome";
@@ -107,6 +109,7 @@ export class TrafficService {
                     return detail.getStatus() === "goToWork";
                 }
             });
+        }
         });
         return collections;
     }
