@@ -12,6 +12,7 @@ import { CalendarData, CalendarDatas } from '../../../src/dto/response/CalendarD
 import { getPeriodKey } from '../../../src/util/enum/Period';
 import { isSameDay } from '../../../src/util/checker';
 import { CalendarUpdate, CalendarUpdateContent } from '../../../src/dto/request/CalendarUpdate';
+import { CalendarDataCheck } from '../../../src/dto/response/CalendarDataCheck';
 
 
 jest.mock('../../../src/repository/Calendar.Repository');
@@ -274,8 +275,7 @@ describe('Calendar Service Test', ()=>{
     });  
 
 
-    describe('extractCalendarIdFunction Test', ()=>{
-
+    describe('extractCalendarId Function Test', ()=>{
         it('basic', async () => {
             const calendarUpdateContent = {
                 getCalendarId: jest.fn().mockReturnValue(1),
@@ -291,6 +291,85 @@ describe('Calendar Service Test', ()=>{
             expect(result).toEqual(numbers);
         });
     });  
+
+
+    describe('bringScheduleOrProductChecking Function Test', ()=>{
+        const userId = 3;
+        const month = '2024-03';
+        const dates = [new Date('2024-03-21'), new Date('2024-03-02')]
+        const calendars = {} as Calendar[];
+        const bringScheduleOrProductCheckingResponse = CalendarDataCheck.of(dates);
+        it('basic', async () => {
+            calendarRepository.findCalendarsByUserId.mockResolvedValue(calendars);
+            const extractCalendarCheckingSpy = jest.spyOn(calendarService, 'extractCalendarChecking').mockReturnValue(dates);
+            const result = await calendarService.bringScheduleOrProductChecking(userId, month);
+            expect(extractCalendarCheckingSpy).toHaveBeenCalledWith(calendars, month);
+            expect(calendarRepository.findCalendarsByUserId).toHaveBeenCalledWith(userId);
+            expect(result).toEqual(bringScheduleOrProductCheckingResponse);
+        });
+    }); 
+
+    describe('extractCalendarChecking Function Test', ()=>{
+        const month = '2024-03';
+        const monthStartDate = new Date('2024-03-01');
+        const monthEndDate = new Date('2024-03-31');
+        const uniqueDates = new Set<number>([new Date('2024-03-21').getTime(), new Date('2024-03-02').getTime()]);
+        const expectedDates = [new Date('2024-03-02'), new Date('2024-03-21')]; // 정렬된 날짜 리스트
+        const calendars = {} as Calendar[];
+        it('basic', async () => {
+            const getMonthEndDateSpy = jest.spyOn(calendarService as any, 'getMonthEndDate').mockReturnValue([monthStartDate, monthEndDate]);
+            const extractDatesSpy = jest.spyOn(calendarService as any, 'extractDates').mockReturnValue(uniqueDates);
+            const result = calendarService.extractCalendarChecking(calendars, month);
+            expect(getMonthEndDateSpy).toHaveBeenCalledWith(month);
+            expect(extractDatesSpy).toHaveBeenCalledWith(calendars, monthStartDate, monthEndDate);
+            expect(result).toEqual(expectedDates);
+        });
+    }); 
+
+    describe('extractDates Function Test', ()=>{
+        const calendar = {} as Calendar;  
+        const calendars = [calendar] as Calendar[]; 
+        const monthStartDate = new Date('2024-03-01');
+        const monthEndDate = new Date('2024-03-31');
+        const uniqueDates = new Set<number>();
+
+        it('basic', async () => {
+            const processCalendarDatesSpy = jest.spyOn(calendarService as any, 'processCalendarDates').mockReturnValue(uniqueDates)
+            const result = calendarService.extractDates(calendars, monthStartDate, monthEndDate);
+            expect(processCalendarDatesSpy).toHaveBeenCalledWith(calendar, monthStartDate, monthEndDate, expect.any(Set));
+            expect(result).toEqual(uniqueDates);
+        });
+    }); 
+
+
+    // describe('processCalendarDates Function Test', ()=>{
+    //     it('basic', async () => {
+    
+    //     });
+    // }); 
+    // describe('getFrequencyInMs Function Test', ()=>{
+    //     it('basic', async () => {
+    
+    //     });
+    // }); 
+
+    // describe('addSingleDateIfWithinRange Function Test', ()=>{
+    //     it('basic', async () => {
+    
+    //     });
+    // }); 
+
+    // describe('addRecurringDates Function Test', ()=>{
+    //     it('basic', async () => {
+    
+    //     });
+    // }); 
+
+    // describe('getMonthEndDate Function Test', ()=>{
+    //     it('basic', async () => {
+    
+    //     });
+    // }); 
 
 
 

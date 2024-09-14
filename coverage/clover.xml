@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726247869335" clover="3.2.0">
-  <project timestamp="1726247869335" name="All files">
-    <metrics statements="1063" coveredstatements="388" conditionals="123" coveredconditionals="15" methods="243" coveredmethods="64" elements="1429" coveredelements="467" complexity="0" loc="1063" ncloc="1063" packages="7" files="50" classes="50"/>
+<coverage generated="1726283794301" clover="3.2.0">
+  <project timestamp="1726283794302" name="All files">
+    <metrics statements="1063" coveredstatements="398" conditionals="123" coveredconditionals="15" methods="243" coveredmethods="70" elements="1429" coveredelements="483" complexity="0" loc="1063" ncloc="1063" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="214" coveredstatements="101" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="20"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -413,7 +413,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="424" coveredstatements="117" conditionals="68" coveredconditionals="3" methods="104" coveredmethods="33"/>
+      <metrics statements="424" coveredstatements="127" conditionals="68" coveredconditionals="3" methods="104" coveredmethods="39"/>
       <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -450,7 +450,7 @@
         <line num="55" count="0" type="stmt"/>
       </file>
       <file name="Calendar.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Calendar.Service.ts">
-        <metrics statements="68" coveredstatements="42" conditionals="11" coveredconditionals="3" methods="25" coveredmethods="14"/>
+        <metrics statements="68" coveredstatements="52" conditionals="11" coveredconditionals="3" methods="25" coveredmethods="20"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -462,8 +462,8 @@
         <line num="12" count="2" type="stmt"/>
         <line num="13" count="2" type="stmt"/>
         <line num="18" count="2" type="stmt"/>
-        <line num="21" count="15" type="stmt"/>
-        <line num="22" count="15" type="stmt"/>
+        <line num="21" count="18" type="stmt"/>
+        <line num="22" count="18" type="stmt"/>
         <line num="30" count="2" type="stmt"/>
         <line num="31" count="2" type="stmt"/>
         <line num="32" count="1" type="stmt"/>
@@ -493,16 +493,16 @@
         <line num="128" count="1" type="stmt"/>
         <line num="129" count="1" type="stmt"/>
         <line num="140" count="1" type="stmt"/>
-        <line num="150" count="0" type="stmt"/>
-        <line num="151" count="0" type="stmt"/>
-        <line num="152" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="164" count="0" type="stmt"/>
-        <line num="165" count="0" type="stmt"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="178" count="0" type="stmt"/>
-        <line num="179" count="0" type="stmt"/>
-        <line num="181" count="0" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="164" count="1" type="stmt"/>
+        <line num="165" count="2" type="stmt"/>
+        <line num="177" count="1" type="stmt"/>
+        <line num="178" count="1" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
+        <line num="181" count="1" type="stmt"/>
         <line num="193" count="0" type="stmt"/>
         <line num="194" count="0" type="stmt"/>
         <line num="195" count="0" type="cond" truecount="0" falsecount="2"/>
