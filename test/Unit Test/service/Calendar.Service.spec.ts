@@ -342,11 +342,35 @@ describe('Calendar Service Test', ()=>{
     }); 
 
 
-    // describe('processCalendarDates Function Test', ()=>{
-    //     it('basic', async () => {
-    
-    //     });
-    // }); 
+    describe('processCalendarDates Function Test', ()=>{
+      
+        const monthStartDate = new Date('2024-03-01');
+        const monthEndDate = new Date('2024-03-31');
+        const uniqueDates = new Set<number>();
+        const frequencyInMs = 12_000;
+     
+        it('execute addSingleDateIfWithinRange', async () => {
+            const getFrequencyInMsSpy = jest.spyOn(calendarService as any, 'getFrequencyInMs').mockReturnValue(frequencyInMs);
+            const calendar = {getDate:jest.fn().mockReturnValue('2024-03-12'), getPeriod:jest.fn().mockReturnValue(0)} as unknown as Calendar;  
+            const addSingleDateIfWithinRangeSpy = jest.spyOn(calendarService as any, 'addSingleDateIfWithinRange').mockReturnValue(null);
+            const result = calendarService['processCalendarDates'](calendar,monthStartDate,monthEndDate,uniqueDates);
+            expect(getFrequencyInMsSpy).toHaveBeenCalledWith(calendar);
+            expect(addSingleDateIfWithinRangeSpy).toHaveBeenCalledWith(new Date(calendar.getDate()),monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined);
+        });
+
+        it('execute addRecurringDates', async () => {
+            const getFrequencyInMsSpy = jest.spyOn(calendarService as any, 'getFrequencyInMs').mockReturnValue(frequencyInMs);
+            const calendar = {getDate:jest.fn().mockReturnValue('2024-03-12'), getPeriod:jest.fn().mockReturnValue(2)} as unknown as Calendar;  
+            const addRecurringDatesSpy = jest.spyOn(calendarService as any, 'addRecurringDates').mockReturnValue(null);
+            const result = calendarService['processCalendarDates'](calendar,monthStartDate,monthEndDate,uniqueDates);
+            expect(getFrequencyInMsSpy).toHaveBeenCalledWith(calendar);
+            expect(addRecurringDatesSpy).toHaveBeenCalledWith(new Date(calendar.getDate()),frequencyInMs, monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined);
+        });
+    }); 
+
+
     // describe('getFrequencyInMs Function Test', ()=>{
     //     it('basic', async () => {
     
