@@ -45,11 +45,8 @@ export class UserService {
     }
 
     public async penetrateFirebaseToken(userId: number, token: string): Promise<void> {
-        const user = await this.userRepository.findOne({id: userId});
-        if (!user) {
-            throw new Error("User not found");
-        }
-
+        const user = await this.userRepository.findUserById(userId);
+        verifyUser(user);
         await this.firebaseTokenRepository.insertToken(user, token);
     }
 
