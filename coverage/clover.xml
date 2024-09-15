@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726286647427" clover="3.2.0">
-  <project timestamp="1726286647427" name="All files">
-    <metrics statements="1063" coveredstatements="403" conditionals="123" coveredconditionals="17" methods="243" coveredmethods="71" elements="1429" coveredelements="491" complexity="0" loc="1063" ncloc="1063" packages="7" files="50" classes="50"/>
+<coverage generated="1726374551471" clover="3.2.0">
+  <project timestamp="1726374551471" name="All files">
+    <metrics statements="1063" coveredstatements="414" conditionals="123" coveredconditionals="23" methods="243" coveredmethods="75" elements="1429" coveredelements="512" complexity="0" loc="1063" ncloc="1063" packages="7" files="50" classes="50"/>
     <package name="controller">
       <metrics statements="214" coveredstatements="101" conditionals="1" coveredconditionals="0" methods="44" coveredmethods="20"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -413,7 +413,7 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="424" coveredstatements="132" conditionals="68" coveredconditionals="5" methods="104" coveredmethods="40"/>
+      <metrics statements="424" coveredstatements="143" conditionals="68" coveredconditionals="11" methods="104" coveredmethods="44"/>
       <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
         <metrics statements="32" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -450,7 +450,7 @@
         <line num="55" count="0" type="stmt"/>
       </file>
       <file name="Calendar.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Calendar.Service.ts">
-        <metrics statements="68" coveredstatements="57" conditionals="11" coveredconditionals="5" methods="25" coveredmethods="21"/>
+        <metrics statements="68" coveredstatements="68" conditionals="11" coveredconditionals="11" methods="25" coveredmethods="25"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -462,8 +462,8 @@
         <line num="12" count="2" type="stmt"/>
         <line num="13" count="2" type="stmt"/>
         <line num="18" count="2" type="stmt"/>
-        <line num="21" count="20" type="stmt"/>
-        <line num="22" count="20" type="stmt"/>
+        <line num="21" count="26" type="stmt"/>
+        <line num="22" count="26" type="stmt"/>
         <line num="30" count="2" type="stmt"/>
         <line num="31" count="2" type="stmt"/>
         <line num="32" count="1" type="stmt"/>
@@ -508,17 +508,17 @@
         <line num="195" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="196" count="1" type="stmt"/>
         <line num="198" count="1" type="stmt"/>
-        <line num="208" count="0" type="stmt"/>
-        <line num="219" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="220" count="0" type="stmt"/>
-        <line num="234" count="0" type="stmt"/>
-        <line num="235" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="236" count="0" type="stmt"/>
-        <line num="238" count="0" type="stmt"/>
-        <line num="249" count="0" type="stmt"/>
-        <line num="250" count="0" type="stmt"/>
-        <line num="251" count="0" type="stmt"/>
-        <line num="252" count="0" type="stmt"/>
+        <line num="208" count="1" type="stmt"/>
+        <line num="219" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="220" count="1" type="stmt"/>
+        <line num="234" count="2" type="stmt"/>
+        <line num="235" count="115201" type="cond" truecount="3" falsecount="0"/>
+        <line num="236" count="115201" type="stmt"/>
+        <line num="238" count="115201" type="stmt"/>
+        <line num="249" count="1" type="stmt"/>
+        <line num="250" count="1" type="stmt"/>
+        <line num="251" count="1" type="stmt"/>
+        <line num="252" count="1" type="stmt"/>
       </file>
       <file name="FamousSaying.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/FamousSaying.Service.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>

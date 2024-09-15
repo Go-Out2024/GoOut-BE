@@ -371,35 +371,61 @@ describe('Calendar Service Test', ()=>{
     }); 
 
 
-    // describe('getFrequencyInMs Function Test', ()=>{
-    //     it('basic', async () => {
-    
-    //     });
-    // }); 
+    describe('getFrequencyInMs Function Test', ()=>{
+        it('basic', async () => {
+            const calendar = {getPeriod:jest.fn().mockReturnValue(12_000)} as unknown as Calendar;
+            const result = calendarService['getFrequencyInMs'](calendar);
+            expect(result).toEqual(12_000 * 24 * 60 * 60 * 1000);
+        });
+    }); 
 
-    // describe('addSingleDateIfWithinRange Function Test', ()=>{
-    //     it('basic', async () => {
-    
-    //     });
-    // }); 
+    describe('addSingleDateIfWithinRange Function Test', ()=>{
+        const monthStartDate = new Date('2024-03-01');
+        const monthEndDate = new Date('2024-03-31');
+        const uniqueDates = new Set<number>();
 
-    // describe('addRecurringDates Function Test', ()=>{
-    //     it('basic', async () => {
-    
-    //     });
-    // }); 
+        it('between date', async () => {
+            const currentDate = new Date('2024-03-15');
+            const result = calendarService['addSingleDateIfWithinRange'](currentDate,monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined)
+        });
 
-    // describe('getMonthEndDate Function Test', ()=>{
-    //     it('basic', async () => {
-    
-    //     });
-    // }); 
+        it('not between date', async () => {
+            const currentDate = new Date('2024-04-15');
+            const result = calendarService['addSingleDateIfWithinRange'](currentDate,monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined)
+        });
+    }); 
 
+    describe('addRecurringDates Function Test', ()=>{
+        const monthStartDate = new Date('2024-03-01');
+        const monthEndDate = new Date('2024-03-31');
+        const uniqueDates = new Set<number>();
+        const frequencyInMs = 12_000;
+        it('between date', async () => {
+            const currentDate = new Date('2024-03-15');
+            const result = calendarService['addRecurringDates'](currentDate,frequencyInMs,monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined);
+        });
 
+        it('not between date', async () => {
+            const currentDate = new Date('2024-05-15');
+            const result = calendarService['addRecurringDates'](currentDate,frequencyInMs,monthStartDate,monthEndDate,uniqueDates);
+            expect(result).toEqual(undefined);
+        });
+    }); 
 
-
-
-
+    describe('getMonthEndDate Function Test', ()=>{
+        const month = '2024-09';
+        const expectedStartDate = new Date(Date.UTC(2024, 8, 1));
+        const expectedEndDate = new Date(Date.UTC(2024, 8, 30)); 
+        it('basic', async () => {
+            const [startDate, endDate] = calendarService['getMonthEndDate'](month);
+            expect(startDate).toEqual(expectedStartDate);
+            expect(endDate).toEqual(expectedEndDate);
+            
+        });
+    }); 
 });
 
 
