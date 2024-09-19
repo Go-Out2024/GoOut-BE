@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726765573302" clover="3.2.0">
-  <project timestamp="1726765573302" name="All files">
-    <metrics statements="1042" coveredstatements="664" conditionals="123" coveredconditionals="33" methods="239" coveredmethods="115" elements="1404" coveredelements="812" complexity="0" loc="1042" ncloc="1042" packages="7" files="49" classes="49"/>
+<coverage generated="1726766896650" clover="3.2.0">
+  <project timestamp="1726766896650" name="All files">
+    <metrics statements="1041" coveredstatements="670" conditionals="123" coveredconditionals="33" methods="239" coveredmethods="117" elements="1403" coveredelements="820" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -864,7 +864,7 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="174" coveredstatements="72" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="14"/>
+      <metrics statements="173" coveredstatements="78" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="16"/>
       <file name="Alarm.ts" path="D:\GoodMorning-Be\src\util\Alarm.ts">
         <metrics statements="25" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -894,18 +894,17 @@
         <line num="80" count="0" type="stmt"/>
       </file>
       <file name="YouTubeApi.ts" path="D:\GoodMorning-Be\src\util\YouTubeApi.ts">
-        <metrics statements="11" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
       <file name="YouTubeSchedule.ts" path="D:\GoodMorning-Be\src\util\YouTubeSchedule.ts">
         <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
