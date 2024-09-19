@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726715524299" clover="3.2.0">
-  <project timestamp="1726715524300" name="All files">
-    <metrics statements="1043" coveredstatements="500" conditionals="123" coveredconditionals="22" methods="239" coveredmethods="71" elements="1405" coveredelements="593" complexity="0" loc="1043" ncloc="1043" packages="7" files="49" classes="49"/>
+<coverage generated="1726717798783" clover="3.2.0">
+  <project timestamp="1726717798783" name="All files">
+    <metrics statements="1043" coveredstatements="528" conditionals="123" coveredconditionals="22" methods="239" coveredmethods="75" elements="1405" coveredelements="625" complexity="0" loc="1043" ncloc="1043" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="144" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="28"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -565,10 +565,10 @@
       </file>
       <file name="Redis.Service.ts" path="D:\GoodMorning-Be\src\service\Redis.Service.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="2" count="5" type="stmt"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="8" count="5" type="stmt"/>
+        <line num="2" count="6" type="stmt"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
@@ -864,7 +864,7 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="175" coveredstatements="38" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="8"/>
+      <metrics statements="175" coveredstatements="66" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="12"/>
       <file name="Alarm.ts" path="D:\GoodMorning-Be\src\util\Alarm.ts">
         <metrics statements="25" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -894,11 +894,11 @@
         <line num="80" count="0" type="stmt"/>
       </file>
       <file name="YouTubeApi.ts" path="D:\GoodMorning-Be\src\util\YouTubeApi.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <metrics statements="11" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -908,27 +908,27 @@
         <line num="22" count="0" type="stmt"/>
       </file>
       <file name="YouTubeSchedule.ts" path="D:\GoodMorning-Be\src\util\YouTubeSchedule.ts">
-        <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
       </file>
       <file name="checker.ts" path="D:\GoodMorning-Be\src\util\checker.ts">
         <metrics statements="7" coveredstatements="7" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
@@ -949,11 +949,11 @@
         <line num="20" count="0" type="stmt"/>
       </file>
       <file name="openAi.ts" path="D:\GoodMorning-Be\src\util\openAi.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
