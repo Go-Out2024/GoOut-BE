@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726656239574" clover="3.2.0">
-  <project timestamp="1726656239574" name="All files">
-    <metrics statements="1043" coveredstatements="618" conditionals="123" coveredconditionals="27" methods="239" coveredmethods="103" elements="1405" coveredelements="748" complexity="0" loc="1043" ncloc="1043" packages="7" files="49" classes="49"/>
+<coverage generated="1726715524299" clover="3.2.0">
+  <project timestamp="1726715524300" name="All files">
+    <metrics statements="1043" coveredstatements="500" conditionals="123" coveredconditionals="22" methods="239" coveredmethods="71" elements="1405" coveredelements="593" complexity="0" loc="1043" ncloc="1043" packages="7" files="49" classes="49"/>
     <package name="controller">
-      <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
-      <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
+      <metrics statements="206" coveredstatements="144" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="28"/>
+      <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
         <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -22,41 +22,41 @@
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
       </file>
-      <file name="Calendar.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Calendar.Controller.ts">
-        <metrics statements="31" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="63" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="78" count="1" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
-        <line num="94" count="1" type="stmt"/>
-        <line num="95" count="1" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
+      <file name="Calendar.Controller.ts" path="D:\GoodMorning-Be\src\controller\Calendar.Controller.ts">
+        <metrics statements="31" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
       </file>
-      <file name="FamousSaying.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/FamousSaying.Controller.ts">
+      <file name="FamousSaying.Controller.ts" path="D:\GoodMorning-Be\src\controller\FamousSaying.Controller.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -69,7 +69,7 @@
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
       </file>
-      <file name="Firebase.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Firebase.Controller.ts">
+      <file name="Firebase.Controller.ts" path="D:\GoodMorning-Be\src\controller\Firebase.Controller.ts">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -81,7 +81,7 @@
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
       </file>
-      <file name="Kakao.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Kakao.Controller.ts">
+      <file name="Kakao.Controller.ts" path="D:\GoodMorning-Be\src\controller\Kakao.Controller.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -94,7 +94,7 @@
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
       </file>
-      <file name="Music.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Music.Controller.ts">
+      <file name="Music.Controller.ts" path="D:\GoodMorning-Be\src\controller\Music.Controller.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -107,7 +107,7 @@
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
       </file>
-      <file name="Token.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Token.Controller.ts">
+      <file name="Token.Controller.ts" path="D:\GoodMorning-Be\src\controller\Token.Controller.ts">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -121,7 +121,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
       </file>
-      <file name="Traffic.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Traffic.Controller.ts">
+      <file name="Traffic.Controller.ts" path="D:\GoodMorning-Be\src\controller\Traffic.Controller.ts">
         <metrics statements="69" coveredstatements="69" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="14"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -193,41 +193,41 @@
         <line num="202" count="1" type="stmt"/>
         <line num="203" count="1" type="stmt"/>
       </file>
-      <file name="User.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/User.Controller.ts">
-        <metrics statements="31" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="63" count="1" type="stmt"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="93" count="1" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="99" count="1" type="stmt"/>
-        <line num="111" count="1" type="stmt"/>
-        <line num="115" count="1" type="stmt"/>
-        <line num="116" count="1" type="stmt"/>
-        <line num="117" count="1" type="stmt"/>
-        <line num="123" count="1" type="stmt"/>
-        <line num="126" count="1" type="stmt"/>
-        <line num="127" count="1" type="stmt"/>
-        <line num="128" count="1" type="stmt"/>
+      <file name="User.Controller.ts" path="D:\GoodMorning-Be\src\controller\User.Controller.ts">
+        <metrics statements="31" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
       </file>
-      <file name="Weather.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Weather.Controller.ts">
+      <file name="Weather.Controller.ts" path="D:\GoodMorning-Be\src\controller\Weather.Controller.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -243,20 +243,20 @@
     </package>
     <package name="middleware">
       <metrics statements="17" coveredstatements="17" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
-      <file name="jwtMiddleware.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/middleware/jwtMiddleware.ts">
+      <file name="jwtMiddleware.ts" path="D:\GoodMorning-Be\src\middleware\jwtMiddleware.ts">
         <metrics statements="17" coveredstatements="17" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
-        <line num="2" count="4" type="stmt"/>
-        <line num="3" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
         <line num="13" count="8" type="cond" truecount="3" falsecount="0"/>
         <line num="14" count="6" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
         <line num="20" count="5" type="stmt"/>
         <line num="22" count="5" type="stmt"/>
         <line num="23" count="5" type="stmt"/>
         <line num="24" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="26" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="30" count="4" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
         <line num="31" count="2" type="stmt"/>
         <line num="32" count="2" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
@@ -266,7 +266,7 @@
     </package>
     <package name="middleware.before">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="HelmetMiddleware.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/middleware/before/HelmetMiddleware.ts">
+      <file name="HelmetMiddleware.ts" path="D:\GoodMorning-Be\src\middleware\before\HelmetMiddleware.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -278,7 +278,7 @@
     </package>
     <package name="repository">
       <metrics statements="89" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="2"/>
-      <file name="Alarm.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/Alarm.Repository.ts">
+      <file name="Alarm.Repository.ts" path="D:\GoodMorning-Be\src\repository\Alarm.Repository.ts">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -286,14 +286,14 @@
         <line num="11" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
       </file>
-      <file name="Bus.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/Bus.Repository.ts">
+      <file name="Bus.Repository.ts" path="D:\GoodMorning-Be\src\repository\Bus.Repository.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
       </file>
-      <file name="BusStation.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/BusStation.Repository.ts">
+      <file name="BusStation.Repository.ts" path="D:\GoodMorning-Be\src\repository\BusStation.Repository.ts">
         <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -304,12 +304,12 @@
         <line num="44" count="0" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
       </file>
-      <file name="Calendar.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/Calendar.Repository.ts">
+      <file name="Calendar.Repository.ts" path="D:\GoodMorning-Be\src\repository\Calendar.Repository.ts">
         <metrics statements="12" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="2"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="7" count="3" type="stmt"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
@@ -319,16 +319,16 @@
         <line num="73" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
       </file>
-      <file name="FirebaseToken.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/FirebaseToken.Repository.ts">
+      <file name="FirebaseToken.Repository.ts" path="D:\GoodMorning-Be\src\repository\FirebaseToken.Repository.ts">
         <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="2" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
       </file>
-      <file name="GridCoordinates.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/GridCoordinates.Repository.ts">
+      <file name="GridCoordinates.Repository.ts" path="D:\GoodMorning-Be\src\repository\GridCoordinates.Repository.ts">
         <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -336,7 +336,7 @@
         <line num="15" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
       </file>
-      <file name="SubwayStation.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/SubwayStation.Repository.ts">
+      <file name="SubwayStation.Repository.ts" path="D:\GoodMorning-Be\src\repository\SubwayStation.Repository.ts">
         <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -345,7 +345,7 @@
         <line num="22" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
       </file>
-      <file name="TrafficCollection.Reposiotry.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/TrafficCollection.Reposiotry.ts">
+      <file name="TrafficCollection.Reposiotry.ts" path="D:\GoodMorning-Be\src\repository\TrafficCollection.Reposiotry.ts">
         <metrics statements="13" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -361,7 +361,7 @@
         <line num="129" count="0" type="stmt"/>
         <line num="143" count="0" type="stmt"/>
       </file>
-      <file name="TrafficCollectionDetail.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/TrafficCollectionDetail.Repository.ts">
+      <file name="TrafficCollectionDetail.Repository.ts" path="D:\GoodMorning-Be\src\repository\TrafficCollectionDetail.Repository.ts">
         <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -370,7 +370,7 @@
         <line num="19" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
       </file>
-      <file name="Transportation.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/Transportation.Repository.ts">
+      <file name="Transportation.Repository.ts" path="D:\GoodMorning-Be\src\repository\Transportation.Repository.ts">
         <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -378,7 +378,7 @@
         <line num="17" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
       </file>
-      <file name="TransportationNumber.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/TransportationNumber.Repository.ts">
+      <file name="TransportationNumber.Repository.ts" path="D:\GoodMorning-Be\src\repository\TransportationNumber.Repository.ts">
         <metrics statements="9" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -390,11 +390,11 @@
         <line num="23" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
       </file>
-      <file name="User.Repository.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/repository/User.Repository.ts">
+      <file name="User.Repository.ts" path="D:\GoodMorning-Be\src\repository\User.Repository.ts">
         <metrics statements="10" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="7" type="stmt"/>
-        <line num="2" count="7" type="stmt"/>
-        <line num="11" count="7" type="stmt"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -405,8 +405,8 @@
       </file>
     </package>
     <package name="service">
-      <metrics statements="420" coveredstatements="199" conditionals="69" coveredconditionals="11" methods="105" coveredmethods="44"/>
-      <file name="Auth.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Auth.Service.ts">
+      <metrics statements="420" coveredstatements="131" conditionals="69" coveredconditionals="0" methods="105" coveredmethods="19"/>
+      <file name="Auth.Service.ts" path="D:\GoodMorning-Be\src\service\Auth.Service.ts">
         <metrics statements="32" coveredstatements="8" conditionals="5" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -441,78 +441,78 @@
         <line num="58" count="0" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
       </file>
-      <file name="Calendar.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Calendar.Service.ts">
-        <metrics statements="68" coveredstatements="68" conditionals="11" coveredconditionals="11" methods="25" coveredmethods="25"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="21" count="26" type="stmt"/>
-        <line num="22" count="26" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="43" count="2" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
-        <line num="68" count="1" type="stmt"/>
-        <line num="69" count="2" type="stmt"/>
-        <line num="81" count="2" type="stmt"/>
-        <line num="82" count="2" type="stmt"/>
-        <line num="83" count="2" type="stmt"/>
-        <line num="84" count="2" type="stmt"/>
-        <line num="85" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="86" count="1" type="stmt"/>
-        <line num="88" count="1" type="stmt"/>
-        <line num="102" count="3" type="stmt"/>
-        <line num="103" count="3" type="stmt"/>
-        <line num="104" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="113" count="2" type="stmt"/>
-        <line num="114" count="2" type="stmt"/>
-        <line num="115" count="2" type="stmt"/>
-        <line num="116" count="1" type="stmt"/>
-        <line num="117" count="1" type="stmt"/>
-        <line num="128" count="1" type="stmt"/>
-        <line num="129" count="1" type="stmt"/>
-        <line num="140" count="1" type="stmt"/>
-        <line num="150" count="1" type="stmt"/>
-        <line num="151" count="1" type="stmt"/>
-        <line num="152" count="1" type="stmt"/>
-        <line num="163" count="1" type="stmt"/>
-        <line num="164" count="1" type="stmt"/>
-        <line num="165" count="2" type="stmt"/>
-        <line num="177" count="1" type="stmt"/>
-        <line num="178" count="1" type="stmt"/>
-        <line num="179" count="1" type="stmt"/>
-        <line num="181" count="1" type="stmt"/>
-        <line num="193" count="2" type="stmt"/>
-        <line num="194" count="2" type="stmt"/>
-        <line num="195" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="196" count="1" type="stmt"/>
-        <line num="198" count="1" type="stmt"/>
-        <line num="208" count="1" type="stmt"/>
-        <line num="219" count="2" type="cond" truecount="3" falsecount="0"/>
-        <line num="220" count="1" type="stmt"/>
-        <line num="234" count="2" type="stmt"/>
-        <line num="235" count="115201" type="cond" truecount="3" falsecount="0"/>
-        <line num="236" count="115201" type="stmt"/>
-        <line num="238" count="115201" type="stmt"/>
-        <line num="249" count="1" type="stmt"/>
-        <line num="250" count="1" type="stmt"/>
-        <line num="251" count="1" type="stmt"/>
-        <line num="252" count="1" type="stmt"/>
+      <file name="Calendar.Service.ts" path="D:\GoodMorning-Be\src\service\Calendar.Service.ts">
+        <metrics statements="68" coveredstatements="0" conditionals="11" coveredconditionals="0" methods="25" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="104" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="163" count="0" type="stmt"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="178" count="0" type="stmt"/>
+        <line num="179" count="0" type="stmt"/>
+        <line num="181" count="0" type="stmt"/>
+        <line num="193" count="0" type="stmt"/>
+        <line num="194" count="0" type="stmt"/>
+        <line num="195" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="196" count="0" type="stmt"/>
+        <line num="198" count="0" type="stmt"/>
+        <line num="208" count="0" type="stmt"/>
+        <line num="219" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="235" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="236" count="0" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="250" count="0" type="stmt"/>
+        <line num="251" count="0" type="stmt"/>
+        <line num="252" count="0" type="stmt"/>
       </file>
-      <file name="FamousSaying.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/FamousSaying.Service.ts">
+      <file name="FamousSaying.Service.ts" path="D:\GoodMorning-Be\src\service\FamousSaying.Service.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -521,7 +521,7 @@
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
       </file>
-      <file name="Kakao.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Kakao.Service.ts">
+      <file name="Kakao.Service.ts" path="D:\GoodMorning-Be\src\service\Kakao.Service.ts">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -536,7 +536,7 @@
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
       </file>
-      <file name="KakaoApi.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/KakaoApi.Service.ts">
+      <file name="KakaoApi.Service.ts" path="D:\GoodMorning-Be\src\service\KakaoApi.Service.ts">
         <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -553,7 +553,7 @@
         <line num="32" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
       </file>
-      <file name="Music.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Music.Service.ts">
+      <file name="Music.Service.ts" path="D:\GoodMorning-Be\src\service\Music.Service.ts">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -563,7 +563,7 @@
         <line num="14" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
       </file>
-      <file name="Redis.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Redis.Service.ts">
+      <file name="Redis.Service.ts" path="D:\GoodMorning-Be\src\service\Redis.Service.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
@@ -574,7 +574,7 @@
         <line num="29" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
       </file>
-      <file name="Token.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Token.Service.ts">
+      <file name="Token.Service.ts" path="D:\GoodMorning-Be\src\service\Token.Service.ts">
         <metrics statements="29" coveredstatements="7" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -606,7 +606,7 @@
         <line num="48" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
       </file>
-      <file name="Traffic.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Traffic.Service.ts">
+      <file name="Traffic.Service.ts" path="D:\GoodMorning-Be\src\service\Traffic.Service.ts">
         <metrics statements="113" coveredstatements="17" conditionals="32" coveredconditionals="0" methods="32" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -722,7 +722,7 @@
         <line num="292" count="0" type="stmt"/>
         <line num="293" count="0" type="stmt"/>
       </file>
-      <file name="TrafficSearch.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/TrafficSearch.Service.ts">
+      <file name="TrafficSearch.Service.ts" path="D:\GoodMorning-Be\src\service\TrafficSearch.Service.ts">
         <metrics statements="71" coveredstatements="14" conditionals="14" coveredconditionals="0" methods="17" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -796,16 +796,16 @@
         <line num="197" count="0" type="stmt"/>
         <line num="198" count="0" type="stmt"/>
       </file>
-      <file name="User.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/User.Service.ts">
+      <file name="User.Service.ts" path="D:\GoodMorning-Be\src\service\User.Service.ts">
         <metrics statements="28" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="13" count="2" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="15" count="12" type="stmt"/>
         <line num="16" count="12" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
@@ -827,7 +827,7 @@
         <line num="83" count="2" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
       </file>
-      <file name="Weather.Service.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/service/Weather.Service.ts">
+      <file name="Weather.Service.ts" path="D:\GoodMorning-Be\src\service\Weather.Service.ts">
         <metrics statements="32" coveredstatements="10" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -864,8 +864,8 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="175" coveredstatements="26" conditionals="39" coveredconditionals="1" methods="38" coveredmethods="2"/>
-      <file name="Alarm.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/Alarm.ts">
+      <metrics statements="175" coveredstatements="38" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="8"/>
+      <file name="Alarm.ts" path="D:\GoodMorning-Be\src\util\Alarm.ts">
         <metrics statements="25" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -893,7 +893,7 @@
         <line num="79" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
       </file>
-      <file name="YouTubeApi.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/YouTubeApi.ts">
+      <file name="YouTubeApi.ts" path="D:\GoodMorning-Be\src\util\YouTubeApi.ts">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -907,7 +907,7 @@
         <line num="17" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
       </file>
-      <file name="YouTubeSchedule.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/YouTubeSchedule.ts">
+      <file name="YouTubeSchedule.ts" path="D:\GoodMorning-Be\src\util\YouTubeSchedule.ts">
         <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -930,17 +930,17 @@
         <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
       </file>
-      <file name="checker.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/checker.ts">
+      <file name="checker.ts" path="D:\GoodMorning-Be\src\util\checker.ts">
         <metrics statements="7" coveredstatements="7" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
-        <line num="8" count="10" type="stmt"/>
+        <line num="8" count="8" type="stmt"/>
         <line num="9" count="2" type="stmt"/>
         <line num="10" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="11" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="22" count="10" type="stmt"/>
+        <line num="22" count="8" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
       </file>
-      <file name="firebaseMessage.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/firebaseMessage.ts">
+      <file name="firebaseMessage.ts" path="D:\GoodMorning-Be\src\util\firebaseMessage.ts">
         <metrics statements="5" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -948,7 +948,7 @@
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
       </file>
-      <file name="openAi.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/openAi.ts">
+      <file name="openAi.ts" path="D:\GoodMorning-Be\src\util\openAi.ts">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -959,7 +959,7 @@
         <line num="26" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
       </file>
-      <file name="publicData.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/publicData.ts">
+      <file name="publicData.ts" path="D:\GoodMorning-Be\src\util\publicData.ts">
         <metrics statements="31" coveredstatements="6" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -993,7 +993,7 @@
         <line num="50" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
       </file>
-      <file name="scheduler.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/scheduler.ts">
+      <file name="scheduler.ts" path="D:\GoodMorning-Be\src\util\scheduler.ts">
         <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1013,31 +1013,31 @@
         <line num="33" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
       </file>
-      <file name="verify.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/verify.ts">
-        <metrics statements="21" coveredstatements="9" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="7" count="8" type="stmt"/>
-        <line num="8" count="8" type="stmt"/>
-        <line num="9" count="8" type="stmt"/>
-        <line num="14" count="8" type="stmt"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="26" count="8" type="stmt"/>
-        <line num="27" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="38" count="8" type="stmt"/>
-        <line num="39" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="49" count="8" type="stmt"/>
-        <line num="50" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="58" count="8" type="stmt"/>
-        <line num="59" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="68" count="8" type="stmt"/>
-        <line num="69" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="70" count="0" type="stmt"/>
+      <file name="verify.ts" path="D:\GoodMorning-Be\src\util\verify.ts">
+        <metrics statements="21" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="7" type="stmt"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="39" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="49" count="7" type="stmt"/>
+        <line num="50" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="58" count="7" type="stmt"/>
+        <line num="59" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="68" count="7" type="stmt"/>
+        <line num="69" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="70" count="1" type="stmt"/>
       </file>
-      <file name="weatherData.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/weatherData.ts">
+      <file name="weatherData.ts" path="D:\GoodMorning-Be\src\util\weatherData.ts">
         <metrics statements="30" coveredstatements="2" conditionals="17" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
@@ -1073,7 +1073,7 @@
     </package>
     <package name="util.enum">
       <metrics statements="130" coveredstatements="130" conditionals="9" coveredconditionals="9" methods="10" coveredmethods="10"/>
-      <file name="EateryCategory.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/enum/EateryCategory.ts">
+      <file name="EateryCategory.ts" path="D:\GoodMorning-Be\src\util\enum\EateryCategory.ts">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="4" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="5" count="3" type="stmt"/>
@@ -1081,7 +1081,7 @@
         <line num="10" count="3" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
       </file>
-      <file name="FamousSaying.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/enum/FamousSaying.ts">
+      <file name="FamousSaying.ts" path="D:\GoodMorning-Be\src\util\enum\FamousSaying.ts">
         <metrics statements="111" coveredstatements="111" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
         <line num="1" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="2" count="3" type="stmt"/>
@@ -1195,17 +1195,17 @@
         <line num="133" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="137" count="3" type="stmt"/>
       </file>
-      <file name="Period.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/enum/Period.ts">
+      <file name="Period.ts" path="D:\GoodMorning-Be\src\util\enum\Period.ts">
         <metrics statements="14" coveredstatements="14" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
-        <line num="3" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
+        <line num="3" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
         <line num="12" count="6" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
         <line num="16" count="7" type="stmt"/>
         <line num="17" count="7" type="stmt"/>
         <line num="18" count="60" type="cond" truecount="1" falsecount="0"/>

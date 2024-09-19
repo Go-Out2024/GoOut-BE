@@ -11,7 +11,7 @@ import { checkData } from "./checker";
 
 
 
-export const verifyUser = async(user:User)=> {
+export const verifyUser = (user:User)=> {
     if (!checkData(user)) {
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_USER);
     }
@@ -23,7 +23,7 @@ export const verifyUser = async(user:User)=> {
  * 카테고리 검증 함수
  * @param data 확인할 데이터
  */
-export const verifyEateryCategory= async(data:string)=>{
+export const verifyEateryCategory= (data:string)=>{
     if(!checkData(data)){
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_EATERY_CATEGORY);
     }
@@ -35,7 +35,7 @@ export const verifyEateryCategory= async(data:string)=>{
  * 캘린더 데이터 검증 함수
  * @param calendar 검증할 캘린더 엔티티 데이터
  */
-export const verifyCalendar = async(calendar:Calendar)=>{
+export const verifyCalendar = (calendar:Calendar)=>{
     if(!checkData(calendar))
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
 }
@@ -46,7 +46,7 @@ export const verifyCalendar = async(calendar:Calendar)=>{
  * @param calendars 캘린더 엔티티 데이터
  * @param length 유저 요청 길이
  */
-export const  verifyCalendars = async(calendars:Calendar[], length:number)=>{
+export const  verifyCalendars = (calendars:Calendar[], length:number)=>{
     if(!(calendars.length === length))
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUNT_CALENDAR);
 }
@@ -55,7 +55,7 @@ export const  verifyCalendars = async(calendars:Calendar[], length:number)=>{
 * 검색 역의 열차정보가 없을 때 예외처리 함수
 * @param arrivalList 열차정보
 */
-export const verifyarrivalList= async(arrivalList: any)=>{
+export const verifyarrivalList= (arrivalList: any)=>{
     if (!checkData(arrivalList)) {
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO);
     }
@@ -65,7 +65,7 @@ export const verifyarrivalList= async(arrivalList: any)=>{
 * 존재하지 않을 역 이름 요청했을 때 예외 처리 함수
 * @param coordinates 
 */
-export const verifyCoordinates= async(coordinates: any)=>{
+export const verifyCoordinates= (coordinates: any)=>{
     if (!checkData(coordinates)) {
         throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_STATION_NAME);
     }
