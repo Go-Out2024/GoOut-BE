@@ -15,7 +15,7 @@ jest.mock('../../../src/config/firebase', () => {
 
 describe('firebaseMessage Util Test', () => {
     describe('pushNotice function test', () => {
-        it('should send a notification and log success', async () => {
+        it('notification and log success', async () => {
             const engineValue = 'engineValue';
             const title = 'title';
             const body = 'body';

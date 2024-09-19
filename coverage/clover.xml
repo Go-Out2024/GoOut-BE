@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726720275183" clover="3.2.0">
-  <project timestamp="1726720275183" name="All files">
-    <metrics statements="1043" coveredstatements="531" conditionals="123" coveredconditionals="22" methods="239" coveredmethods="76" elements="1405" coveredelements="629" complexity="0" loc="1043" ncloc="1043" packages="7" files="49" classes="49"/>
+<coverage generated="1726765348215" clover="3.2.0">
+  <project timestamp="1726765348215" name="All files">
+    <metrics statements="1042" coveredstatements="534" conditionals="123" coveredconditionals="22" methods="239" coveredmethods="77" elements="1404" coveredelements="633" complexity="0" loc="1042" ncloc="1042" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="144" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="28"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -864,7 +864,7 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="175" coveredstatements="69" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="13"/>
+      <metrics statements="174" coveredstatements="72" conditionals="39" coveredconditionals="7" methods="38" coveredmethods="14"/>
       <file name="Alarm.ts" path="D:\GoodMorning-Be\src\util\Alarm.ts">
         <metrics statements="25" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -949,15 +949,14 @@
         <line num="21" count="1" type="stmt"/>
       </file>
       <file name="openAi.ts" path="D:\GoodMorning-Be\src\util\openAi.ts">
-        <metrics statements="8" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
       </file>
       <file name="publicData.ts" path="D:\GoodMorning-Be\src\util\publicData.ts">
         <metrics statements="31" coveredstatements="6" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
