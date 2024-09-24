@@ -2,7 +2,7 @@ import {AlarmRepository} from '../../../src/repository/Alarm.Repository';
 import { Connection } from 'typeorm';
 
 
-describe('Calendar Repository Test', ()=>{
+describe('Alarm Repository Test', ()=>{
 
     beforeAll(async()=>{
     })
