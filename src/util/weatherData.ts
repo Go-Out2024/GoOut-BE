@@ -58,8 +58,14 @@ export const formatWeatherData = (weatherData: any): { dailyMinTemp: string, dai
     });
 
     return {
-        dailyMinTemp: weatherData.find(item => item.category === 'TMN')?.fcstValue + '℃' || '정보 없음',
-        dailyMaxTemp: weatherData.find(item => item.category === 'TMX')?.fcstValue + '℃' || '정보 없음',
+        // dailyMinTemp: weatherData.find(item => item.category === 'TMN')?.fcstValue + '℃' || '정보 없음',
+        // dailyMaxTemp: weatherData.find(item => item.category === 'TMX')?.fcstValue + '℃' || '정보 없음',
+        dailyMinTemp: weatherData.find(item => item.category === 'TMN')?.fcstValue !== undefined ?
+             weatherData.find(item => item.category === 'TMN').fcstValue + '℃' : 
+                '정보 없음',
+        dailyMaxTemp: weatherData.find(item => item.category === 'TMX')?.fcstValue !== undefined ? 
+            weatherData.find(item => item.category === 'TMX').fcstValue + '℃' : 
+                '정보 없음',
         hourlyData: result // HourlyWeatherDataDto[] 타입이 적용된 result
     };
 }

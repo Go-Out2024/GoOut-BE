@@ -41,8 +41,8 @@ describe('formatWeatherData', () => {
 
         const result = formatWeatherData(mockWeatherData);
 
-        expect(result.dailyMinTemp).toBe("undefined℃");
-        expect(result.dailyMaxTemp).toBe("undefined℃");
+        expect(result.dailyMinTemp).toBe("정보 없음");
+        expect(result.dailyMaxTemp).toBe("정보 없음");
         expect(result.hourlyData).toEqual(expectedHourlyData);
     });
 
@@ -59,8 +59,8 @@ describe('formatWeatherData', () => {
 
         const result = formatWeatherData(mockWeatherData);
 
-        expect(result.dailyMinTemp).toBe("undefined℃");
-        expect(result.dailyMaxTemp).toBe("undefined℃");
+        expect(result.dailyMinTemp).toBe("정보 없음");
+        expect(result.dailyMaxTemp).toBe("정보 없음");
         expect(result.hourlyData).toEqual(expectedHourlyData);
     });
 
@@ -146,6 +146,32 @@ describe('formatWeatherData', () => {
         expect(result.hourlyData).toEqual(expectedHourlyData);
     });
 
+    it('should handle both TMN and TMX values correctly', () => {
+        const mockWeatherData = [
+            { category: 'TMN', fcstDate: '20230923', fcstTime: '0600', fcstValue: '15' },
+            { category: 'TMX', fcstDate: '20230923', fcstTime: '1500', fcstValue: '25' },
+            { category: 'TMP', fcstDate: '20230923', fcstTime: '0600', fcstValue: '18' },
+            { category: 'PTY', fcstDate: '20230923', fcstTime: '0600', fcstValue: '0' },
+            { category: 'SKY', fcstDate: '20230923', fcstTime: '0600', fcstValue: '1' }
+        ];
+    
+        const result = formatWeatherData(mockWeatherData);
+    
+        expect(result.dailyMinTemp).toBe('15℃');
+        expect(result.dailyMaxTemp).toBe('25℃');
+    });
+    
+    it('should return "정보 없음" when TMN and TMX are missing', () => {
+        const mockWeatherData = [
+            { category: 'TMP', fcstDate: '20230923', fcstTime: '0600', fcstValue: '' },
+            { category: 'PTY', fcstDate: '20230923', fcstTime: '0600', fcstValue: '' }
+        ];
+    
+        const result = formatWeatherData(mockWeatherData);
+    
+        expect(result.dailyMinTemp).toBe('정보 없음');
+        expect(result.dailyMaxTemp).toBe('정보 없음');
+    });
     
 
 });

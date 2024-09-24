@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727160245624" clover="3.2.0">
-  <project timestamp="1727160245624" name="All files">
-    <metrics statements="1039" coveredstatements="766" conditionals="123" coveredconditionals="63" methods="239" coveredmethods="139" elements="1401" coveredelements="968" complexity="0" loc="1039" ncloc="1039" packages="7" files="49" classes="49"/>
+<coverage generated="1727167799938" clover="3.2.0">
+  <project timestamp="1727167799938" name="All files">
+    <metrics statements="1041" coveredstatements="768" conditionals="123" coveredconditionals="65" methods="241" coveredmethods="141" elements="1405" coveredelements="974" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/controller/Auth.Controller.ts">
@@ -864,7 +864,7 @@
       </file>
     </package>
     <package name="util">
-      <metrics statements="171" coveredstatements="171" conditionals="39" coveredconditionals="37" methods="38" coveredmethods="38"/>
+      <metrics statements="173" coveredstatements="173" conditionals="39" coveredconditionals="39" methods="40" coveredmethods="40"/>
       <file name="Alarm.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/Alarm.ts">
         <metrics statements="25" coveredstatements="25" conditionals="9" coveredconditionals="9" methods="12" coveredmethods="12"/>
         <line num="1" count="2" type="stmt"/>
@@ -1034,37 +1034,39 @@
         <line num="70" count="1" type="stmt"/>
       </file>
       <file name="weatherData.ts" path="/Users/leeseungryeol/GoodMorning-BE/src/util/weatherData.ts">
-        <metrics statements="30" coveredstatements="30" conditionals="17" coveredconditionals="15" methods="4" coveredmethods="4"/>
+        <metrics statements="32" coveredstatements="32" conditionals="17" coveredconditionals="17" methods="6" coveredmethods="6"/>
         <line num="1" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
-        <line num="9" count="7" type="stmt"/>
-        <line num="11" count="7" type="stmt"/>
-        <line num="12" count="39" type="stmt"/>
-        <line num="13" count="39" type="stmt"/>
-        <line num="14" count="39" type="stmt"/>
-        <line num="15" count="39" type="stmt"/>
-        <line num="17" count="39" type="cond" truecount="1" falsecount="0"/>
-        <line num="18" count="9" type="stmt"/>
-        <line num="21" count="39" type="cond" truecount="1" falsecount="0"/>
-        <line num="22" count="13" type="stmt"/>
-        <line num="25" count="39" type="stmt"/>
-        <line num="28" count="7" type="stmt"/>
-        <line num="29" count="7" type="stmt"/>
-        <line num="30" count="7" type="stmt"/>
-        <line num="32" count="7" type="stmt"/>
-        <line num="33" count="9" type="stmt"/>
-        <line num="35" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="36" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="37" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="38" count="13" type="cond" truecount="4" falsecount="0"/>
-        <line num="40" count="13" type="stmt"/>
-        <line num="53" count="7" type="stmt"/>
-        <line num="54" count="7" type="cond" truecount="1" falsecount="0"/>
-        <line num="55" count="4" type="stmt"/>
+        <line num="9" count="9" type="stmt"/>
+        <line num="11" count="9" type="stmt"/>
+        <line num="12" count="46" type="stmt"/>
+        <line num="13" count="46" type="stmt"/>
+        <line num="14" count="46" type="stmt"/>
+        <line num="15" count="46" type="stmt"/>
+        <line num="17" count="46" type="cond" truecount="1" falsecount="0"/>
+        <line num="18" count="11" type="stmt"/>
+        <line num="21" count="46" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="16" type="stmt"/>
+        <line num="25" count="46" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="30" count="9" type="stmt"/>
+        <line num="32" count="9" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="35" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="16" type="cond" truecount="4" falsecount="0"/>
+        <line num="40" count="16" type="stmt"/>
+        <line num="53" count="9" type="stmt"/>
+        <line num="54" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="55" count="5" type="stmt"/>
         <line num="57" count="3" type="stmt"/>
-        <line num="60" count="7" type="stmt"/>
-        <line num="61" count="38" type="cond" truecount="1" falsecount="1"/>
-        <line num="62" count="39" type="cond" truecount="1" falsecount="1"/>
+        <line num="60" count="9" type="stmt"/>
+        <line num="63" count="41" type="cond" truecount="2" falsecount="0"/>
+        <line num="64" count="8" type="stmt"/>
+        <line num="66" count="43" type="cond" truecount="2" falsecount="0"/>
+        <line num="67" count="10" type="stmt"/>
       </file>
     </package>
     <package name="util.enum">
