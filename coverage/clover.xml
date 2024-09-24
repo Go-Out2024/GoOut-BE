@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727197029561" clover="3.2.0">
-  <project timestamp="1727197029561" name="All files">
-    <metrics statements="1041" coveredstatements="770" conditionals="123" coveredconditionals="65" methods="241" coveredmethods="143" elements="1405" coveredelements="978" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
+<coverage generated="1727199811197" clover="3.2.0">
+  <project timestamp="1727199811198" name="All files">
+    <metrics statements="1041" coveredstatements="771" conditionals="123" coveredconditionals="65" methods="241" coveredmethods="144" elements="1405" coveredelements="980" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -277,7 +277,7 @@
       </file>
     </package>
     <package name="repository">
-      <metrics statements="89" coveredstatements="39" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="4"/>
+      <metrics statements="89" coveredstatements="40" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="5"/>
       <file name="Alarm.Repository.ts" path="D:\GoodMorning-Be\src\repository\Alarm.Repository.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
@@ -294,11 +294,11 @@
         <line num="12" count="0" type="stmt"/>
       </file>
       <file name="BusStation.Repository.ts" path="D:\GoodMorning-Be\src\repository\BusStation.Repository.ts">
-        <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="2" count="5" type="stmt"/>
-        <line num="5" count="5" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="2" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
