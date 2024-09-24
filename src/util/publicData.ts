@@ -20,7 +20,7 @@ export class SubwayApi {
             }
             return data.realtimeArrivalList; // 필터링은 호출하는 서비스 함수에서 수행
         } catch (error) {
-            console.error('Failed to fetch subway arrival info:', error.message);
+        //    console.error('Failed to fetch subway arrival info:', error.message);
             throw new Error('지하철 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
         }
     }
@@ -47,7 +47,7 @@ export class BusApi {
 
             return Array.isArray(itemList) ? itemList : [itemList]; 
         } catch (error) {
-            console.error('버스 도착 예정 정보 요청 오류:', error);
+          //  console.error('버스 도착 예정 정보 요청 오류:', error);
             throw new Error('버스 실시간 도착 정보를 가져오는 중 오류가 발생했습니다.');
         }
     }
