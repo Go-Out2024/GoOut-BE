@@ -4,63 +4,74 @@ import { BusStation } from '../../../src/entity/BusStation';
 import { mockDeep, mockReset} from 'jest-mock-extended';
 import { Repository, SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
 
+const mockBusStations = [{} as unknown as BusStation] as unknown as BusStation[];
+const mockBusStation = {stationNum:100} as unknown as BusStation;
 
 const mockSelectQueryBuilder = {
-    innerJoinAndSelect:jest.fn().mockReturnThis(),
-    innerJoin:jest.fn().mockReturnThis(),
     select: jest.fn().mockReturnThis(),
-    from: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
     andWhere: jest.fn().mockReturnThis(),
-    groupBy:jest.fn().mockReturnThis(),
-    orderBy:jest.fn().mockReturnThis(),
-    getOne: jest.fn().mockResolvedValue({} as BusStation),
-    getMany: jest.fn().mockResolvedValue({} as BusStation[]),
-    getRawMany: jest.fn().mockResolvedValue({})
+    getOne: jest.fn().mockResolvedValue(mockBusStation),
+    getMany: jest.fn().mockResolvedValue(mockBusStations),
 } as unknown as SelectQueryBuilder<BusStation>;
 
-const mockUpdateQueryBuilder = {
-    update: jest.fn().mockReturnThis(),
-    set: jest.fn().mockReturnThis(),
-    where: jest.fn().mockReturnThis(),
-    andWhere: jest.fn().mockReturnThis(),
-    setParameters: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({ affected: 1 })
-} as unknown as UpdateQueryBuilder<BusStation>;
+describe('BusStationRepository', () => {
+    let busStationRepository: BusStationRepository;
+    const mockBusStationRepository = mockDeep<Repository<BusStation>>();
 
-
-describe('BusStation Repository Test', ()=>{
-
-    beforeAll(async()=>{
-    })
-
-    afterAll(async()=>{
-    });
-
-    let busStationRepository:BusStationRepository;
-    const mockBusStationRepository = mockDeep<Repository<BusStation>>()
-
-    beforeEach(async () => {
+    beforeEach(() => {
         mockReset(mockBusStationRepository);
         busStationRepository = new BusStationRepository();
+        busStationRepository['save'] = mockBusStationRepository.save;
         busStationRepository['findOne'] = mockBusStationRepository.findOne;
-        jest.clearAllMocks();
+        busStationRepository['createQueryBuilder'] = mockBusStationRepository.createQueryBuilder;
     });
 
-    afterEach(async () => {
-        jest.resetAllMocks();
-    });
-    
-    describe('findCoordinatesByBusStationName function test', ()=>{
-        it('basic', async ()=>{
-            const stationName = 'mock-stationName';
-            const expectedBusStation = { id: 1, name: stationName, coordinates: { lat: 1.23, lng: 4.56 } } as unknown as BusStation;
-            mockBusStationRepository.findOne.mockResolvedValue(expectedBusStation);
+    describe('findCoordinatesByBusStationName', () => {
+        it('basic', async () => {
+            const stationName = 'Central Station';
+            mockBusStationRepository.findOne.mockResolvedValueOnce(mockBusStation);
             const result = await busStationRepository.findCoordinatesByBusStationName(stationName);
-            expect(result).toEqual(expectedBusStation);
-            expect(mockBusStationRepository.findOne).toHaveBeenCalledWith({ where: { stationName } });
+            expect(result).toEqual(mockBusStation);
+            expect(busStationRepository['findOne']).toHaveBeenCalledWith({ where: { stationName } });
+        });
+    });
+
+    describe('findByStationName', () => {
+        it('basic', async () => {
+            const stationName = 'Central Station';
+            mockBusStationRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await busStationRepository.findByStationName(stationName);
+            expect(result).toEqual(mockBusStations);
+            expect(busStationRepository['createQueryBuilder']).toHaveBeenCalledWith('bus_station');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('bus_station.station_name = :stationName', { stationName });
+            expect(mockSelectQueryBuilder.getMany).toHaveBeenCalled();
+        });
+    });
+
+    describe('findBusStations', () => {
+        it('basic', async () => {
+            const searchTerm = 'Cent';
+            mockBusStationRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await busStationRepository.findBusStations(searchTerm);
+            expect(result).toEqual(mockBusStations);
+            expect(busStationRepository['createQueryBuilder']).toHaveBeenCalledWith('busStation');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('busStation.stationName LIKE :searchTerm', { searchTerm: `${searchTerm}%` });
+            expect(mockSelectQueryBuilder.getMany).toHaveBeenCalled();
+        });
+    });
+
+    describe('findStationNumByStationId', () => {
+        it('basic', async () => {
+            const busStationId = 1;
+            const stationNum = 100;
+            mockBusStationRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await busStationRepository.findStationNumByStationId(busStationId);
+            expect(result).toEqual(stationNum);
+            expect(busStationRepository['createQueryBuilder']).toHaveBeenCalledWith('busStation');
+            expect(mockSelectQueryBuilder.select).toHaveBeenCalledWith('busStation.stationNum');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('busStation.id = :busStationId', { busStationId });
+            expect(mockSelectQueryBuilder.getOne).toHaveBeenCalled();
         });
     });
 });
-
-
