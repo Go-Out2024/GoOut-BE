@@ -1,18 +1,26 @@
 
 import { UserRepository } from '../../../src/repository/User.Repository';
-import { BusStation } from '../../../src/entity/BusStation';
 import { mockDeep, mockReset} from 'jest-mock-extended';
-import { Repository, SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
+import { Repository, DeleteQueryBuilder,SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
 import { User } from '../../../src/entity/User';
 
 const user = {} as User;
 
-const mockSelectQueryBuilder = {
-    select: jest.fn().mockReturnThis(),
+const mockDeleteQueryBuilder = {
+    delete: jest.fn().mockReturnThis(),
+    from: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    execute: jest.fn().mockResolvedValue({ affected: 1 })
+} as unknown as DeleteQueryBuilder<User>;
+
+const mockUpdateQueryBuilder = {
+    update: jest.fn().mockReturnThis(),
+    set: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
     andWhere: jest.fn().mockReturnThis(),
-    getOne: jest.fn().mockResolvedValue(user)
-} as unknown as SelectQueryBuilder<BusStation>;
+    setParameters: jest.fn().mockReturnThis(),
+    execute: jest.fn().mockResolvedValue({ affected: 1 })
+} as unknown as UpdateQueryBuilder<User>;
 
 describe('UserRepository', () => {
     let userRepository : UserRepository;
@@ -60,9 +68,48 @@ describe('UserRepository', () => {
         });
     });
 
-    // describe('findStationNumByStationId function test', () => {
-    //     it('basic', async () => {
+    describe('updateAlarmStatus function test', () => {
+        it('basic', async () => {
+            const userId = 1;
+            const status = true;
+            mockUserRepository.createQueryBuilder.mockReturnValueOnce(mockUpdateQueryBuilder as unknown as SelectQueryBuilder<User>);
+            const result = await userRepository.updateAlarmStatus(userId, status);
+            expect(result).toEqual({affected:1});
+            expect(userRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockUpdateQueryBuilder.update).toHaveBeenCalledWith(User);
+            expect(mockUpdateQueryBuilder.set).toHaveBeenCalledWith({ alarm: status });
+            expect(mockUpdateQueryBuilder.where).toHaveBeenCalledWith('id = :userId', { userId });
+            expect(mockUpdateQueryBuilder.execute).toHaveBeenCalled();
+        });
+    });
 
-    //     });
-    // });
+    describe('updateAlarmTime function test', () => {
+        it('basic', async () => {
+            const userId = 1;
+            const alarmStart = 'alarm-start';
+            const alarmEnd = 'alarm-end'
+            mockUserRepository.createQueryBuilder.mockReturnValueOnce(mockUpdateQueryBuilder as unknown as SelectQueryBuilder<User>);
+            const result = await userRepository.updateAlarmTime(userId, alarmStart, alarmEnd);
+            expect(result).toEqual({affected:1});
+            expect(userRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockUpdateQueryBuilder.update).toHaveBeenCalledWith(User);
+            expect(mockUpdateQueryBuilder.set).toHaveBeenCalledWith({alarmStart:alarmStart, alarmEnd:alarmEnd});
+            expect(mockUpdateQueryBuilder.where).toHaveBeenCalledWith('id = :userId',{userId});
+            expect(mockUpdateQueryBuilder.execute).toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteUser function test', () => {
+        it('basic', async () => {
+            const userId = 1;
+            mockUserRepository.createQueryBuilder.mockReturnValueOnce(mockDeleteQueryBuilder as unknown as SelectQueryBuilder<User>);
+            const result = await userRepository.deleteUser(userId);
+            expect(result).toEqual({affected:1});
+            expect(userRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockDeleteQueryBuilder.delete).toHaveBeenCalled();
+            expect(mockDeleteQueryBuilder.from).toHaveBeenCalledWith(User);
+            expect(mockDeleteQueryBuilder.where).toHaveBeenCalledWith('id = :userId',{userId});
+            expect(mockUpdateQueryBuilder.execute).toHaveBeenCalled();
+        });
+    });
 });

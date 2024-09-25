@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727231275617" clover="3.2.0">
-  <project timestamp="1727231275617" name="All files">
-    <metrics statements="1041" coveredstatements="779" conditionals="123" coveredconditionals="65" methods="241" coveredmethods="150" elements="1405" coveredelements="994" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
+<coverage generated="1727235117362" clover="3.2.0">
+  <project timestamp="1727235117362" name="All files">
+    <metrics statements="1041" coveredstatements="782" conditionals="123" coveredconditionals="65" methods="241" coveredmethods="153" elements="1405" coveredelements="1000" complexity="0" loc="1041" ncloc="1041" packages="7" files="49" classes="49"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -277,7 +277,7 @@
       </file>
     </package>
     <package name="repository">
-      <metrics statements="89" coveredstatements="48" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="11"/>
+      <metrics statements="89" coveredstatements="51" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="14"/>
       <file name="Alarm.Repository.ts" path="D:\GoodMorning-Be\src\repository\Alarm.Repository.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
@@ -391,7 +391,7 @@
         <line num="32" count="0" type="stmt"/>
       </file>
       <file name="User.Repository.ts" path="D:\GoodMorning-Be\src\repository\User.Repository.ts">
-        <metrics statements="10" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="3"/>
+        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <line num="1" count="10" type="stmt"/>
         <line num="2" count="10" type="stmt"/>
         <line num="11" count="10" type="stmt"/>
@@ -399,9 +399,9 @@
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
       </file>
     </package>
     <package name="service">
