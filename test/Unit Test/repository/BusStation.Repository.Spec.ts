@@ -27,7 +27,7 @@ describe('BusStationRepository', () => {
         busStationRepository['createQueryBuilder'] = mockBusStationRepository.createQueryBuilder;
     });
 
-    describe('findCoordinatesByBusStationName', () => {
+    describe('findCoordinatesByBusStationName function test', () => {
         it('basic', async () => {
             const stationName = 'Central Station';
             mockBusStationRepository.findOne.mockResolvedValueOnce(mockBusStation);
@@ -37,7 +37,7 @@ describe('BusStationRepository', () => {
         });
     });
 
-    describe('findByStationName', () => {
+    describe('findByStationName function test', () => {
         it('basic', async () => {
             const stationName = 'Central Station';
             mockBusStationRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
@@ -49,7 +49,7 @@ describe('BusStationRepository', () => {
         });
     });
 
-    describe('findBusStations', () => {
+    describe('findBusStations function test', () => {
         it('basic', async () => {
             const searchTerm = 'Cent';
             mockBusStationRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
@@ -61,7 +61,7 @@ describe('BusStationRepository', () => {
         });
     });
 
-    describe('findStationNumByStationId', () => {
+    describe('findStationNumByStationId function test', () => {
         it('basic', async () => {
             const busStationId = 1;
             const stationNum = 100;
