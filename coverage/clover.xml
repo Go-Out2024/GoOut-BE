@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727274790475" clover="3.2.0">
-  <project timestamp="1727274790475" name="All files">
-    <metrics statements="1037" coveredstatements="785" conditionals="123" coveredconditionals="65" methods="240" coveredmethods="155" elements="1400" coveredelements="1005" complexity="0" loc="1037" ncloc="1037" packages="7" files="48" classes="48"/>
+<coverage generated="1727275755420" clover="3.2.0">
+  <project timestamp="1727275755420" name="All files">
+    <metrics statements="1037" coveredstatements="787" conditionals="123" coveredconditionals="65" methods="240" coveredmethods="156" elements="1400" coveredelements="1008" complexity="0" loc="1037" ncloc="1037" packages="7" files="48" classes="48"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -277,7 +277,7 @@
       </file>
     </package>
     <package name="repository">
-      <metrics statements="85" coveredstatements="54" conditionals="0" coveredconditionals="0" methods="40" coveredmethods="16"/>
+      <metrics statements="85" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="40" coveredmethods="17"/>
       <file name="Alarm.Repository.ts" path="D:\GoodMorning-Be\src\repository\Alarm.Repository.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
@@ -322,12 +322,12 @@
         <line num="13" count="1" type="stmt"/>
       </file>
       <file name="GridCoordinates.Repository.ts" path="D:\GoodMorning-Be\src\repository\GridCoordinates.Repository.ts">
-        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
       </file>
       <file name="SubwayStation.Repository.ts" path="D:\GoodMorning-Be\src\repository\SubwayStation.Repository.ts">
         <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
