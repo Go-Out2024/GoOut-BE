@@ -23,7 +23,7 @@ export class UserRepository extends Repository<User> {
 
     /** id(번호)로 사용자 찾기 */
     public async findUserById(id: number): Promise<User> {
-        return await this.findOne({ where: {id} })
+        return this.findOne({ where: {id} })
     }
 
     /**

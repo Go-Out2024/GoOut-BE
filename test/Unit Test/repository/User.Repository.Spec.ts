@@ -50,11 +50,15 @@ describe('UserRepository', () => {
         });
     });
 
-    // describe('findUserById function test', () => {
-    //     it('basic', async () => {
-
-    //     });
-    // });
+    describe('findUserById function test', () => {
+        it('basic', async () => {
+            const id = 1
+            mockUserRepository.findOne.mockResolvedValue(user);
+            const result = await userRepository.findUserById(id);
+            expect(result).toEqual(user);
+            expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: {id} })
+        });
+    });
 
     // describe('findStationNumByStationId function test', () => {
     //     it('basic', async () => {
