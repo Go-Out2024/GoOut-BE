@@ -14,7 +14,7 @@ const mockSelectQueryBuilder = {
 } as unknown as SelectQueryBuilder<GridCoordinates>;
 
 
-describe('UserRepository', () => {
+describe('GridCoordinates Repository', () => {
     let gridCoordinatesRepository : GridCoordinatesRepository;
     const mockGridCoordinatesRepository = mockDeep<Repository<GridCoordinates>>();
 
