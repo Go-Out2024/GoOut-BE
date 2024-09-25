@@ -11,7 +11,7 @@ import { User } from '../entity/User';
 export class UserRepository extends Repository<User> {
 
 
-    public async findByKakaoId(kakaoId: string): Promise<User | undefined> {
+    public async findByKakaoId(kakaoId: string): Promise<User> {
         return this.findOne({ where: {numbers:kakaoId} });
     }
 
@@ -22,7 +22,7 @@ export class UserRepository extends Repository<User> {
     }
 
     /** id(번호)로 사용자 찾기 */
-    public async findUserById(id: number): Promise<User | undefined> {
+    public async findUserById(id: number): Promise<User> {
         return await this.findOne({ where: {id} })
     }
 
