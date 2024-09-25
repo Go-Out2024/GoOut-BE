@@ -14,7 +14,7 @@ const mockDeleteQueryBuilder = {
 } as unknown as DeleteQueryBuilder<FirebaseToken>;
 
 
-describe('UserRepository', () => {
+describe('FirebaseTokenRepository', () => {
     let firebaseTokenRepository : FirebaseTokenRepository;
     const mockFirebaseTokenRepository = mockDeep<Repository<FirebaseToken>>();
 
