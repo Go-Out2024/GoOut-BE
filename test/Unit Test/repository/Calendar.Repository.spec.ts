@@ -2,18 +2,43 @@
 import { CalendarRepository } from '../../../src/repository/Calendar.Repository';
 import { Calendar } from '../../../src/entity/Calendar';
 import { mockDeep, mockReset} from 'jest-mock-extended';
-import { Repository, SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
+import { Repository, SelectQueryBuilder, UpdateQueryBuilder, DeleteQueryBuilder } from 'typeorm';
 import { CalendarInsert, CalendarInsertContent } from '../../../src/dto/request/CalendarInsert';
 import { getPeriodValue } from '../../../src/util/enum/Period';
 
 
+
+const calendar = {} as Calendar;
+const calendars = [{ id: 1 } as unknown as Calendar, { id: 2 } as unknown as Calendar] as unknown as Calendar[]
+
+const mockDeleteQueryBuilder = {
+    delete: jest.fn().mockReturnThis(),
+    from: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    execute: jest.fn().mockResolvedValue({ affected: 1 })
+} as unknown as DeleteQueryBuilder<Calendar>;
+
+const mockUpdateQueryBuilder = {
+    update: jest.fn().mockReturnThis(),
+    set: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    setParameters: jest.fn().mockReturnThis(),
+    execute: jest.fn().mockResolvedValue({ affected: 1 })
+} as unknown as UpdateQueryBuilder<Calendar>;
+
+const mockSelectQueryBuilder = {
+    select: jest.fn().mockReturnThis(),
+    from: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockResolvedValue(calendar), 
+    getMany: jest.fn().mockResolvedValue(calendars), 
+} as unknown as SelectQueryBuilder<Calendar>;
+
+
 describe('Calendar Repository Test', ()=>{
-
-    beforeAll(async()=>{
-    })
-
-    afterAll(async()=>{
-    });
 
     let calendarRepository:CalendarRepository;
     const mockCalendarRepository = mockDeep<Repository<Calendar>>()
@@ -23,11 +48,6 @@ describe('Calendar Repository Test', ()=>{
         calendarRepository = new CalendarRepository();
         calendarRepository['save'] = mockCalendarRepository.save;
         calendarRepository['createQueryBuilder'] = mockCalendarRepository.createQueryBuilder;
-        jest.clearAllMocks();
-    });
-
-    afterEach(async () => {
-        jest.resetAllMocks();
     });
     
     describe('insertCalendarContents function test', ()=>{
@@ -71,6 +91,87 @@ describe('Calendar Repository Test', ()=>{
             expect(calendarRepository['save']).toHaveBeenCalledWith([newCalendar1, newCalendar2]);
         });
     });
+
+
+    describe('findCalendarsByIdAndUserId function test', ()=>{
+        it('basic', async ()=>{
+            const calendarIds = [1,2];
+            const userId = 1;
+            mockCalendarRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await calendarRepository.findCalendarsByIdAndUserId(calendarIds, userId);
+            expect(result).toEqual(calendars);  
+            expect(calendarRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockSelectQueryBuilder.select).toHaveBeenCalledWith('c');
+            expect(mockSelectQueryBuilder.from).toHaveBeenCalledWith(Calendar, 'c');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('c.id IN (:...calendarIds)', { calendarIds });
+            expect(mockSelectQueryBuilder.andWhere).toHaveBeenCalledWith('c.user_id = :userId', { userId });
+            expect(mockSelectQueryBuilder.getMany).toHaveBeenCalled();
+        });
+    });
+
+
+    describe('findCalendarByIdAndUserId function test', ()=>{
+
+        it('basic', async ()=> {
+            const calendarId = 1;
+            const userId = 1;
+            mockCalendarRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await calendarRepository.findCalendarByIdAndUserId(calendarId, userId);
+            expect(result).toEqual(calendar);  
+            expect(calendarRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockSelectQueryBuilder.select).toHaveBeenCalledWith('c');
+            expect(mockSelectQueryBuilder.from).toHaveBeenCalledWith(Calendar, 'c');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('c.id = :calendarId', { calendarId }); // 수정된 부분
+            expect(mockSelectQueryBuilder.andWhere).toHaveBeenCalledWith('c.user_id = :userId', { userId });
+            expect(mockSelectQueryBuilder.getOne).toHaveBeenCalled();
+        });
+    });
+
+
+    describe('deleteCalendar function test', ()=>{
+        it('basic', async ()=>{
+            const calendarIds = [1,2];
+            const userId = 1;
+            mockCalendarRepository.createQueryBuilder.mockReturnValueOnce(mockDeleteQueryBuilder as unknown as SelectQueryBuilder<Calendar>);
+            const result = await calendarRepository.deleteCalendar(calendarIds, userId);
+            expect(result).toEqual({ affected: 1 });
+            expect(calendarRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockDeleteQueryBuilder.delete).toHaveBeenCalled();
+            expect(mockDeleteQueryBuilder.from).toHaveBeenCalledWith(Calendar);
+            expect(mockDeleteQueryBuilder.where).toHaveBeenCalledWith('id IN (:...calendarIds)', { calendarIds });
+            expect(mockDeleteQueryBuilder.andWhere).toHaveBeenCalledWith('user_id = :userId', { userId });
+            expect(mockDeleteQueryBuilder.execute).toHaveBeenCalled();
+        });
+    });
+
+    describe('updateCalendar function test', ()=>{
+        it('basic', async ()=>{
+            await calendarRepository.updateCalendar(calendars);
+            expect(calendarRepository['save']).toHaveBeenCalledWith(calendars)
+        });
+    });
+
+
+    describe('findCalendarsByUserId function test', ()=>{
+        it('basic', async ()=>{
+            const userId = 1;
+            mockCalendarRepository.createQueryBuilder.mockReturnValueOnce(mockSelectQueryBuilder);
+            const result = await calendarRepository.findCalendarsByUserId(userId);
+            expect(result).toEqual(calendars);
+            expect(calendarRepository['createQueryBuilder']).toHaveBeenCalled();
+            expect(mockSelectQueryBuilder.select).toHaveBeenCalledWith('c');
+            expect(mockSelectQueryBuilder.from).toHaveBeenCalledWith(Calendar, 'c');
+            expect(mockSelectQueryBuilder.where).toHaveBeenCalledWith('c.user_id = :userId',{userId});
+            expect(mockSelectQueryBuilder.getMany).toHaveBeenCalled();
+        });
+    });
+
+
+
+
+
+
+
 });
 
 

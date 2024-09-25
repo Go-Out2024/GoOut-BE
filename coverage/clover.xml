@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727275755420" clover="3.2.0">
-  <project timestamp="1727275755420" name="All files">
-    <metrics statements="1037" coveredstatements="787" conditionals="123" coveredconditionals="65" methods="240" coveredmethods="156" elements="1400" coveredelements="1008" complexity="0" loc="1037" ncloc="1037" packages="7" files="48" classes="48"/>
+<coverage generated="1727285231891" clover="3.2.0">
+  <project timestamp="1727285231891" name="All files">
+    <metrics statements="1037" coveredstatements="792" conditionals="123" coveredconditionals="65" methods="240" coveredmethods="161" elements="1400" coveredelements="1018" complexity="0" loc="1037" ncloc="1037" packages="7" files="48" classes="48"/>
     <package name="controller">
       <metrics statements="206" coveredstatements="206" conditionals="0" coveredconditionals="0" methods="41" coveredmethods="41"/>
       <file name="Auth.Controller.ts" path="D:\GoodMorning-Be\src\controller\Auth.Controller.ts">
@@ -277,7 +277,7 @@
       </file>
     </package>
     <package name="repository">
-      <metrics statements="85" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="40" coveredmethods="17"/>
+      <metrics statements="85" coveredstatements="61" conditionals="0" coveredconditionals="0" methods="40" coveredmethods="22"/>
       <file name="Alarm.Repository.ts" path="D:\GoodMorning-Be\src\repository\Alarm.Repository.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
@@ -298,7 +298,7 @@
         <line num="49" count="1" type="stmt"/>
       </file>
       <file name="Calendar.Repository.ts" path="D:\GoodMorning-Be\src\repository\Calendar.Repository.ts">
-        <metrics statements="12" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="2"/>
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
@@ -306,11 +306,11 @@
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
       </file>
       <file name="FirebaseToken.Repository.ts" path="D:\GoodMorning-Be\src\repository\FirebaseToken.Repository.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
