@@ -50,6 +50,7 @@ export class BusStationInfo {
 
 
 export class BusArrivalInfo {
+
     private nxtStn: string;
     private busRouteAbrv: string;
     private arrmsg1: string;
@@ -106,5 +107,9 @@ export class BusArrivalInfo {
 
     public getArrmsg1(){
         return this.arrmsg1;
+    }
+
+    public getBusRouteAbrv(){
+        return this.busRouteAbrv;
     }
 }

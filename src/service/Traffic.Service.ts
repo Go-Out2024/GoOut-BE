@@ -130,7 +130,6 @@ export class TrafficService {
      * @param collectionId 교통 컬렉션 아이디
      */
     async choiceTrafficCollection(userId: number, collectionId: number) { 
-        const user = await this.userRepository.findUserById(userId);
         await this.trafficCollectionRepository.updateAllChoicesToFalse(userId);
         await this.trafficCollectionRepository.updateChoiceByCollectionId(userId, collectionId);
     }
@@ -161,8 +160,6 @@ export class TrafficService {
             } catch (error) {
                 if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
                    result = StationResult.of(undefined, undefined, error.getMessage());
-                } else {
-                    throw error; // 다른 에러는 그대로 던짐
                 }
             }
         } else if (departureTransportation.getTransportationName() === 'Bus') {
@@ -196,8 +193,6 @@ export class TrafficService {
             } catch (error) {
                 if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
                    result = StationResult.of(undefined, undefined, error.getMessage());
-                } else {
-                    throw error; // 다른 에러는 그대로 던짐
                 }
             }
         } else if (departureTransportation.getTransportationName() === 'Bus') {
@@ -276,8 +271,8 @@ export class TrafficService {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
         verifyarrivalList(arrivalList);
         return arrivalList
-            .filter(info => numbers.includes(info.subwayId))
-            .map(info => SubwayArrivalInfo.fromData(info));
+            .filter((info) => numbers.includes(info.subwayId))
+            .map((info) => SubwayArrivalInfo.fromData(info));
     }
 
     /**

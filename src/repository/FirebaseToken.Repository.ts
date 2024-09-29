@@ -16,4 +16,10 @@ export class FirebaseTokenRepository extends Repository<FirebaseToken> {
         .where("user.id = :userId AND token = :token", {userId, token: firebaseToken})
         .execute()
     }
+
+    public async findTokenByUserId(userId: number): Promise<FirebaseToken | undefined> {
+        return this.createQueryBuilder("firebaseToken")
+            .where("firebaseToken.user.id = :userId", { userId })
+            .getOne();
+    }
 }
