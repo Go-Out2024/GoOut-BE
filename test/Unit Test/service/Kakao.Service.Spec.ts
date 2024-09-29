@@ -1,4 +1,5 @@
-import { KakaoEatery } from '../../../src/dto/response/KakaoEatery';
+import { KakaoEatery } from '../../../src/dto/KakaoEatery';
+import { KakaoEateryPaging } from '../../../src/dto/response/KakaoEateryPaging';
 import { ErrorCode } from '../../../src/exception/ErrorCode';
 import { ErrorResponseDto } from '../../../src/response/ErrorResponseDto';
 import {KakaoService} from '../../../src/service/Kakao.Service';
@@ -39,21 +40,24 @@ describe('Kakao Service Test', ()=>{
         const y = 'y';
         const category = 'category';
         const radius = '100';
+        const page = 1;
+        const size = 'size'
         const mockGetProductCategoryByCondition = getProductCategoryByCondition as jest.Mock;
         const mockVerifyEateryCategory = verifyEateryCategory as jest.Mock;
         const eateryData = {};
-        const mappedEateryData = {} as KakaoEatery[]; 
+        const kakaoEatery = {} as KakaoEatery[]
+        const kakaoEateryPaging = { currentPage: 1, totalPage: 45, kakaoEatery: kakaoEatery } as unknown as KakaoEateryPaging
 
         it('basic',  async () => {
             mockGetProductCategoryByCondition.mockReturnValue('category');
             kakaoApiService.bringEateryData.mockResolvedValue(eateryData);
-            const mappingEateryDataMock = jest.spyOn(kakaoService, 'mappingEateryData').mockReturnValue(mappedEateryData);
-            const result = await kakaoService.bringKakaoEatery(x,y,category,radius);
+            const mappingEateryDataMock = jest.spyOn(kakaoService, 'mappingEateryData').mockReturnValue(kakaoEatery);
+            const result = await kakaoService.bringKakaoEatery(x,y,category,radius,String(page),size);
 
-            expect(result).toEqual(mappedEateryData)
+            expect(result).toEqual(kakaoEateryPaging)
             expect(mockGetProductCategoryByCondition).toHaveBeenCalledWith('category');
             expect(mockVerifyEateryCategory).toHaveBeenCalledWith('category');
-            expect(kakaoApiService.bringEateryData).toHaveBeenCalledWith(x,y,category,radius);
+            expect(kakaoApiService.bringEateryData).toHaveBeenCalledWith(x,y,category,radius,String(page),size);
             expect(mappingEateryDataMock).toHaveBeenCalledWith(eateryData)
         });
 
@@ -63,9 +67,9 @@ describe('Kakao Service Test', ()=>{
                 throw ErrorResponseDto.of(ErrorCode.NOT_FOUND_EATERY_CATEGORY);
             })
             kakaoApiService.bringEateryData.mockResolvedValue(eateryData);
-            const mappingEateryDataMock = jest.spyOn(kakaoService, 'mappingEateryData').mockReturnValue(mappedEateryData);
+            const mappingEateryDataMock = jest.spyOn(kakaoService, 'mappingEateryData').mockReturnValue(kakaoEatery);
            
-            await expect(kakaoService.bringKakaoEatery(x,y,category,radius)).rejects.toEqual(ErrorResponseDto.of(ErrorCode.NOT_FOUND_EATERY_CATEGORY))
+            await expect(kakaoService.bringKakaoEatery(x,y,category,radius,String(page),size)).rejects.toEqual(ErrorResponseDto.of(ErrorCode.NOT_FOUND_EATERY_CATEGORY))
             expect(mockGetProductCategoryByCondition).toHaveBeenCalledWith(category);
             expect(mockVerifyEateryCategory).toHaveBeenCalledWith(undefined);
             expect(kakaoApiService.bringEateryData).not.toHaveBeenCalledWith(x,y,category,radius);

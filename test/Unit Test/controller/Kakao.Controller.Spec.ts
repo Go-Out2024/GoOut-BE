@@ -2,7 +2,8 @@ import { Request} from 'express';
 import { SuccessResponseDto } from '../../../src/response/SuccessResponseDto';
 import {KakaoController} from '../../../src/controller/Kakao.Controller';
 import {KakaoService} from '../../../src/service/Kakao.Service';
-import { KakaoEatery } from '../../../src/dto/response/KakaoEatery';
+import { KakaoEatery } from '../../../src/dto/KakaoEatery';
+import { KakaoEateryPaging } from '../../../src/dto/response/KakaoEateryPaging';
 
 
 
@@ -34,14 +35,17 @@ describe('Kakao Controller Test', ()=>{
         const y = 'y좌표';
         const category = '음식점';
         const radius = '반지름';
+        const page = 1;
+        const size = '사이즈'
 
         it('basic', async () => {
 
-            const bringKakaoEateryResponse = [KakaoEatery.of(10,'place','url','phone','address')];
+            const kakaoEateryDatas = [KakaoEatery.of(10,'place','url','phone','address')];
+            const bringKakaoEateryResponse = KakaoEateryPaging.of(page,45,kakaoEateryDatas)
             kakaoService.bringKakaoEatery.mockResolvedValue(bringKakaoEateryResponse);
-            const result = await kakaoController.bringKakaoRestaurant(x,y,category,radius);
+            const result = await kakaoController.bringKakaoRestaurant(x,y,category,radius,String(page),size);
             expect(result).toEqual(SuccessResponseDto.of(bringKakaoEateryResponse));
-            expect(kakaoService.bringKakaoEatery).toHaveBeenCalledWith(x,y,category,radius);
+            expect(kakaoService.bringKakaoEatery).toHaveBeenCalledWith(x,y,category,radius,String(page),size);
         });
 
     });
