@@ -2,8 +2,9 @@
 import { Service } from 'typedi';
 import { getProductCategoryByCondition } from '../util/enum/EateryCategory';
 import { KakaoApiService } from './KakaoApi.Service';
-import { KakaoEatery } from '../dto/response/KakaoEatery';
 import { verifyEateryCategory } from '../util/verify';
+import { KakaoEateryPaging } from '../dto/response/KakaoEateryPaging';
+import { KakaoEatery } from '../dto/KakaoEatery';
 
 
 @Service()
@@ -20,10 +21,12 @@ export class KakaoService {
      * @param radius 반경
      * @returns     // 거리 -> distance, 이름 -> place_name, url -> place_url, phone -> 전화번호, road_address_name -> 주소
      */
-    async bringKakaoEatery(x:string, y:string, category:string, radius:string) {
+    async bringKakaoEatery(x:string, y:string, category:string, radius:string, page:string, size: string) {
         verifyEateryCategory(getProductCategoryByCondition(category));
-        const eateryData = await this.kakaoApiService.bringEateryData(x,y,getProductCategoryByCondition(category), radius);
-        return this.mappingEateryData(eateryData);
+        const eateryData = await this.kakaoApiService.bringEateryData(x,y,getProductCategoryByCondition(category), radius, page, size);
+        const kakaoEateryData = this.mappingEateryData(eateryData);
+        console.log(kakaoEateryData)
+        return KakaoEateryPaging.of(Number(page), 45,kakaoEateryData as KakaoEatery[])
   
     }
 
