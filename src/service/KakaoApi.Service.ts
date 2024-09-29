@@ -25,9 +25,9 @@ export class KakaoApiService {
     }
 
 
-    async bringEateryData(x:string, y:string, category:string, radius:string){
+    async bringEateryData(x:string, y:string, category:string, radius:string, page:string, size: string){
         try {
-            const response = await axios.get(`${this.KAKAO_EATERY_URL}?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}`,{
+            const response = await axios.get(`${this.KAKAO_EATERY_URL}?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}&page=${page}&size=${size}`,{
                 headers: {'Authorization': `KakaoAK ${envs.kakao.key}`}});
             return response.data.documents;
         }catch(error){
