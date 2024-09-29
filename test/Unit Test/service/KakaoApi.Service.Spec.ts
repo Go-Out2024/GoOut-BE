@@ -85,11 +85,13 @@ describe('KakaoApi Service Test', ()=>{
         const y = 'y';
         const category = 'category';
         const radius = 'radius';
+        const page = 'page';
+        const size = 'size';
         it('basic', async () => {
             mockedAxios.get.mockResolvedValue(mockKakaoEaterySuccessResponse);
-            const result = await kakaoApiService.bringEateryData(x,y,category,radius);
+            const result = await kakaoApiService.bringEateryData(x,y,category,radius,page,size);
             expect(result).toEqual(mockKakaoEaterySuccessResponse.data.documents);
-            expect(mockedAxios.get).toHaveBeenCalledWith(`https://dapi.kakao.com/v2/local/search/category.json?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}`, {
+            expect(mockedAxios.get).toHaveBeenCalledWith(`https://dapi.kakao.com/v2/local/search/category.json?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}&page=${page}&size=${size}`, {
                 headers: {
                     Authorization: `KakaoAK ${envs.kakao.key}`}
                 })
@@ -97,11 +99,11 @@ describe('KakaoApi Service Test', ()=>{
   
             it('should throw an error on failure', async () => {
                 mockedAxios.get.mockRejectedValueOnce(mockKakaoEateryFailResponse);
-                await expect(kakaoApiService.bringEateryData(x, y, category, radius))
+                await expect(kakaoApiService.bringEateryData(x, y, category, radius,page,size))
                     .rejects
                     .toThrow('데이터 조회 에러');
                 expect(mockedAxios.get).toHaveBeenCalledWith(
-                    `https://dapi.kakao.com/v2/local/search/category.json?x=${x}&y=${y}&category_group_code=${category}&radius=${radius}`,
+                    `https://dapi.kakao.com/v2/local/search/category.json?x=${x}&y=${y}&category_group_code=${category}&radius=${radius}&page=${page}&size=${size}`,
                     {headers: {Authorization: `KakaoAK ${envs.kakao.key}`}});
                 });
         });
