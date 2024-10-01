@@ -10,6 +10,8 @@ import { SubwayStationRepository } from '../repository/SubwayStation.Repository'
 import { checkData } from '../util/checker';
 import { formatWeatherData } from '../util/weatherData';
 import { verifyCoordinates } from '../util/verify';
+import { BusStation } from '../entity/BusStation';
+import { SubwayStation } from '../entity/SubwayStation';
 
 @Service()
 export class WeatherService {
@@ -28,7 +30,7 @@ export class WeatherService {
      * @returns 
      */
     async bringCoordinates(stationName: string, stationType: 'bus' | 'subway') {
-        let coordinates
+        let coordinates: BusStation | SubwayStation
         if (stationType === 'bus') {
             coordinates = await this.busStationRepository.findCoordinatesByBusStationName(stationName);
         } else {

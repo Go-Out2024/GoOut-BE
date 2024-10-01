@@ -52,9 +52,9 @@ export class StationResult {
         this.setSubwayErrorMessage(subwayErrorMessage)
     }
 
-    public static of(subwayStation: SubwayStationResult, busStations: BusStationResult, subwayErrorMessage: string): StationResult {
+    public static of(subwayStation: SubwayStationResult | undefined, busStations: BusStationResult | undefined, subwayErrorMessage: string | undefined): StationResult {
         return new StationResult(subwayStation, busStations, subwayErrorMessage);
-    }
+    } 
 
     private setSubwayStation(subwayStation: SubwayStationResult): void {
         this.subwayStation = subwayStation;
@@ -64,7 +64,11 @@ export class StationResult {
         this.busStations = busStations;
     }
 
+    private setSubwayErrorMessage(subwayErrorMessage: string): void {
+        this.subwayErrorMessage = subwayErrorMessage;
+    }
 
+    
     public getBusStations(){
         return this.busStations
     }
@@ -74,8 +78,7 @@ export class StationResult {
 
     }
 
-    private setSubwayErrorMessage(subwayErrorMessage: string): void {
-        this.subwayErrorMessage = subwayErrorMessage;
-
+    public getSubwayErrorMessage(){
+        return this.subwayErrorMessage
     }
 }

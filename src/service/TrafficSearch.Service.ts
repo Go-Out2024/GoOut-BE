@@ -51,9 +51,10 @@ export class TrafficSearchService {
      * @param stationName 역 이름
      * @returns 
      */
-    private async handleSubwayOrBusStation(stationName: string): Promise<StationResult> {
+     private async handleSubwayOrBusStation(stationName: string): Promise<StationResult> {
         const subwayName = this.removeStationSuffix(stationName);
         const subwayStation = await this.subwayStationRepository.findByStationName(subwayName);
+        console.log(subwayStation);
         let subwayStationResult: SubwayStationResult | undefined;
         let busStationResult: BusStationResult | undefined;
         let subwayErrorMessage: string | undefined;
@@ -66,8 +67,6 @@ export class TrafficSearchService {
             } catch (error) {
                 if (error instanceof ErrorResponseDto && error.getCode() === ErrorCode.NOT_FOUND_SUBWAY_ARRIVAL_INFO) {
                     subwayErrorMessage = error.getMessage();
-                } else {
-                    throw error; // 다른 에러는 그대로 던짐
                 }
             }
         }
@@ -75,9 +74,6 @@ export class TrafficSearchService {
         if (busStations.length > 0) {
             const busStationsInfo = await this.bringBusStationsInfo(busStations);
             busStationResult = BusStationResult.of(busStationsInfo);
-        }
-        if (!subwayStationResult && !busStationResult) {
-            throw new Error('해당 지하철 역 및 버스 정류장이 존재하지 않습니다.');
         }
         return StationResult.of(subwayStationResult, busStationResult, subwayErrorMessage);
     }
@@ -89,9 +85,6 @@ export class TrafficSearchService {
      */
     private async handleBusStation(stationName: string): Promise<StationResult> {
         const busStations = await this.busStationRepository.findByStationName(stationName);
-        if (busStations.length === 0) {
-            throw new Error('해당 버스 정류장이 존재하지 않습니다.');
-        }
         const busStationsInfo = await this.bringBusStationsInfo(busStations);
         const busStationResult = BusStationResult.of(busStationsInfo);
         return StationResult.of(undefined, busStationResult, undefined);
@@ -179,11 +172,11 @@ export class TrafficSearchService {
      * @param stationName 지하철 역 이름
      * @returns 
      */
-    private async bringSubwayArrivalInfo(stationName: string): Promise<SubwayArrivalInfo[]> {
+    async bringSubwayArrivalInfo(stationName: string): Promise<SubwayArrivalInfo[]> {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
         verifyarrivalList(arrivalList);
         return arrivalList
-            .map(info => SubwayArrivalInfo.fromData(info));
+            .map((info) => SubwayArrivalInfo.fromData(info));
     }
 
     /**
