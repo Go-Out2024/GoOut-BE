@@ -11,7 +11,6 @@ import {TransportationRepository } from "../repository/Transportation.Repository
 import { TransportationNumberRepository } from "../repository/TransportationNumber.Repository";
 import { SubwayStationRepository } from "../repository/SubwayStation.Repository";
 import { BusStationRepository } from "../repository/BusStation.Repository";
-import { BusRepository } from "../repository/Bus.Repository";
 import { BusStationResult, StationResult, SubwayStationResult } from "../dto/values/StationResult";
 import { Transportation } from "../entity/Transportation";
 import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo";

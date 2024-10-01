@@ -4,7 +4,7 @@ import { Body, Get, HttpCode, JsonController, Post, QueryParam, Req } from "rout
 import { Service } from "typedi";
 import { SuccessResponseDto } from "../response/SuccessResponseDto";
 import { KakaoService } from "../service/Kakao.Service";
-import { KakaoEatery } from "../dto/response/KakaoEatery";
+import { KakaoEateryPaging } from "../dto/response/KakaoEateryPaging";
 
 
 @Service()
@@ -29,9 +29,11 @@ export class KakaoController{
         @QueryParam('x') x: string,
         @QueryParam('y') y: string,
         @QueryParam('category') category:string,
-        @QueryParam('radius') radius:string
-    ):Promise<SuccessResponseDto<KakaoEatery[]>> {
-        const result = await this.kakaoService.bringKakaoEatery(x,y,category,radius);
+        @QueryParam('radius') radius:string,
+        @QueryParam('page') page:string,
+        @QueryParam('size') size:string,
+    ):Promise<SuccessResponseDto<KakaoEateryPaging>> {
+        const result = await this.kakaoService.bringKakaoEatery(x,y,category,radius,page,size);
         console.log("카카오 음식점 or 카페 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }

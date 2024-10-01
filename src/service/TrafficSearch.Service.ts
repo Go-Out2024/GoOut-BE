@@ -2,7 +2,6 @@ import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { SubwayStationRepository } from "../repository/SubwayStation.Repository";
 import { BusStationRepository } from "../repository/BusStation.Repository";
-import { BusRepository } from "../repository/Bus.Repository";
 import { StationResult, SubwayStationResult, BusStationResult } from "../dto/values/StationResult"
 import { SubwayArrivalInfo } from "../dto/values/SubwayArrivalInfo";
 import { BusStationInfo, BusArrivalInfo } from "../dto/values/BusArrivalInfo";

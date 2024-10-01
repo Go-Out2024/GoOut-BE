@@ -20,22 +20,18 @@ export class KakaoApiService {
                 email: response.data.kakao_account.email,
             };
         } catch (error) {
-            console.error('카카오에서 사용자 정보를 가져오지 실패:', error);
             throw new Error('카카오에서 사용자 정보 가져오기 실패');
         }
     }
 
 
-    async bringEateryData(x:string, y:string, category:string, radius:string){
-            const response = await axios.get(`${this.KAKAO_EATERY_URL}?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}`,{
+    async bringEateryData(x:string, y:string, category:string, radius:string, page:string, size: string){
+        try {
+            const response = await axios.get(`${this.KAKAO_EATERY_URL}?x=${x}&y=${y}&category\_group\_code=${category}&radius=${radius}&page=${page}&size=${size}`,{
                 headers: {'Authorization': `KakaoAK ${envs.kakao.key}`}});
-            if (response.status == 200) {
-                return response.data.documents;
-            } else {
-                throw new Error("데이터 조회 에러");
-            }
+            return response.data.documents;
+        }catch(error){
+            throw new Error("데이터 조회 에러");    
+        }                
     }
-    
-
-
 }
