@@ -2,7 +2,6 @@ import { Service } from "typedi";
 import jwt from 'jsonwebtoken'
 import { UserRepository } from "../repository/User.Repository";
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { RedisService } from "./Redis.Service";
 import { FirebaseTokenRepository } from "../repository/FirebaseToken.Repository";
 
 @Service()
@@ -10,16 +9,12 @@ export class TokenService {
     constructor(
         @InjectRepository(UserRepository) private userRepository: UserRepository,
         @InjectRepository(FirebaseTokenRepository) private firebaseTokenRepository: FirebaseTokenRepository,
-        private redisService: RedisService
     ) {}
 
     async verifyRefreshToken(refreshToken: string) {
         try {
             const payload: any = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
             const user = await this.userRepository.findUserById(payload.id);
-            if (!user) {
-                throw new Error('사용자를 찾지 못했습니다. ');
-            }
 
             /** 새로운 accessToken 생성 */ 
             const newAccessToken = jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1d'});
@@ -43,7 +38,7 @@ export class TokenService {
         }
     }
     private async bringFirebaseToken(userId: number): Promise<string> {
-        const token = await this.firebaseTokenRepository.findOne( { where: { user: { id: userId } } });
+        const token = await this.firebaseTokenRepository.findTokenByUserId(userId);
         if(!token) {
             throw new Error('Firebase token not found for user')
         }

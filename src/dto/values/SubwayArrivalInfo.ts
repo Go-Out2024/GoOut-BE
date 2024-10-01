@@ -1,6 +1,7 @@
 export class SubwayArrivalInfo {
+    
     private stationName: string;
-    private line: number;
+    private line: string;
     private direction: string;
     private firstArrivalMessage: string;
     private secondArrivalMessage: string;
@@ -9,7 +10,7 @@ export class SubwayArrivalInfo {
 
     constructor(
         stationName: string,
-        line: number,
+        line: string,
         direction: string,
         firstArrivalMessage: string,
         secondArrivalMessage: string,
@@ -41,7 +42,7 @@ export class SubwayArrivalInfo {
     
     public static fromData(info: { 
         statnNm: string; 
-        subwayId: number; 
+        subwayId: string; 
         trainLineNm: string; 
         arvlMsg2: string; 
         arvlMsg3: string; 
@@ -70,7 +71,7 @@ export class SubwayArrivalInfo {
         this.stationName = stationName;
     }
 
-    private setLine(line: number) {
+    private setLine(line: string) {
         this.line = line;
     }
 
@@ -101,5 +102,13 @@ export class SubwayArrivalInfo {
     public getSecondArrivalMessage(){
         return this.secondArrivalMessage;
 
+    }
+
+    public getStationName() {
+        return this.stationName;
+    }
+
+    public getLine() {
+        return this.line;
     }
 }
