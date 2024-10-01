@@ -132,7 +132,7 @@ describe('WeatherService Test', () => {
                 params: {
                     serviceKey: envs.apikey.weatherapikey,
                     pageNo: 1,
-                    numOfRows: 1000,
+                    numOfRows: 120,
                     dataType: 'JSON',
                     base_date: '20240923',
                     base_time: '0600',
