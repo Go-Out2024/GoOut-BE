@@ -71,7 +71,7 @@ export class WeatherService {
             params: {
                 serviceKey: this.apikey,
                 pageNo: 1,
-                numOfRows: 120,
+                numOfRows: 305,
                 dataType: 'JSON',
                 base_date: baseDate,
                 base_time: baseTime,
