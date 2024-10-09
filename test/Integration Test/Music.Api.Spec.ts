@@ -6,7 +6,7 @@ import { Connection } from "typeorm";
 
 let connection: Connection;
 
-describe("FAMOUSSAYING API", () => {
+describe("MUSIC API", () => {
   beforeAll(async () => {
     connection = await initializeDatabase();
     await connectToRedis();
@@ -17,16 +17,9 @@ describe("FAMOUSSAYING API", () => {
     await redisClient.quit();
   });
 
-  describe("GET /api/famous-saying", () => {
+  describe("GET /api/music/recommend", () => {
     it("200", (done) => {
-      request(app)
-        .get("/api/famous-saying")
-        .expect(200)
-        .expect((res) => {
-          expect(res.body).toHaveProperty("data");
-          expect(res.body.data).toBeInstanceOf(Object);
-        })
-        .end(done);
+      request(app).get("/api/music/recommend").expect(200).end(done);
     });
   });
 });

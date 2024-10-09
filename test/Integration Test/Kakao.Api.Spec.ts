@@ -1,15 +1,12 @@
 import { initializeDatabase } from "../../src/config/database";
 import { connectToRedis, redisClient } from "../../src/config/redis";
-import { KakaoEateryPaging } from "../../src/dto/response/KakaoEateryPaging";
-import app from "../../src/index"; // 앱 인스턴스 가져오기
+import app from "../../src/index";
 import request from "supertest";
 import { Connection } from "typeorm";
 
 let connection: Connection;
-const ACCESS_TOKEN =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI4NDQ3NjE1LCJleHAiOjE3Mjg1MzQwMTV9.Q8aWhlkA7Zw9zcDCKJeuz0uT5MLUOGWcdsDty1dcCgw";
 
-describe("Kakao Eatery API", () => {
+describe("KAKAO EATERY API", () => {
   beforeAll(async () => {
     connection = await initializeDatabase();
     await connectToRedis();
