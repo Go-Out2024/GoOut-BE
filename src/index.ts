@@ -69,28 +69,20 @@ app.use(function (
 
 useContainer(Container);
 
-initializeDatabase()
-  .then(async () => {
-    console.log("Database connected.");
+const httpServer: Server = createServer(app);
+httpServer.listen(envs.port, async () => {
+  await settingRecommendMusic();
+  await handleAlarm();
+  connectToRedis();
+  initializeDatabase();
+  app.emit("started");
+});
 
-    const httpServer: Server = createServer(app);
-    httpServer.listen(envs.port, async () => {
-      await settingRecommendMusic();
-      await handleAlarm();
-      app.emit("started");
-    });
-    process.on("SIGINT", function () {
-      isKeepAlive = false;
-      httpServer.close(function (): void {
-        process.exit(0);
-      });
-    });
-  })
-  .catch((e) => {
-    console.error(`Express running failure : ${e}`);
-    console.log(e);
+process.on("SIGINT", function () {
+  isKeepAlive = false;
+  httpServer.close(function (): void {
+    process.exit(0);
   });
-
-connectToRedis();
+});
 
 export default app;
