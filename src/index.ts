@@ -19,6 +19,8 @@ import { MusicController } from "./controller/Music.Controller";
 import { handleAlarm, settingRecommendMusic } from "./util/scheduler";
 import { TrafficController } from "./controller/Traffic.Controller";
 import { connectToRedis } from "./config/redis";
+import SubwayStationImportService from "./service/StationInfoUpdate.Service"; // Import SubwayStationImportService
+import * as path from "path"; // CSV 파일 경로를 위해 필요
 
 export const app: express.Application = createExpressServer({
   controllers: [
@@ -72,6 +74,12 @@ useContainer(Container);
 initializeDatabase()
   .then(async () => {
     console.log("Database connected.");
+
+    // CSV 파일 경로 설정
+    const subwayFilePath = path.resolve(__dirname, "../../src/util/subway4.csv"); // 파일 경로 지정
+
+    // CSV 파일 데이터 SubwayStation 테이블에 저장
+    await SubwayStationImportService.importSubwayStations(subwayFilePath);
 
     const httpServer: Server = createServer(app);
     httpServer.listen(envs.port, async () => {
