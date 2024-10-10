@@ -71,10 +71,16 @@ app.use(function (
 
 useContainer(Container);
 
-initializeDatabase()
-  .then(async () => {
-    console.log("Database connected.");
+const httpServer: Server = createServer(app);
+httpServer.listen(envs.port, async () => {
+  await settingRecommendMusic();
+  await handleAlarm();
+  connectToRedis();
+  initializeDatabase();
+  app.emit("started");
+});
 
+<<<<<<< HEAD
     // CSV 파일 경로 설정
     const subwayFilePath = path.resolve(__dirname, "../../src/util/subway4.csv"); // 파일 경로 지정
 
@@ -97,8 +103,13 @@ initializeDatabase()
   .catch((e) => {
     console.error(`Express running failure : ${e}`);
     console.log(e);
+=======
+process.on("SIGINT", function () {
+  isKeepAlive = false;
+  httpServer.close(function (): void {
+    process.exit(0);
+>>>>>>> origin/dev
   });
-
-connectToRedis();
+});
 
 export default app;
