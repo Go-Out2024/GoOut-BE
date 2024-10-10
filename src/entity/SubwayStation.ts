@@ -1,4 +1,4 @@
-import { Column, Entity,  PrimaryColumn, } from "typeorm";
+import { Column, Entity,  PrimaryColumn, PrimaryGeneratedColumn, } from "typeorm";
 import { BaseEntity } from "./base/BaseEntity";
 
 
@@ -20,13 +20,12 @@ export class SubwayStation extends BaseEntity{
         return new SubwayStation(id, subwayName, xValue, yValue);
     }
 
-    @PrimaryColumn({ type:'int', name : 'subway_id'})
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column({ type: 'varchar', name: 'subway_name', nullable: false })
     subwayName: string;
-
-
+    
     @Column({ type: 'double', name: 'x_value', nullable: false })
     xValue: number;
 
