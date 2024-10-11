@@ -10,7 +10,7 @@ import { Connection } from "typeorm";
 
 let connection: Connection;
 const ACCESS_TOKEN =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4NDQ4MzE1LCJleHAiOjE3Mjg1MzQ3MTV9.TJrswaNx3n7Wwb-zkCwbdwt9GvJHWtFvpRKV3F_5Uck";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4NjM1NDIyLCJleHAiOjE3Mjg3MjE4MjJ9.MHWdJWXzgzRTMDxVHkmA7klGRlXPIwIQOiJBKtZ6hKA";
 describe("CALENDAR API", () => {
   beforeAll(async () => {
     connection = await initializeDatabase();
@@ -28,17 +28,27 @@ describe("CALENDAR API", () => {
         .post("/api/calendar/content")
         .set("Authorization", ACCESS_TOKEN)
         .send({
-          calendarContents: [
-            // 변경: calendarContents -> calendarContent
+          calendarContent: [
             {
               content: "content",
               kind: "준비물",
-              period: "1", // 변경: period는 string이어야 합니다.
+              period: "매주",
               date: "2024-01-02",
             },
           ],
         })
         .expect(200)
+        .end(done);
+    });
+
+    it("400", (done) => {
+      request(app)
+        .post("/api/calendar/content")
+        .set("Authorization", ACCESS_TOKEN)
+        .send({
+          calendarContent: null,
+        })
+        .expect(400)
         .end(done);
     });
   });
@@ -69,18 +79,30 @@ describe("CALENDAR API", () => {
 
   describe("PATCH /api/calendar/content", () => {
     it("200", (done) => {
-      const calendarContent = new CalendarUpdateContent();
-      calendarContent["calendarId"] = 1;
-      calendarContent["content"] = "Updated content";
-      calendarContent["period"] = 30;
-
-      const calendarUpdate = new CalendarUpdate();
-      calendarUpdate["calendarContent"] = [calendarContent];
       request(app)
         .patch("/api/calendar/content")
         .set("Authorization", ACCESS_TOKEN)
-        .send(calendarUpdate)
+        .send({
+          calendarContent: [
+            {
+              calendarId: 13,
+              content: "Updated content",
+              period: 30,
+            },
+          ],
+        })
         .expect(200)
+        .end(done);
+    });
+
+    it("400", (done) => {
+      request(app)
+        .patch("/api/calendar/content")
+        .set("Authorization", ACCESS_TOKEN)
+        .send({
+          calendarContent: null,
+        })
+        .expect(400)
         .end(done);
     });
   });
@@ -91,9 +113,20 @@ describe("CALENDAR API", () => {
         .delete("/api/calendar/content")
         .set("Authorization", ACCESS_TOKEN)
         .send({
-          calendarIds: [1, 2, 3],
+          calendarIds: [13],
         })
         .expect(200)
+        .end(done);
+    });
+
+    it("400", (done) => {
+      request(app)
+        .delete("/api/calendar/content")
+        .set("Authorization", ACCESS_TOKEN)
+        .send({
+          calendarIds: null,
+        })
+        .expect(400)
         .end(done);
     });
   });
