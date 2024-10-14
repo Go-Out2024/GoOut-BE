@@ -6,7 +6,9 @@ import { Connection } from "typeorm";
 
 let connection: Connection;
 const ACCESS_TOKEN =
+
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjgwMzM5MTgsImV4cCI6MTczMDYyNTkxOH0.wR6jOwKJwRhiuHjbOqXORhxTPGrTLt0FZU6LC7hNF6E";
+
 
 describe("FIREBASE API", () => {
   beforeAll(async () => {
