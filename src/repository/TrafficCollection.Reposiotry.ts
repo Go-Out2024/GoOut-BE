@@ -13,12 +13,13 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
      * @returns 
      */
     async insertTrafficCollection(collectionInsert: CollectionInsert, userId: number): Promise<TrafficCollection> {
+        const existingCollection = await this.findOne({ where: { userId } });
+        const firstCollection = !existingCollection; // 컬렉션이 없으면 true, 있으면 false
         const trafficCollection = TrafficCollection.createTrafficCollection(
             collectionInsert.getName(),
-            true,
+            firstCollection, // 처음이면 true, 아니면 false
             userId
         );
-
         return await this.save(trafficCollection);
     }
 
@@ -76,6 +77,7 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
             .select([
                 "trafficCollection.id",
                 "trafficCollection.name",
+                "trafficCollection.choice",
                 "trafficCollectionDetails.status",
                 "transportations.stationName"
             ])
