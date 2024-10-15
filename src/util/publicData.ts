@@ -10,7 +10,7 @@ export class SubwayApi {
 
     // 지하철 도착 정보를 가져오는 메서드
     async bringSubwayArrivalInfo(stationName: string) {
-        const url = `${this.BASE_URL}/${this.subwayApiKey}/json/realtimeStationArrival/0/5/${encodeURIComponent(stationName)}`;
+        const url = `${this.BASE_URL}/${this.subwayApiKey}/json/realtimeStationArrival/0/99/${encodeURIComponent(stationName)}`;
         try {
             const response = await axios.get(url);
             const data = response.data;
