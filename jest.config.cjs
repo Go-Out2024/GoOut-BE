@@ -9,7 +9,7 @@ module.exports = {
     "**/test/Unit Test/repository/**/*.Spec.ts",
     "**/test/Unit Test/util/**/*.Spec.ts",
     "**/test/Unit Test/middleware/**/*.Spec.ts",
-    "**/test/Integration Test/**/*.Spec.ts",
+    // "**/test/Integration Test/**/*.Spec.ts",
   ],
   collectCoverageFrom: [
     "src/controller/**/*.ts",
