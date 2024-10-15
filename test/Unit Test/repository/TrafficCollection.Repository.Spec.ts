@@ -47,21 +47,47 @@ describe('TrafficCollectionRepository', () => {
     trafficCollectionRepository = new TrafficCollectionRepository();
     trafficCollectionRepository['save'] = mockTrafficCollectionRepository.save;
     trafficCollectionRepository['createQueryBuilder'] = mockTrafficCollectionRepository.createQueryBuilder;
+    trafficCollectionRepository['findOne'] = mockTrafficCollectionRepository.findOne;
   });
 
   describe('insertTrafficCollection function test', () => {
     it('basic', async () => {
-      const collectionInsert = new CollectionInsert();
+      const collectionInsert = {getName: jest.fn().mockReturnValue('My Collection')} as unknown as CollectionInsert;
       const userId = 1;
-
-      mockTrafficCollectionRepository.save.mockResolvedValue(trafficCollection);
+      const mockExistingCollection = null; // 기존 컬렉션이 없는 경우
+      mockTrafficCollectionRepository.findOne.mockResolvedValueOnce(mockExistingCollection);
+      mockTrafficCollectionRepository.save.mockResolvedValueOnce(trafficCollection);
       const result = await trafficCollectionRepository.insertTrafficCollection(collectionInsert, userId);
-
+      expect(mockTrafficCollectionRepository['findOne']).toHaveBeenCalledWith({ where: { userId } });
+      expect(mockTrafficCollectionRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: collectionInsert.getName(),
+          choice: true,
+          userId: userId,
+        })
+      );
       expect(result).toEqual(trafficCollection);
-      expect(mockTrafficCollectionRepository.save).toHaveBeenCalled();
+    });
+  
+    it('should insert a traffic collection when there is an existing collection', async () => {
+      const collectionInsert = {getName: jest.fn().mockReturnValue('My Collection')} as unknown as CollectionInsert;
+      const userId = 1;
+      const mockExistingCollection = {} as TrafficCollection; // 기존 컬렉션이 있는 경우
+      mockTrafficCollectionRepository.findOne.mockResolvedValueOnce(mockExistingCollection);
+      mockTrafficCollectionRepository.save.mockResolvedValueOnce(trafficCollection);
+      const result = await trafficCollectionRepository.insertTrafficCollection(collectionInsert, userId);
+      expect(mockTrafficCollectionRepository['findOne']).toHaveBeenCalledWith({ where: { userId }});
+      expect(mockTrafficCollectionRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: collectionInsert.getName(),
+          choice: false,
+          userId: userId,
+        })
+      );
+      expect(result).toEqual(trafficCollection);
     });
   });
-
+  
   describe('deleteTrafficCollection function test', () => {
     it('basic', async () => {
       const collectionId = 1;
