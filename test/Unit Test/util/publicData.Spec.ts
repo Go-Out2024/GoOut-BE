@@ -38,7 +38,7 @@ describe('publicData (SubwayApi, BusApi) Util Test', () => {
         const subwayApiKey = envs.apikey.subwayapikey;
         const BASE_URL = "http://swopenAPI.seoul.go.kr/api/subway";
         const stationName = 'bus-station'
-        const url = `${BASE_URL}/${subwayApiKey}/json/realtimeStationArrival/0/5/${encodeURIComponent(stationName)}`;
+        const url = `${BASE_URL}/${subwayApiKey}/json/realtimeStationArrival/0/99/${encodeURIComponent(stationName)}`;
         it('basic', async () => {
             const mockResponse = {
                 data: {
