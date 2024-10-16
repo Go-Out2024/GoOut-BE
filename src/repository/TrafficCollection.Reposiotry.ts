@@ -118,7 +118,7 @@ export class TrafficCollectionRepository extends Repository<TrafficCollection> {
         await this.createQueryBuilder()
             .update(TrafficCollection)
             .set({ choice: false })
-            .where("user_id = userId", { userId })
+            .where("user_id = :userId", { userId })
             .execute();
     }
 

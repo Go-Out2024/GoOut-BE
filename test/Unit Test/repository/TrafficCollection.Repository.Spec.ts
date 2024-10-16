@@ -129,7 +129,7 @@ describe('TrafficCollectionRepository', () => {
 
       expect(mockUpdateQueryBuilder.update).toHaveBeenCalledWith(TrafficCollection);
       expect(mockUpdateQueryBuilder.set).toHaveBeenCalledWith({ choice: false });
-      expect(mockUpdateQueryBuilder.where).toHaveBeenCalledWith('user_id = userId', { userId });
+      expect(mockUpdateQueryBuilder.where).toHaveBeenCalledWith('user_id = :userId', { userId });
       expect(mockUpdateQueryBuilder.execute).toHaveBeenCalled();
     });
   });
