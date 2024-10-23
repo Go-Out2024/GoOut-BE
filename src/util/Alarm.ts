@@ -24,15 +24,7 @@ export class Alarm {
           transportationData.result
         );
         const flagDatas = this.checkTransportationTime(arrivalDatas);
-        flagDatas.map(async (flagData) => {
-          const splitData = flagData.split(" ");
-          await this.sendPushAlarm(
-            data.token,
-            splitData[0],
-            splitData[1],
-            splitData[2]
-          );
-        });
+        await this.sendPushAlarm(data.token, flagDatas);
       })
     );
   }
@@ -44,16 +36,19 @@ export class Alarm {
    */
   private async sendPushAlarm(
     engineValue: string,
-    flag: string,
-    location: string,
-    arrival: string
+    flagDatas: string[]
+    // location: string,
+    // arrival: string
   ) {
-    if (flag === "true")
-      await pushNotice(
-        engineValue,
-        "교통수단 알림",
-        `등록하신 교통수단의 도착 시간이 ${arrival}방면 ${location} 전입니다.`
-      );
+    flagDatas.map(async (flagData) => {
+      const splitData = flagData.split(" ");
+      if (splitData[0] === "true")
+        await pushNotice(
+          engineValue,
+          "교통수단 알림",
+          `등록하신 교통수단의 도착 시간이 ${splitData[2]}역방면 ${splitData[1]} 전입니다.`
+        );
+    });
   }
 
   /**
