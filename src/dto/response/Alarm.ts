@@ -1,15 +1,19 @@
 export class Alarm {
-  public status: boolean;
+  public status: boolean | null;
   public startTime: string;
   public endTime: string;
 
-  constructor(status?: boolean, startTime?: string, endTime?: string) {
+  constructor(status?: boolean | null, startTime?: string, endTime?: string) {
     this.setAlarm(status);
     this.setStartTime(startTime);
     this.setEndTime(endTime);
   }
 
-  public static of(status?: boolean, startTime?: string, endTime?: string) {
+  public static of(
+    status?: boolean | null,
+    startTime?: string,
+    endTime?: string
+  ) {
     return new Alarm(status, startTime, endTime);
   }
 

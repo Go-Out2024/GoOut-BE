@@ -145,7 +145,7 @@ export class UserController {
       alarmTime.getAlarmStart(),
       alarmTime.getAlarmEnd()
     );
-    console.log("유저 알림 시간 업데이트 완료");
+    console.log("유저 알림 시간 조회 완료");
     return SuccessResponseDto.of();
   }
 

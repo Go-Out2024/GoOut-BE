@@ -32,7 +32,7 @@ export class Alarm {
   /**
    * 플래그에 따른 기기값의 푸쉬알림 전송 함수
    * @param engineValue 기기 값
-   * @param flag 플래그
+   * @param flagDatas (true, 10번째 방면)
    */
   private async sendPushAlarm(
     engineValue: string,

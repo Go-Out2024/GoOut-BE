@@ -27,6 +27,8 @@ describe("User Service Test", () => {
     getNumber: jest.fn().mockReturnValue(2),
     getEmail: jest.fn().mockReturnValue("email"),
     getAlarm: jest.fn().mockReturnValue(true),
+    getStartTime: jest.fn().mockReturnValue("start-time"),
+    getEndTime: jest.fn().mockReturnValue("end-time"),
   } as unknown as User;
   const userId = 1;
 
@@ -62,6 +64,22 @@ describe("User Service Test", () => {
       );
       expect(userRepository.findUserById).toHaveBeenCalledWith(userId);
       expect(mockVerifyUser).toHaveBeenCalledWith(undefined);
+    });
+  });
+
+  describe("bringAlarmTime function test", () => {
+    it("basic", async () => {
+      const user = {
+        getStartTime: jest.fn().mockReturnValue("start-time"),
+        getEndTime: jest.fn().mockReturnValue("end-time"),
+      } as unknown as User;
+
+      const response = Alarm.of(null, "start-time", "end-time");
+      userRepository.findUserById.mockResolvedValue(user);
+
+      const result = await userService.bringAlarmTime(userId);
+      expect(result).toEqual(response);
+      expect(userRepository.findUserById).toHaveBeenCalledWith(userId);
     });
   });
 

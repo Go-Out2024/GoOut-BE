@@ -6,7 +6,7 @@ import { Connection } from "typeorm";
 
 let connection: Connection;
 const ACCESS_TOKEN =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4OTU2NDEwLCJleHAiOjE3MjkwNDI4MTB9.1M2IX8qaYwFNI9YohZy5j8KlmItnpAs8QlKh3ylcRzo";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImlhdCI6MTcyOTkyMzgxMywiZXhwIjoxNzMwMDEwMjEzfQ.HkuhHZy0xL-ewLjRiUIZt_nie55N3UWqRo4NMd5oBCk";
 
 describe("USER API", () => {
   beforeAll(async () => {
@@ -23,6 +23,16 @@ describe("USER API", () => {
     it("200", (done) => {
       request(app)
         .get("/api/user/number")
+        .set("Authorization", ACCESS_TOKEN)
+        .expect(200)
+        .end(done);
+    });
+  });
+
+  describe("GET /api/user/alarm/time", () => {
+    it("200", (done) => {
+      request(app)
+        .get("/api/user/alarm/time")
         .set("Authorization", ACCESS_TOKEN)
         .expect(200)
         .end(done);

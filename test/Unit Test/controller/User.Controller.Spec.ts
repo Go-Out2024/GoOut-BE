@@ -134,4 +134,15 @@ describe("User Controller Test", () => {
       expect(userService.bringAlarmStatus).toHaveBeenCalledWith(req.decoded.id);
     });
   });
+
+  describe("bringAlarmTime function test", () => {
+    const response = Alarm.of(true, "start-time", "end-time");
+
+    it("basic", async () => {
+      userService.bringAlarmTime.mockResolvedValue(response);
+      const result = await userController.bringAlarmTime(req);
+      expect(result).toEqual(SuccessResponseDto.of(response));
+      expect(userService.bringAlarmTime).toHaveBeenCalledWith(req.decoded.id);
+    });
+  });
 });
