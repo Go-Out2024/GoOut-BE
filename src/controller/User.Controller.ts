@@ -73,6 +73,20 @@ export class UserController {
   }
 
   /**
+   * 유저 알림 시간 조회 함수
+   * @param req
+   */
+  @HttpCode(200)
+  @Get("/alarm/time")
+  @UseBefore(compareAuthToken)
+  public async bringAlarmTime(
+    @Req() req: Request
+  ): Promise<SuccessResponseDto<Alarm>> {
+    const result = await this.userService.bringAlarmTime(req.decoded.id);
+    return SuccessResponseDto.of(result);
+  }
+
+  /**
    * 유저 파이어베이스를 저장하는 함수
    * @param req
    * @param penetrateFirebaseTokenRequest 파이어베이스 저장 dto

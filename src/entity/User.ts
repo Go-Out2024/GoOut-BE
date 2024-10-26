@@ -83,4 +83,12 @@ export class User extends BaseEntity {
   public getAlarm() {
     return this.alarm;
   }
+
+  public getStartTime() {
+    return this.alarmStart;
+  }
+
+  public getEndTime() {
+    return this.alarmEnd;
+  }
 }

@@ -27,6 +27,16 @@ export class UserService {
   }
 
   /**
+   * 유저가 세팅한 알림 시간을 조회하는 함수
+   * @param userId 유저 id
+   * @returns
+   */
+  public async bringAlarmTime(userId: number): Promise<Alarm> {
+    const userData: User = await this.userRepository.findUserById(userId);
+    return Alarm.of(null, userData.getStartTime(), userData.getEndTime());
+  }
+
+  /**
    * 유저 이메일 조회 응용 서비스 함수
    * @param userId 유저 고유 번호
    * @returns
