@@ -30,7 +30,7 @@ jobs:
         shell: bash
       # FIREBASE SDK 세팅
       - name: create-json
-        id: create-json
+        id: create-json1
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase-admin.json"
@@ -38,7 +38,7 @@ jobs:
 
       # APPLE SDK 세팅
       - name: create-json
-        id: create-json
+        id: create-json2
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "apple-login.json"
