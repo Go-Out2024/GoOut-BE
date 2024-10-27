@@ -41,6 +41,7 @@ export class AuthService {
     refreshToken: string;
   }> {
     const userInfo = await this.apple.bringAppleInfo(code);
+    console.log(userInfo);
     let user = await this.userRepository.findBySocialId("temporary-key");
     if (!user) {
       user = await this.userRepository.createUser({
@@ -48,7 +49,9 @@ export class AuthService {
         email: null,
       });
     }
+    console.log(1);
     const tokens = this.generateJwtTokens(user.id);
+    console.log(2);
     await this.redisService.setValue(tokens.refreshToken, String(user.id));
     await this.redisService.getValue(String(user.id));
     return tokens;

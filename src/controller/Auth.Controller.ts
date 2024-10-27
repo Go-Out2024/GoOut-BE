@@ -35,6 +35,7 @@ export class AuthController {
   async appleLogin(@Req() req: Request) {
     const code = req.headers.authorization;
     const tokens = await this.authService.appleLogin(code);
+    console.log("애플 로그인 완료");
     return SuccessResponseDto.of(tokens);
   }
 
