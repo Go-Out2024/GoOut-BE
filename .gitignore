@@ -3,3 +3,5 @@ node_modules
 dist
 firebase-admin.json
 coverage
+apple-login.json
+AuthKey_3XKY6BPF52.p8
