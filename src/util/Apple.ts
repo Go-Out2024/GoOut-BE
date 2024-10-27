@@ -1,6 +1,6 @@
 import path from "path";
 import AppleAuth from "apple-auth";
-import appleConfig from "../config/apple-login.json";
+import appleConfig from "../../apple-login.json";
 import jwt from "jsonwebtoken";
 import { Service } from "typedi";
 const auth = new AppleAuth(
