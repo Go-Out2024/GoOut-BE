@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import { RedisService } from "./Redis.Service";
 import { KakaoApiService } from "./KakaoApi.Service";
 import { FirebaseTokenRepository } from "../repository/FirebaseToken.Repository";
-import { Apple } from "../util/Apple";
 
 @Service()
 export class AuthService {
@@ -14,8 +13,7 @@ export class AuthService {
     @InjectRepository(FirebaseTokenRepository)
     private firebaseTokenRepository: FirebaseTokenRepository,
     private kakaoApiservice: KakaoApiService,
-    private redisService: RedisService,
-    private apple: Apple
+    private redisService: RedisService
   ) {}
 
   async loginWithKakao(accessToken: string): Promise<{
@@ -40,18 +38,14 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
-    const userInfo = await this.apple.bringAppleInfo(code);
-    console.log(userInfo);
-    let user = await this.userRepository.findBySocialId("temporary-key");
+    let user = await this.userRepository.findBySocialId(code);
     if (!user) {
       user = await this.userRepository.createUser({
-        numbers: "123",
+        numbers: code,
         email: null,
       });
     }
-    console.log(1);
     const tokens = this.generateJwtTokens(user.id);
-    console.log(2);
     await this.redisService.setValue(tokens.refreshToken, String(user.id));
     await this.redisService.getValue(String(user.id));
     return tokens;
@@ -76,8 +70,6 @@ export class AuthService {
     if (!decodedToken || typeof decodedToken !== "object") {
       throw new Error("Invalid token");
     }
-
-    console.log(decodedToken);
 
     const userId = decodedToken.id;
     if (!userId) {
