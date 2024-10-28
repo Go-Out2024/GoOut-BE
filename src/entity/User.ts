@@ -28,7 +28,7 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", name: "numbers", nullable: false })
   numbers: string;
 
-  @Column({ type: "varchar", name: "email", nullable: false })
+  @Column({ type: "varchar", name: "email", nullable: true })
   email: string;
 
   @Column({ type: "boolean", name: "alarm", nullable: false, default: true })
