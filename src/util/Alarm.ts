@@ -6,11 +6,18 @@ import {
   SubwayStationResult,
 } from "../dto/values/StationResult";
 import { pushNotice } from "./firebaseMessage";
-import { amCheck } from "./date";
+import { amCheck, getTodayDate } from "./date";
+import { CalendarService } from "../service/Calendar.Service";
+import { CalendarData, CalendarDatas } from "../dto/response/CalendarData";
+import { WeatherService } from "../service/Weather.Service";
 
 @Service()
 export class Alarm {
-  constructor(private readonly trafficService: TrafficService) {}
+  constructor(
+    private readonly trafficService: TrafficService,
+    private readonly calendarService: CalendarService,
+    private readonly weatherService: WeatherService
+  ) {}
 
   /**
    * 유저 정보에 따른 알림 전송 함수
@@ -26,6 +33,11 @@ export class Alarm {
     );
   }
 
+  /**
+   * 푸쉬 알림을 보내기 위한 로직 함수(교통, 날씨, 캘린더)
+   * @param transportationData 교통수단 데이터
+   * @param userData 유저 데이터
+   */
   private async processTransportationData(
     transportationData: any,
     userData: any
@@ -35,16 +47,77 @@ export class Alarm {
         transportationData.result
       );
       // 날씨 정보 추가
+      const location =
+        transportationData.collection.trafficCollectionDetails[0]
+          .transportations;
+
+      // console.log(data);
+      const weatherData = await this.weatherService.bringWeatherData(
+        location[0].stationName,
+        "subway",
+        "20241101",
+        "1100"
+      );
+      console.log(weatherData.weatherData.hourlyData[3]);
 
       // 시간 체킹
       const timeChecking = amCheck();
-      console.log(timeChecking);
-      // 해당 시간일 경우 유저들의 스케줄러, 소지품 추가
+
+      // 캘린더 정보 추출
+      const calendarDatas = await this.getTodayCalendarData(
+        timeChecking,
+        userData.user_id
+      );
+
+      // 캘린더 메시지 추출
+      const extractedCalendar = this.extractCalendarInfo(
+        calendarDatas.getCalendarDatas()
+      );
+
       const flagDatas = this.checkTransportationTime(arrivalDatas);
-      await this.sendPushAlarm(userData.token, flagDatas);
+      await this.sendPushAlarm(userData.token, flagDatas, extractedCalendar);
     }
   }
 
+  /**
+   * 캘린더 데이터를 푸쉬 메시지 형식의 문자열로 변환해주는 함수
+   * @param calendarDatas 캘린더 데이터
+   * @returns
+   */
+  private extractCalendarInfo(calendarDatas: CalendarData[]) {
+    const itemDatas = calendarDatas.filter(
+      (calendarData) => calendarData.getKind() === "item"
+    );
+    const scheduleDatas = calendarDatas.filter(
+      (calendarData) => calendarData.getKind() === "schedule"
+    );
+    const itemsInfo = itemDatas.length
+      ? "\n소지품 : " + itemDatas.map((item) => item.getContent()).join(", ")
+      : "";
+    const scheduleInfo = scheduleDatas.length
+      ? "\n스케쥴 : " +
+        scheduleDatas.map((schedule) => schedule.getContent()).join(", ")
+      : "";
+    return itemsInfo + scheduleInfo;
+  }
+
+  /**
+   * 오늘 날짜 기준 캘린더 데이터를 추출
+   * @param flag 플래그
+   * @param userId 유저 id
+   * @returns
+   */
+  private async getTodayCalendarData(flag: boolean, userId: number) {
+    const today = getTodayDate();
+    if (flag) {
+      const calendarDate = await this.calendarService.bringScheduleOrProduct(
+        userId,
+        today
+      );
+      return calendarDate;
+    }
+    return new CalendarDatas([]);
+  }
   /**
    * 플래그에 따른 기기값의 푸쉬알림 전송 함수
    * @param engineValue 기기 값
@@ -52,17 +125,17 @@ export class Alarm {
    */
   private async sendPushAlarm(
     engineValue: string,
-    flagDatas: string[]
-    // location: string,
-    // arrival: string
+    flagDatas: string[],
+    calendar: string
   ) {
     flagDatas.map(async (flagData) => {
       const splitData = flagData.split(" ");
       if (splitData[0] === "true")
         await pushNotice(
           engineValue,
-          "교통수단 알림",
-          `등록하신 교통수단의 도착 시간이 ${splitData[2]}역방면 ${splitData[1]} 전입니다.`
+          "GO OUT 알림",
+          `교통수단 : 현재 위치는 ${splitData[2]}, ${splitData[1]} 전입니다. ${calendar}
+          `
         );
     });
   }
