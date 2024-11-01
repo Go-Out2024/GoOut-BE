@@ -6,6 +6,7 @@ import {
   SubwayStationResult,
 } from "../dto/values/StationResult";
 import { pushNotice } from "./firebaseMessage";
+import { amCheck } from "./date";
 
 @Service()
 export class Alarm {
@@ -20,13 +21,28 @@ export class Alarm {
       datas.map(async (data: any) => {
         const transportationData =
           await this.trafficService.bringMainTrafficCollection(data.user_id);
-        const arrivalDatas = this.extractTransportationArrivalInfo(
-          transportationData.result
-        );
-        const flagDatas = this.checkTransportationTime(arrivalDatas);
-        await this.sendPushAlarm(data.token, flagDatas);
+        await this.processTransportationData(transportationData, data);
       })
     );
+  }
+
+  private async processTransportationData(
+    transportationData: any,
+    userData: any
+  ) {
+    if (transportationData && transportationData.result) {
+      const arrivalDatas = this.extractTransportationArrivalInfo(
+        transportationData.result
+      );
+      // 날씨 정보 추가
+
+      // 시간 체킹
+      const timeChecking = amCheck();
+      console.log(timeChecking);
+      // 해당 시간일 경우 유저들의 스케줄러, 소지품 추가
+      const flagDatas = this.checkTransportationTime(arrivalDatas);
+      await this.sendPushAlarm(userData.token, flagDatas);
+    }
   }
 
   /**
