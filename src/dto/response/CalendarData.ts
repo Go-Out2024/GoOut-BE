@@ -1,63 +1,64 @@
 import { Type } from "class-transformer";
 
+export class CalendarDatas {
+  @Type(() => CalendarData)
+  private calendarDatas: CalendarData[];
 
-export class CalendarDatas{
+  constructor(calendarDatas: CalendarData[]) {
+    this.setCalendarDatas(calendarDatas);
+  }
 
+  public static of(calendarDatas: CalendarData[]) {
+    return new CalendarDatas(calendarDatas);
+  }
 
-    @Type(() => CalendarData)
-    private calendarDatas:CalendarData[]
+  private setCalendarDatas(calendarDatas: CalendarData[]) {
+    this.calendarDatas = calendarDatas;
+  }
 
-    constructor(calendarDatas:CalendarData[]){
-        this.setCalendarDatas(calendarDatas);
-    }
-
-    public static of(calendarDatas:CalendarData[]){
-        return new CalendarDatas(calendarDatas)
-    }
-
-
-    private setCalendarDatas(calendarDatas:CalendarData[]){
-        this.calendarDatas=calendarDatas;
-    }
-
+  public getCalendarDatas() {
+    return this.calendarDatas;
+  }
 }
 
+export class CalendarData {
+  private id: number;
+  private content: string;
+  private kind: string;
+  private period: string;
 
+  constructor(id: number, content: string, kind: string, period: string) {
+    this.setId(id);
+    this.setContent(content);
+    this.setKind(kind);
+    this.setPeriod(period);
+  }
 
-export class CalendarData{
-    private id:number;
-    private content:string;
-    private kind:string;
-    private period:string;
+  public static of(id: number, content: string, kind: string, period: string) {
+    return new CalendarData(id, content, kind, period);
+  }
 
-    constructor(id:number, content:string, kind:string, period:string){
-        this.setId(id);
-        this.setContent(content);
-        this.setKind(kind);
-        this.setPeriod(period);
-    }
+  private setId(id: number) {
+    this.id = id;
+  }
 
-    public static of(id:number, content:string, kind:string, period:string){
-        return new CalendarData(id, content, kind, period);
-    }
+  private setContent(content: string) {
+    this.content = content;
+  }
 
+  private setKind(kind: string) {
+    this.kind = kind;
+  }
 
+  private setPeriod(period: string) {
+    this.period = period;
+  }
 
-    private setId(id:number){
-        this.id=id;
-    }
+  public getContent() {
+    return this.content;
+  }
 
-    private setContent(content:string){
-        this.content=content;
-    }
-
-    private setKind(kind:string){
-        this.kind=kind;
-    }
-
-    private setPeriod(period:string){
-        this.period=period;
-    }
-
-
+  public getKind() {
+    return this.kind;
+  }
 }
