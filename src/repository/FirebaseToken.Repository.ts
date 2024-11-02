@@ -5,6 +5,13 @@ import { User } from '../entity/User';
 @EntityRepository(FirebaseToken)
 export class FirebaseTokenRepository extends Repository<FirebaseToken> {
     public async insertToken(user: User, token: string): Promise<FirebaseToken> {
+        const existingToken = await this.createQueryBuilder("firebaseToken")
+            .where("firebaseToken.user.id = :userId", { userId: user.id})
+            .andWhere("firebaseToken.token = :token", { token })
+            .getOne();
+        if (existingToken) {
+            return;
+        }
         const firebaseToken = this.create({ user, token });
         return this.save(firebaseToken);
     }
