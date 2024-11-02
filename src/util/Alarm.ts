@@ -6,7 +6,12 @@ import {
   SubwayStationResult,
 } from "../dto/values/StationResult";
 import { pushNotice } from "./firebaseMessage";
-import { amCheck, getTodayDate } from "./date";
+import {
+  amCheck,
+  getTodayDate,
+  mappingTodayWeatherDate,
+  weatherTime,
+} from "./date";
 import { CalendarService } from "../service/Calendar.Service";
 import { CalendarData, CalendarDatas } from "../dto/response/CalendarData";
 import { WeatherService } from "../service/Weather.Service";
@@ -51,14 +56,22 @@ export class Alarm {
         transportationData.collection.trafficCollectionDetails[0]
           .transportations;
 
-      // console.log(data);
+      const timeBasedLocation = this.getTimeBasedLocations(location);
+
+      const transportationNameLower =
+        timeBasedLocation[0].transportationName.toLowerCase();
+      console.log(timeBasedLocation[0].transportationName.toLowerCase());
+      console.log(timeBasedLocation[0].stationName);
+      console.log(transportationNameLower);
       const weatherData = await this.weatherService.bringWeatherData(
-        location[0].stationName,
-        "subway",
-        "20241101",
-        "1100"
+        timeBasedLocation[0].stationName,
+        transportationNameLower,
+        mappingTodayWeatherDate(new Date()),
+        weatherTime()
       );
-      console.log(weatherData.weatherData.hourlyData[3]);
+
+      console.log(weatherData.weatherData.dailyMaxTemp);
+      console.log(weatherData.weatherData.dailyMinTemp);
 
       // 시간 체킹
       const timeChecking = amCheck();
@@ -75,8 +88,22 @@ export class Alarm {
       );
 
       const flagDatas = this.checkTransportationTime(arrivalDatas);
-      await this.sendPushAlarm(userData.token, flagDatas, extractedCalendar);
+      await this.sendPushAlarm(
+        userData.token,
+        flagDatas,
+        extractedCalendar,
+        `최고 기온 : ${weatherData.weatherData.dailyMaxTemp}\n 최저 기온 : ${weatherData.weatherData.dailyMinTemp}`
+      );
     }
+  }
+
+  private getTimeBasedLocations(location: any) {
+    const departure = location.filter((data) => data.route === "departure");
+    const arrival = location.filter((data) => data.route === "arrival");
+    if (new Date().getHours() < 14) {
+      return departure;
+    }
+    return arrival;
   }
 
   /**
@@ -126,7 +153,8 @@ export class Alarm {
   private async sendPushAlarm(
     engineValue: string,
     flagDatas: string[],
-    calendar: string
+    calendar: string,
+    weather: string
   ) {
     flagDatas.map(async (flagData) => {
       const splitData = flagData.split(" ");
@@ -134,7 +162,7 @@ export class Alarm {
         await pushNotice(
           engineValue,
           "GO OUT 알림",
-          `교통수단 : 현재 위치는 ${splitData[2]}, ${splitData[1]} 전입니다. ${calendar}
+          `교통수단 : 현재 위치는 ${splitData[2]}, ${splitData[1]} 전입니다. ${weather} ${calendar}
           `
         );
     });
