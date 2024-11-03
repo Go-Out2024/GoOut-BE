@@ -223,7 +223,6 @@ export class TrafficService {
         userId,
         status
       );
-    if (!collection) return false;
     // 만약 조회된 데이터가 없고 status가 'goHome'인 경우, 'goToWork' 데이터를 조회
     if (!collection && status === "goHome") {
       status = "goToWork";
@@ -233,6 +232,7 @@ export class TrafficService {
           status
         );
     }
+    if (!collection) return false;
     const details = collection.trafficCollectionDetails.find(
       (transportationdetail) => transportationdetail.getStatus() === status
     );
