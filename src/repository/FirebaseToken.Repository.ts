@@ -9,6 +9,13 @@ export class FirebaseTokenRepository extends Repository<FirebaseToken> {
         return this.save(firebaseToken);
     }
 
+    public async findTokenByUserIdAndToken(userId: number, token: string): Promise<FirebaseToken | undefined> {
+        return this.createQueryBuilder("firebaseToken")
+            .where("firebaseToken.user.id = :userId", { userId })
+            .andWhere("firebaseToken.token = :token", { token })
+            .getOne();
+    }
+    
     public async deleteTokensByUserId(userId: number, firebaseToken: string): Promise<void> {
         await this.createQueryBuilder()
         .delete()

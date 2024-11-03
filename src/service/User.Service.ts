@@ -57,13 +57,13 @@ export class UserService {
     return Alarm.of(userData.getAlarm());
   }
 
-  public async penetrateFirebaseToken(
-    userId: number,
-    token: string
-  ): Promise<void> {
+  public async penetrateFirebaseToken(userId: number,token: string) {
     const user = await this.userRepository.findUserById(userId);
     verifyUser(user);
-    await this.firebaseTokenRepository.insertToken(user, token);
+    const existingToken = await this.firebaseTokenRepository.findTokenByUserIdAndToken(userId, token);
+    if(!existingToken){
+      await this.firebaseTokenRepository.insertToken(user, token);
+    }
   }
 
   /**
