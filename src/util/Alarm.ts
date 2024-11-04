@@ -76,6 +76,12 @@ export class Alarm {
         mappingTodayWeatherDate(new Date()),
         weatherTime()
       );
+      console.log(weatherData);
+      // console.log(weatherData.weatherData.hourlyData[0]);
+      // console.log(weatherData.weatherData.hourlyData[1]);
+      // console.log(weatherData.weatherData.hourlyData[2]);
+      console.log(weatherData.weatherData.hourlyData[3]);
+      //  console.log(weatherData.weatherData.hourlyData[8]);
 
       // 시간 체킹
       const timeChecking = amCheck();
