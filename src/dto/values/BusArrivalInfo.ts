@@ -51,17 +51,20 @@ export class BusStationInfo {
 
 export class BusArrivalInfo {
 
+    private stNm: string;
     private nxtStn: string;
     private busRouteAbrv: string;
     private arrmsg1: string;
     private arrmsg2: string;
 
     constructor(
+        stNm: string,
         nxtStn: string,
         busRouteAbrv: string,
         arrmsg1: string,
         arrmsg2: string,
     ) {
+        this.setstNm(stNm);
         this.setNxtStn(nxtStn);
         this.setBusRouteAbrv(busRouteAbrv);
         this.setArrmsg1(arrmsg1);
@@ -72,6 +75,7 @@ export class BusArrivalInfo {
         busArrivalInfo: BusArrivalInfo
     ) {
         return new BusArrivalInfo(
+            busArrivalInfo.stNm,
             busArrivalInfo.nxtStn,
             busArrivalInfo.busRouteAbrv,
             busArrivalInfo.arrmsg1,
@@ -80,13 +84,18 @@ export class BusArrivalInfo {
     }
 
 
-    public static fromData(item: { nxtStn: string; busRouteAbrv: string; arrmsg1: string; arrmsg2: string; }): BusArrivalInfo {
+    public static fromData(item: { stNm:string, nxtStn: string; busRouteAbrv: string; arrmsg1: string; arrmsg2: string; }): BusArrivalInfo {
         return new BusArrivalInfo(
+            item.stNm || '정보 없음.',
             item.nxtStn || '정보 없음.',
             item.busRouteAbrv || '정보 없음.',
             item.arrmsg1 || '정보 없음.',
             item.arrmsg2 || '정보 없음.'
         );
+    }
+
+    private setstNm(stNm: string) {
+        this.stNm = stNm;
     }
 
     private setNxtStn(nxtStn: string) {
