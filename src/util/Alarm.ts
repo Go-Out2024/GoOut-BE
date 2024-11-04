@@ -51,6 +51,15 @@ export class Alarm {
       const arrivalDatas = this.extractTransportationArrivalInfo(
         transportationData.result
       );
+      const flagDatas = this.checkTransportationTime(
+        arrivalDatas as unknown as {
+          transportation: string;
+          arrival: string;
+          busNumber: string;
+          stationName: string;
+          destination: string;
+        }[]
+      );
       // 날씨 정보 추가
       const location =
         transportationData.collection.trafficCollectionDetails[0]
@@ -60,9 +69,7 @@ export class Alarm {
 
       const transportationNameLower =
         timeBasedLocation[0].transportationName.toLowerCase();
-      console.log(timeBasedLocation[0].transportationName.toLowerCase());
-      console.log(timeBasedLocation[0].stationName);
-      console.log(transportationNameLower);
+
       const weatherData = await this.weatherService.bringWeatherData(
         timeBasedLocation[0].stationName,
         transportationNameLower,
@@ -70,29 +77,25 @@ export class Alarm {
         weatherTime()
       );
 
-      console.log(weatherData.weatherData.dailyMaxTemp);
-      console.log(weatherData.weatherData.dailyMinTemp);
-
       // 시간 체킹
       const timeChecking = amCheck();
-
       // 캘린더 정보 추출
       const calendarDatas = await this.getTodayCalendarData(
         timeChecking,
         userData.user_id
       );
-
       // 캘린더 메시지 추출
       const extractedCalendar = this.extractCalendarInfo(
         calendarDatas.getCalendarDatas()
       );
 
-      const flagDatas = this.checkTransportationTime(arrivalDatas);
       await this.sendPushAlarm(
         userData.token,
         flagDatas,
         extractedCalendar,
-        `최고 기온 : ${weatherData.weatherData.dailyMaxTemp}\n 최저 기온 : ${weatherData.weatherData.dailyMinTemp}`
+        `최고 : ${
+          weatherData.weatherData.dailyMaxTemp.split(".")[0]
+        }℃, 최저 : ${weatherData.weatherData.dailyMinTemp.split(".")[0]}℃`
       );
     }
   }
@@ -158,35 +161,51 @@ export class Alarm {
   ) {
     flagDatas.map(async (flagData) => {
       const splitData = flagData.split(" ");
-      if (splitData[0] === "true")
+      if (splitData[0] === "true") {
+        const transportationText =
+          splitData[1] === "subway"
+            ? `교통수단 : 현재 위치${splitData[3]}, ${splitData[4]} 도착 ${splitData[2]} 전(${splitData[5]}행)`
+            : `교통수단 : ${splitData[4]}번 버스 도착 ${splitData[2]}전`;
         await pushNotice(
           engineValue,
           "GO OUT 알림",
-          `교통수단 : 현재 위치는 ${splitData[2]}, ${splitData[1]} 전입니다. ${weather} ${calendar}
+          `${transportationText}\n ${weather} ${calendar}
           `
         );
+      }
     });
   }
 
   /**
    * 5전역, 10분전이 있을 경우 true, 아닐 경우 false 반환 함수
-   * @param time 도착 시간
+   * @param transportation 도착 시간
    * @returns
    */
-  private checkTransportationTime(time: string[]) {
-    if (time !== undefined) {
+  private checkTransportationTime(
+    transportation: {
+      transportation: string;
+      arrival: string;
+      busNumber: string;
+      stationName: string;
+      destination: string;
+    }[]
+  ) {
+    if (transportation !== undefined) {
       const pattern = /\[\s*([35])\s*\]번째|10\s*분|5\s*분/;
-      const result = time
-        .filter((t) => pattern.test(t))
+      const result = transportation
+        .filter((t) => pattern.test(t.arrival))
         .map((t) => {
-          const match = t.match(pattern);
+          const match = t.arrival.match(pattern);
           if (match) {
-            const stationInfo = t.match(/\(.*?\)/)?.[0] || "";
-            return `true ${match[0]} ${stationInfo}`;
+            const stationInfo = t.arrival.match(/\(.*?\)/)?.[0] || "";
+            return t.transportation === "subway"
+              ? `true subway ${match[0]} ${stationInfo} ${t.stationName} ${t.destination}`
+              : `true bus ${match[0]} ${stationInfo} ${t.busNumber}`;
           }
           return null;
         })
         .filter(Boolean);
+
       return result;
     }
   }
@@ -216,7 +235,13 @@ export class Alarm {
    */
   private extractSubwayArrivalInfo(subwayStation: SubwayStationResult) {
     return subwayStation.getSubwayArrivalInfo().map((data) => {
-      return data.getFirstArrivalMessage();
+      return {
+        transportation: "subway",
+        subwayStation: subwayStation,
+        arrival: data.getFirstArrivalMessage(),
+        stationName: data.getStationName(),
+        destination: data.getDestination(),
+      };
     });
   }
 
@@ -227,9 +252,13 @@ export class Alarm {
    */
   private extractBusArrivalInfo(busStations: BusStationResult) {
     return busStations.getBusStationsInfo().flatMap((busStationData) => {
-      return busStationData
-        .getBusArrivalInfo()
-        .map((data) => data.getArrmsg1());
+      return busStationData.getBusArrivalInfo().map((data) => {
+        return {
+          transportation: "bus",
+          arrival: data.getArrmsg1(),
+          busNumber: data.getBusRouteAbrv(),
+        };
+      });
     });
   }
 }
