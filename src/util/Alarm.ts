@@ -15,6 +15,7 @@ import {
 import { CalendarService } from "../service/Calendar.Service";
 import { CalendarData, CalendarDatas } from "../dto/response/CalendarData";
 import { WeatherService } from "../service/Weather.Service";
+import { HourlyWeatherDataDto } from "../dto/values/HourlyWeatherData";
 
 @Service()
 export class Alarm {
@@ -60,6 +61,7 @@ export class Alarm {
           destination: string;
         }[]
       );
+
       // 날씨 정보 추가
       const location =
         transportationData.collection.trafficCollectionDetails[0]
@@ -76,12 +78,10 @@ export class Alarm {
         mappingTodayWeatherDate(new Date()),
         weatherTime()
       );
-      console.log(weatherData);
-      // console.log(weatherData.weatherData.hourlyData[0]);
-      // console.log(weatherData.weatherData.hourlyData[1]);
-      // console.log(weatherData.weatherData.hourlyData[2]);
-      console.log(weatherData.weatherData.hourlyData[3]);
-      //  console.log(weatherData.weatherData.hourlyData[8]);
+
+      const rainAndSnow = this.checkRainAndSnow(
+        weatherData.weatherData.hourlyData
+      );
 
       // 시간 체킹
       const timeChecking = amCheck();
@@ -101,11 +101,31 @@ export class Alarm {
         extractedCalendar,
         `최고 : ${
           weatherData.weatherData.dailyMaxTemp.split(".")[0]
-        }℃, 최저 : ${weatherData.weatherData.dailyMinTemp.split(".")[0]}℃`
+        }℃, 최저 : ${
+          weatherData.weatherData.dailyMinTemp.split(".")[0]
+        }℃ ${rainAndSnow}`
       );
     }
   }
 
+  /**
+   * 비, 날씨에 따라 우산 필요 여부 판단 함수
+   * @param hourlyWeatherData 시간별 데이터
+   * @returns 우산 필요 메시지
+   */
+  private checkRainAndSnow(hourlyWeatherData: HourlyWeatherDataDto[]): string {
+    const skyStatus = ["비", "빗방울", "소나기", "비/눈", "눈", "눈날림"];
+    const needUmbrella = hourlyWeatherData.find((data) =>
+      skyStatus.includes(data.getPrecipitationType())
+    );
+    return needUmbrella ? "⛱️필요" : "";
+  }
+
+  /**
+   * 시간에 따른 도착지, 출발지 정보 구분 함수
+   * @param location 위치(출발지, 도착지)
+   * @returns 출발지 or 도착지 정보
+   */
   private getTimeBasedLocations(location: any) {
     const departure = location.filter((data) => data.route === "departure");
     const arrival = location.filter((data) => data.route === "arrival");
@@ -171,7 +191,7 @@ export class Alarm {
         const transportationText =
           splitData[1] === "subway"
             ? `교통수단 : 현재 위치${splitData[3]}, ${splitData[4]} 도착 ${splitData[2]} 전(${splitData[5]}행)`
-            : `교통수단 : ${splitData[4]}번 버스 도착 ${splitData[2]}전`;
+            : `교통수단 : ${splitData[4]}정류장 ${splitData[5]}번 버스 도착 ${splitData[2]}전`;
         await pushNotice(
           engineValue,
           "GO OUT 알림",
@@ -206,7 +226,7 @@ export class Alarm {
             const stationInfo = t.arrival.match(/\(.*?\)/)?.[0] || "";
             return t.transportation === "subway"
               ? `true subway ${match[0]} ${stationInfo} ${t.stationName} ${t.destination}`
-              : `true bus ${match[0]} ${stationInfo} ${t.busNumber}`;
+              : `true bus ${match[0]} ${stationInfo} ${t.stationName} ${t.busNumber}`;
           }
           return null;
         })
@@ -261,6 +281,7 @@ export class Alarm {
       return busStationData.getBusArrivalInfo().map((data) => {
         return {
           transportation: "bus",
+          stationName: data.getStNm(),
           arrival: data.getArrmsg1(),
           busNumber: data.getBusRouteAbrv(),
         };
