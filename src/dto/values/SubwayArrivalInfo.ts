@@ -1,114 +1,114 @@
 export class SubwayArrivalInfo {
-    
-    private stationName: string;
-    private line: string;
-    private direction: string;
-    private firstArrivalMessage: string;
-    private secondArrivalMessage: string;
-    private destination: string;
-    private estimatedTime: string;
+  private stationName: string;
+  private line: string;
+  private direction: string;
+  private firstArrivalMessage: string;
+  private secondArrivalMessage: string;
+  private destination: string;
+  private estimatedTime: string;
 
-    constructor(
-        stationName: string,
-        line: string,
-        direction: string,
-        firstArrivalMessage: string,
-        secondArrivalMessage: string,
-        destination: string,
-        estimatedTime: string
-    ) {
-        this.setStationName(stationName);
-        this.setLine(line);
-        this.setDirection(direction);
-        this.setFirstArrivalMessage(firstArrivalMessage);
-        this.setSecondArrivalMessage(secondArrivalMessage);
-        this.setDestination(destination);
-        this.setEstimatedTime(estimatedTime);
-    }
+  constructor(
+    stationName: string,
+    line: string,
+    direction: string,
+    firstArrivalMessage: string,
+    secondArrivalMessage: string,
+    destination: string,
+    estimatedTime: string
+  ) {
+    this.setStationName(stationName);
+    this.setLine(line);
+    this.setDirection(direction);
+    this.setFirstArrivalMessage(firstArrivalMessage);
+    this.setSecondArrivalMessage(secondArrivalMessage);
+    this.setDestination(destination);
+    this.setEstimatedTime(estimatedTime);
+  }
 
-    public static of(
-        subwayArrivalInfo:SubwayArrivalInfo
-    ) {
-        return new SubwayArrivalInfo(
-            subwayArrivalInfo.stationName,
-            subwayArrivalInfo.line,
-            subwayArrivalInfo.direction,
-            subwayArrivalInfo.firstArrivalMessage,
-            subwayArrivalInfo.secondArrivalMessage,
-            subwayArrivalInfo.destination,
-            subwayArrivalInfo.estimatedTime
-        )
-    }
-    
-    public static fromData(info: { 
-        statnNm: string; 
-        subwayId: string; 
-        trainLineNm: string; 
-        arvlMsg2: string; 
-        arvlMsg3: string; 
-        bstatnNm: string;
-        barvlDt: number; }): SubwayArrivalInfo {
-        
-        // (~행 - ~방면)에서 (~방면)으로 변환
-        const direction = info.trainLineNm.split(' - ')[1];
-        // 초 단위를 '분', '초' 형식으로 변환
-        const minutes = Math.floor(info.barvlDt / 60);
-        const seconds = info.barvlDt % 60;
-        const estimatedTime = `${minutes}분 ${seconds}초`;
-        
-        return new SubwayArrivalInfo(
-            info.statnNm,
-            info.subwayId,
-            direction,
-            info.arvlMsg2,
-            info.arvlMsg3,
-            info.bstatnNm,
-            estimatedTime
-        );
-    }
+  public static of(subwayArrivalInfo: SubwayArrivalInfo) {
+    return new SubwayArrivalInfo(
+      subwayArrivalInfo.stationName,
+      subwayArrivalInfo.line,
+      subwayArrivalInfo.direction,
+      subwayArrivalInfo.firstArrivalMessage,
+      subwayArrivalInfo.secondArrivalMessage,
+      subwayArrivalInfo.destination,
+      subwayArrivalInfo.estimatedTime
+    );
+  }
 
-    private setStationName(stationName: string) {
-        this.stationName = stationName;
-    }
+  public static fromData(info: {
+    statnNm: string;
+    subwayId: string;
+    trainLineNm: string;
+    arvlMsg2: string;
+    arvlMsg3: string;
+    bstatnNm: string;
+    barvlDt: number;
+  }): SubwayArrivalInfo {
+    // (~행 - ~방면)에서 (~방면)으로 변환
+    const direction = info.trainLineNm.split(" - ")[1];
+    // 초 단위를 '분', '초' 형식으로 변환
+    const minutes = Math.floor(info.barvlDt / 60);
+    const seconds = info.barvlDt % 60;
+    const estimatedTime = `${minutes}분 ${seconds}초`;
 
-    private setLine(line: string) {
-        this.line = line;
-    }
+    return new SubwayArrivalInfo(
+      info.statnNm,
+      info.subwayId,
+      direction,
+      info.arvlMsg2,
+      info.arvlMsg3,
+      info.bstatnNm,
+      estimatedTime
+    );
+  }
 
-    private setDirection(direction: string) {
-        this.direction = direction;
-    }
+  private setStationName(stationName: string) {
+    this.stationName = stationName;
+  }
 
-    private setFirstArrivalMessage(firstArrivalMessage: string) {
-        this.firstArrivalMessage = firstArrivalMessage;
-    }
+  private setLine(line: string) {
+    this.line = line;
+  }
 
-    private setSecondArrivalMessage(secondArrivalMessage: string) {
-        this.secondArrivalMessage = secondArrivalMessage;
-    }
+  private setDirection(direction: string) {
+    this.direction = direction;
+  }
 
-    private setDestination(destination: string) {
-        this.destination = destination;
-    }
+  private setFirstArrivalMessage(firstArrivalMessage: string) {
+    this.firstArrivalMessage = firstArrivalMessage;
+  }
 
-    private setEstimatedTime(estimatedTime: string) {
-        this.estimatedTime = estimatedTime;
-    }
+  private setSecondArrivalMessage(secondArrivalMessage: string) {
+    this.secondArrivalMessage = secondArrivalMessage;
+  }
 
-    public getFirstArrivalMessage(){
-        return this.firstArrivalMessage;
-    }
+  private setDestination(destination: string) {
+    this.destination = destination;
+  }
 
-    public getSecondArrivalMessage(){
-        return this.secondArrivalMessage;
+  private setEstimatedTime(estimatedTime: string) {
+    this.estimatedTime = estimatedTime;
+  }
 
-    }
+  public getFirstArrivalMessage() {
+    return this.firstArrivalMessage;
+  }
 
-    public getStationName() {
-        return this.stationName;
-    }
+  public getSecondArrivalMessage() {
+    return this.secondArrivalMessage;
+  }
 
-    public getLine() {
-        return this.line;
-    }
+  public getStationName() {
+    return this.stationName;
+  }
+
+  public getLine() {
+    return this.line;
+  }
+
+  public getDestination() {
+    return this.destination;
+  }
 }
