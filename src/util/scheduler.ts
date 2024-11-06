@@ -28,7 +28,7 @@ export const handleAlarm = async () => {
     //   '0 0 0 1 * *'
     //'*/10 * * * * *'
     //  '*/1 * * * *'
-    "* * * * *",
+    "*/2 * * * *",
     async function () {
       // UTC시간 기준 9시간 차이로 새벽 12시 의미
       const datas: any[] = await Container.get(
