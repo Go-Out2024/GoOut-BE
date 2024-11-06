@@ -32,8 +32,11 @@ export class Alarm {
   public async handleAlarm(datas: any[]) {
     await Promise.all(
       datas.map(async (data: any) => {
+        console.log(data);
         const transportationData =
           await this.trafficService.bringMainTrafficCollection(data.user_id);
+        console.log(transportationData);
+        console.log("------------------------------------------");
         await this.processTransportationData(transportationData, data);
       })
     );
@@ -185,6 +188,9 @@ export class Alarm {
     calendar: string,
     weather: string
   ) {
+    console.log("******************************");
+    console.log(flagDatas);
+    console.log("******************************");
     flagDatas.map(async (flagData) => {
       const splitData = flagData.split(" ");
       if (splitData[0] === "true") {

@@ -31,7 +31,7 @@ export async function initializeDatabase() {
       username: envs.db.username,
       password: envs.db.password,
       database: envs.db.database,
-      logging: envs.isProd === false,
+      logging: false,
       synchronize: false,
       entities: [path.join(__dirname, "../entity/*.{js,ts}")],
       namingStrategy: new SnakeNamingStrategy(),
