@@ -15,6 +15,7 @@ export class YouTubeSchedule {
     const beforeMusic = await this.redisService.getValue("today-music");
     this.checkData(recommentMusic, beforeMusic);
     const video: any = await this.youtubeApi.bringVideo(recommentMusic);
+    console.log(video);
     this.setVideo(video, recommentMusic);
   }
 
