@@ -8,7 +8,7 @@ import { Container } from "typedi";
 
 export const settingRecommendMusic = async () => {
   await schedule.scheduleJob(
-    "*/2 * * * *",
+    "* 1 * * *",
     //    '0 0 1 0 * *'
     //'*/10 * * * * *'
     //   '*/1 * * * *'
