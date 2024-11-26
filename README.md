@@ -115,10 +115,10 @@
     2. (사용하려는 기능명 + 상위 패키지명)을 사용한다.
 
 
-## 🔗 ERD(기획성에 따라 변동)
+## 🔗 ERD
 
 ---
-![Writon (2)](https://github.com/new-writon/Writon-Be/assets/106163272/4ee03183-9018-45cf-83dd-a6f41d57ad7d)
+![GOOUT-3](https://github.com/user-attachments/assets/ca2e1b09-7339-4ed3-9217-6163c1a1bd8e)
 
 
 ## ♻ CI/CD
@@ -131,6 +131,5 @@
 
 ---
 
-![writon system architecture drawio (7)](https://github.com/new-writon/Writon-Be/assets/106163272/4b585cf9-885b-44b5-9df7-fbf5a84d40ab)
-
+![goout achitecture drawio-3](https://github.com/user-attachments/assets/38629628-d5ea-4f82-9c44-607996218e82)
 
