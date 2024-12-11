@@ -450,7 +450,8 @@ export class TrafficService {
     verifyarrivalList(arrivalList);
     return arrivalList
       .filter((info) => numbers.includes(info.subwayId))
-      .map((info) => SubwayArrivalInfo.fromData(info));
+      .map((info) => SubwayArrivalInfo.fromData(info))
+      .filter((info): info is SubwayArrivalInfo => info !== null);
   }
 
   /**

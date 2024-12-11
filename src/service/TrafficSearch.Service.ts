@@ -176,7 +176,8 @@ export class TrafficSearchService {
         const arrivalList = await this.subwayApi.bringSubwayArrivalInfo(stationName);
         verifyarrivalList(arrivalList);
         return arrivalList
-            .map((info) => SubwayArrivalInfo.fromData(info));
+            .map((info) => SubwayArrivalInfo.fromData(info))
+            .filter((info): info is SubwayArrivalInfo => info !== null);
     }
 
     /**

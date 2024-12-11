@@ -45,7 +45,13 @@ export class SubwayArrivalInfo {
     arvlMsg3: string;
     bstatnNm: string;
     barvlDt: number;
-  }): SubwayArrivalInfo {
+  }): SubwayArrivalInfo | null {
+
+    const match = info.arvlMsg2.match(/\[(\d+)\]/);
+    if (match && parseInt(match[1], 10) >= 20) {
+    
+        return null;
+    }
     // (~행 - ~방면)에서 (~방면)으로 변환
     const direction = info.trainLineNm.split(" - ")[1];
     // 초 단위를 '분', '초' 형식으로 변환
